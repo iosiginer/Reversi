@@ -5,7 +5,9 @@
 #include "Move.h"
 
 Move::Move(Coordinate *position, vector<Coordinate *> directions) : position(position),
-                                                                    directions(directions) {}
+                                                                    directions(directions) {
+    this->gain = 0;
+}
 
 string Move::getCoordinateAsString() const {
     return this->position->toString();
@@ -19,11 +21,11 @@ vector<Coordinate *> Move::getDirections() const {
     return this->directions;
 }
 
-char Move::getContent() const {
-    return this->player->content();
+void Move::setGain(int x) {
+    this->gain = x;
 }
 
-Player *Move::getPlayer() const {
-    return this->player;
+int Move::getGain() const {
+    return this->gain;
 }
 

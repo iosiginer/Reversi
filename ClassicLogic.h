@@ -10,12 +10,16 @@
 
 class ClassicLogic : public GameLogic {
 private:
-    Board *board;
-    virtual vector<Coordinate*> getDirections(Coordinate*, Player*) const;
-    bool validDirection(Coordinate*, Player*, Coordinate*) const;
+    Board &board;
+
+    virtual vector<Coordinate *> getDirections(Coordinate *, Player *, int *) const;
+
+    bool validDirection(Coordinate *, Player *, Coordinate *, int *) const;
 public:
-    ClassicLogic(Board*);
+    ClassicLogic(Board &);
     virtual vector<Move*> getPossibleMoves(Player*) const;
+
+    ~ClassicLogic() {}
 };
 
 

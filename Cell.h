@@ -8,36 +8,35 @@
 
 #include <vector>
 #include "Coordinate.h"
+#include "CellCounter.h"
 
+/**
+ * Class containing the definition of a Ce
+ */
 class Cell {
 private:
     Coordinate *position;
+    CellCounter *counter;
     char content;
-    vector<Cell*> neighbours;
+    vector<Cell *> neighbours;
     int numOfNeighbours;
 
 public:
-    Cell(Coordinate*, char = ' ');
-
-    ~Cell();
+    Cell(Coordinate *, CellCounter *, char = ' ');
 
     char getContent() const;
 
     void setContent(char);
 
-    vector<Cell*> getNeighbours() const;
+    vector<Cell *> getNeighbours() const;
 
-    void setNeighbours(vector<Cell*>);
+    void setNeighbours(vector<Cell *>);
 
-    Coordinate* getPosition() const;
+    Coordinate *getPosition() const;
 
     string getPostionAsString() const;
 
     string toString() const;
-
-    bool isBlack() const;
-
-    bool isWhite() const;
 
     bool isEmpty() const;
 
@@ -45,7 +44,12 @@ public:
 
     int getNumOfNeighbours();
 
-    vector<Coordinate*> getNeighboursByDirection();
+    vector<Coordinate *> getNeighboursByDirection();
+
+    void sumOne(char previous, char current);
+
+    ~Cell();
+
 };
 
 

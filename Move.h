@@ -6,22 +6,24 @@
 #define REVERSI_MOVE_H
 
 
-#include "Coordinate.h"
 #include "Cell.h"
-#include "Player.h"
+//#include "Player.h"
 
 class Move {
 private:
     Coordinate *position;
-    Player *player;
     vector<Coordinate*> directions;
+    int gain;
+
 public:
     Move(Coordinate*, vector<Coordinate*>);
     string getCoordinateAsString() const;
     Coordinate* getCoordinate() const;
     vector<Coordinate*> getDirections() const;
-    char getContent() const;
-    Player* getPlayer() const;
+
+    int getGain() const;
+
+    void setGain(int);
 };
 
 

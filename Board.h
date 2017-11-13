@@ -7,6 +7,8 @@
 
 #include "Move.h"
 #include "BoardPrinter.h"
+#include "Player.h"
+#include "CellCounter.h"
 
 #include <iostream>
 
@@ -14,16 +16,14 @@ class Board {
 private:
     int size;
     Cell ***matrix;
-    int blackCells;
-    int whiteCells;
+    CellCounter *counter;
     BoardPrinter *printer;
 
-    void flipGains(Move *, Player *);
+    void flipGains(Coordinate *, Player *, Coordinate *);
 
-    void flipCell(Cell *);
 
 public:
-    Board(int size = 8);
+    Board(char play1 = 'X', char play2 = 'O', int size = 8);
 
     void print() const;
 
@@ -42,6 +42,16 @@ public:
     void applyMove(Move *, Player *);
 
     bool gameOver() const;
+
+    int getWinner() const;
+
+    int getPlayer1Points() const;
+
+    int getPlayer2Points() const;
+
+    string getPoints() const;
+
+    ~Board();
 };
 
 

@@ -11,7 +11,7 @@
 
 class GameLogic {
 private:
-    virtual vector<Coordinate*> getDirections(Coordinate*, Player*) const = 0;
+    virtual vector<Coordinate *> getDirections(Coordinate *, Player *, int *) const = 0;
 
 public:
     virtual vector<Move*> getPossibleMoves(Player*) const = 0;

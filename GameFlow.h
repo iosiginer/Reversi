@@ -8,6 +8,7 @@
 #include "Board.h"
 #include "GameLogic.h"
 #include "ClassicLogic.h"
+#include "HumanConsolePlayer.h"
 
 
 class GameFlow {
@@ -18,10 +19,19 @@ private:
     Player *player2;
     bool player1Turn;
 
+    void playOneTurn();
+
+    void gameOver() const;
+
+    bool noMove;
+    bool noMoreMoves;
+
 public:
     GameFlow(char, char, int = 8);
-    void playOneTurn();
-    void showPossibleMoves(Player*) const;
+
+    void run();
+
+    ~GameFlow();
 };
 
 

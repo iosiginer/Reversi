@@ -6,20 +6,20 @@
 #define REVERSI_PLAYER_H
 
 #include <vector>
-#include "Cell.h"
+#include "Move.h"
 
 
 class Player {
-private:
-    char myContent;
-    vector<Coordinate*> neighbourCells;
-
 public:
-    Player(char);
-    void conquerCell(Cell*);
-    bool isOpponent(Cell*);
-    char content() const;
+    virtual Move *move(vector<Move *> possibleMoves) = 0;
 
+    virtual bool isOpponent(char) const = 0;
+
+    virtual void conquerCell(Cell *) = 0;
+
+
+private:
+    virtual void showPossibleMoves(vector<Move *>) const = 0;
 
 };
 

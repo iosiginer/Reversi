@@ -10,6 +10,6 @@
 
 class BoardPrinter {
 public:
-    virtual void print(Cell ***board, int size) const = 0;
+    virtual void print(Cell ***board, int size, string message = " ") const = 0;
 };
 #endif //REVERSI_BOARDPRINTER_H

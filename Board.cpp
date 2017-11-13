@@ -5,13 +5,14 @@
 #include "Board.h"
 #include "BoardConsolePrinter.h"
 
-Board::Board(int size) : size(size) {
+Board::Board(char play1, char play2, int size) : size(size) {
     this->matrix = new Cell **[size];
-    char empty = ' ', black = 'X', white = 'O';
+    this->counter = new CellCounter(play1, play2);
+    this->printer = new BoardConsolePrinter();
     for (int row = 0; row < size; row++) {
         this->matrix[row] = new Cell *[size];
         for (int col = 0; col < size; col++) {
-            this->matrix[row][col] = new Cell(new Coordinate(row + 1, col + 1));
+            this->matrix[row][col] = new Cell(new Coordinate(row + 1, col + 1), counter);
         }
     }
     for (int row = 0; row < size; row++) {
@@ -20,30 +21,16 @@ Board::Board(int size) : size(size) {
         }
     }
     int middle = size / 2;
-    matrix[middle][middle - 1]->setContent(black);
-    matrix[middle - 1][middle]->setContent(black);
-    matrix[middle][middle]->setContent(white);
-    matrix[middle - 1][middle - 1]->setContent(white);
-    this->blackCells = this->whiteCells = 2;
-    this->printer = new BoardConsolePrinter();
+    matrix[middle][middle - 1]->setContent(play1);
+    matrix[middle - 1][middle]->setContent(play1);
+    matrix[middle][middle]->setContent(play2);
+    matrix[middle - 1][middle - 1]->setContent(play2);
 }
 
 void Board::print() const {
-    this->printer->print(matrix, size);
+    this->printer->print(matrix, size, getPoints());
 }
 
-void Board::flipCell(Cell *cell) {
-    if (cell->isBlack()) {
-        cell->setContent('O');
-        this->blackCells--;
-        this->whiteCells++;
-
-    } else if (cell->isWhite()) {
-        cell->setContent('X');
-        this->blackCells++;
-        this->whiteCells--;
-    }
-}
 
 Cell *Board::getCell(Coordinate pos) const {
     int row = pos.getRow();
@@ -87,24 +74,56 @@ int Board::getSize() const {
 
 void Board::applyMove(Move *move, Player *player) {
     Coordinate *pos = move->getCoordinate();
+    player->conquerCell(this->getCell(*pos));
     vector<Coordinate *> directions = move->getDirections();
-    this->getCell(*pos)->setContent(move->getContent());
-    flipGains(move, player);
+    for (int i = 0; i < directions.size(); i++) {
+        Coordinate *dir = directions[i];
+        cout << dir->toString() << endl;
+        flipGains(pos, player, dir);
+    }
 }
 
-void Board::flipGains(Move *move, Player *player) {
-    vector<Coordinate *> directions;
-    for (int i = 0; i < directions.size(); i++) {
-        Coordinate dir = *directions[i];
-        Cell *next = this->getCell(move->getCoordinate()->sum(dir));
-        while (!player->isOpponent(next)) {
-            flipCell(next);
-            next = this->getCell(next->getPosition()->sum(dir));
-        }
+
+void Board::flipGains(Coordinate *position, Player *player, Coordinate *direction) {
+    Cell *next = getCell(position->sum(*direction));
+    if (player->isOpponent(next->getContent())) {
+        player->conquerCell(next);
+        flipGains(next->getPosition(), player, direction);
     }
 }
 
 bool Board::gameOver() const {
-    return (blackCells + whiteCells == size * size);
+    return counter->gameOver(size);
 }
 
+int Board::getWinner() const {
+    return counter->getWinner();
+}
+
+int Board::getPlayer1Points() const {
+    return counter->getPoints1();
+}
+
+int Board::getPlayer2Points() const {
+    return counter->getPoints2();
+}
+
+Board::~Board() {
+    for (int row = 0; row < size; row++) {
+        for (int col = 0; col < size; col++) {
+            delete matrix[row][col];
+        }
+    }
+    delete counter;
+    delete printer;
+}
+
+string Board::getPoints() const {
+    string player1P = dynamic_cast<ostringstream *>( &(ostringstream() << getPlayer1Points()))->str();
+    string player2P = dynamic_cast<ostringstream *>( &(ostringstream() << getPlayer2Points()))->str();
+    string result = "Player 1: ";
+    result += player1P;
+    result += " vs. Player 2: ";
+    result += player2P;
+    return result.c_str();
+}
