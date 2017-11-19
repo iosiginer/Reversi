@@ -4,7 +4,6 @@
 
 #include "BoardConsolePrinter.h"
 
-BoardConsolePrinter::BoardConsolePrinter() {}
 
 void BoardConsolePrinter::print(Cell ***board, int size, string message) const {
     cout << endl;
@@ -22,5 +21,5 @@ void BoardConsolePrinter::print(Cell ***board, int size, string message) const {
         for (int i = 0; i < size * 2 + 1; i++) { cout << "--"; };
         cout << endl;
     }
-    cout << " \e[0m";
+    cout << "\e[0m";
 }

@@ -9,11 +9,10 @@
 
 GameFlow::GameFlow(char first, char second, int size) {
     this->board = new Board(first, second, size);
-    this->player1 = new HumanConsolePlayer(first);
-    this->player2 = new HumanConsolePlayer(second);
+    this->player1 = new HumanPlayer(first);
+    this->player2 = new HumanPlayer(second);
     this->player1Turn = true;
-    Board &boardRef = *board;
-    this->logic = new ClassicLogic(boardRef);
+    this->logic = new ClassicLogic(board);
     this->noMove = false;
     this->noMoreMoves = false;
 }
@@ -45,6 +44,7 @@ void GameFlow::playOneTurn() {
     } else {
         noMove = false;
         board->applyMove(player->move(possibleMoves), player);
+        for (int i = 0; i < possibleMoves.size(); i++) { delete possibleMoves[i]; }
     }
 }
 
@@ -52,7 +52,6 @@ void GameFlow::run() {
     while (!board->gameOver() && !noMoreMoves) {
         playOneTurn();
     }
-    cout << "Im out" << endl;
     gameOver();
 }
 
@@ -75,4 +74,3 @@ GameFlow::~GameFlow() {
     delete logic;
     delete board;
 }
-

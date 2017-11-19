@@ -31,7 +31,6 @@ void Board::print() const {
     this->printer->print(matrix, size, getPoints());
 }
 
-
 Cell *Board::getCell(Coordinate pos) const {
     int row = pos.getRow();
     int col = pos.getCol();
@@ -48,19 +47,12 @@ void Board::setNeighbours(Cell *cell) {
                                Coordinate(0, 1), Coordinate(1, -1), Coordinate(1, 0), Coordinate(1, 1),};
 
     for (int i = 0; i < 8; i++) {
-        Coordinate position = cell->getPosition()->sum(directions[i]);
+        Coordinate position = cell->getPosition()->sum(&directions[i]);
         if (this->contains(position)) {
             neighbours.push_back(this->getCell(position));
         }
     }
     cell->setNeighbours(neighbours);
-    cell->setNumOfNeighbours(neighbours.size());
-}
-
-Cell *Board::nextCell(Cell *cell, Coordinate dir) const {
-    int x = dir.getRow();
-    int y = dir.getCol();
-    return this->getCell(cell->getPosition()->getRow() + x, cell->getPosition()->getCol() + y);
 }
 
 bool Board::contains(Coordinate pos) const {
@@ -78,14 +70,13 @@ void Board::applyMove(Move *move, Player *player) {
     vector<Coordinate *> directions = move->getDirections();
     for (int i = 0; i < directions.size(); i++) {
         Coordinate *dir = directions[i];
-        cout << dir->toString() << endl;
         flipGains(pos, player, dir);
     }
 }
 
 
 void Board::flipGains(Coordinate *position, Player *player, Coordinate *direction) {
-    Cell *next = getCell(position->sum(*direction));
+    Cell *next = getCell(position->sum(direction));
     if (player->isOpponent(next->getContent())) {
         player->conquerCell(next);
         flipGains(next->getPosition(), player, direction);
@@ -108,16 +99,6 @@ int Board::getPlayer2Points() const {
     return counter->getPoints2();
 }
 
-Board::~Board() {
-    for (int row = 0; row < size; row++) {
-        for (int col = 0; col < size; col++) {
-            delete matrix[row][col];
-        }
-    }
-    delete counter;
-    delete printer;
-}
-
 string Board::getPoints() const {
     string player1P = dynamic_cast<ostringstream *>( &(ostringstream() << getPlayer1Points()))->str();
     string player2P = dynamic_cast<ostringstream *>( &(ostringstream() << getPlayer2Points()))->str();
@@ -126,4 +107,16 @@ string Board::getPoints() const {
     result += " vs. Player 2: ";
     result += player2P;
     return result.c_str();
+}
+
+Board::~Board() {
+    delete counter;
+    for (int row = 0; row < size; row++) {
+        for (int col = 0; col < size; col++) {
+            delete matrix[row][col];
+        }
+        delete[] matrix[row];
+    }
+    delete[] matrix;
+    delete printer;
 }

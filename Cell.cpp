@@ -7,7 +7,6 @@
 Cell::Cell(Coordinate *position, CellCounter *counter, char content) : content(content), position(position),
                                                                        counter(counter) {
     this->neighbours = vector<Cell *>();
-    this->numOfNeighbours = 0;
 }
 
 
@@ -23,7 +22,7 @@ string Cell::toString() const {
 }
 
 bool Cell::isEmpty() const {
-    return this->content == ' ';
+    return (this->content == ' ' || this->content == '*');
 }
 
 vector<Cell *> Cell::getNeighbours() const {
@@ -32,22 +31,8 @@ vector<Cell *> Cell::getNeighbours() const {
 
 void Cell::setNeighbours(vector<Cell *> neighbours) {
     this->neighbours = neighbours;
-    this->numOfNeighbours = (int) neighbours.size();
 }
 
-void Cell::setNumOfNeighbours(int num) {
-    this->numOfNeighbours = num;
-}
-
-vector<Coordinate *> Cell::getNeighboursByDirection() {
-    vector<Coordinate *> directions;
-    vector<Cell *> neigh = getNeighbours();
-    for (int i = 0; i < neigh.size(); i++) {
-        Cell *cell = neigh[i];
-        directions.push_back(this->getPosition()->getDirectionTo(cell->getPosition()));
-    }
-    return directions;
-}
 
 void Cell::sumOne(char previous, char current) {
     this->counter->changeValue(previous, current);

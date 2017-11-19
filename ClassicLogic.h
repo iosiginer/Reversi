@@ -8,17 +8,39 @@
 
 #include "GameLogic.h"
 
+/**
+ * The classic set of rules for the Reversi Game. It inherits from GameLogic, to make it more easy to find.
+ */
 class ClassicLogic : public GameLogic {
 private:
-    Board &board;
+    Board *board;
 
-    virtual vector<Coordinate *> getDirections(Coordinate *, Player *, int *) const;
+    /**
+     * Get the directions in which the Player should check for possible Moves.
+     * @return vector<Coordinate *> the list of possible directions to move.
+     */
+    virtual vector<Coordinate *> getDirections(Coordinate, Player *, int *) const;
 
+    /**
+     * Checks whether the direction is valid. It runs toward the desired direction and checks it as a Turing Machine.
+     * @return bool - true only if the direction gives any gains for the Move.
+     */
     bool validDirection(Coordinate *, Player *, Coordinate *, int *) const;
 public:
-    ClassicLogic(Board &);
+    /**
+     * Constructor for ClassicLogic.
+     */
+    ClassicLogic(Board *);
+
+    /**
+     * Analizes each empty cell and finds all the possible moves for the Player.
+     * @return vector<Move *> - the list of possible moves for the Player.
+     */
     virtual vector<Move*> getPossibleMoves(Player*) const;
 
+    /**
+     * Destructor.
+     */
     ~ClassicLogic() {}
 };
 

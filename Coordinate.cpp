@@ -19,12 +19,12 @@ string Coordinate::toString() const {
 }
 
 
-Coordinate Coordinate::sum(Coordinate col) const {
-    return Coordinate(this->getRow() + col.getRow(), this->getCol() + col.getCol());
+Coordinate Coordinate::sum(Coordinate *col) const {
+    return Coordinate(this->getRow() + col->getRow(), this->getCol() + col->getCol());
 }
 
-Coordinate* Coordinate::getDirectionTo(Coordinate *to) const {
-    Coordinate from = *this;
-    return new Coordinate(to->getRow() - from.getRow(), to->getCol() - from.getCol());
-
+Coordinate *Coordinate::getDirectionTo(Coordinate *to) const {
+    int fromRow = this->getRow();
+    int fromCol = this->getCol();
+    return new Coordinate(to->getRow() - fromRow, to->getCol() - fromCol);
 }

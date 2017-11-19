@@ -11,7 +11,8 @@
 #include "CellCounter.h"
 
 /**
- * Class containing the definition of a Ce
+ * Class containing the definition of a Cell, which conforms the Board matrix.
+ * The Cell class knows it's position, content and neighbours. It also holds a reference to the Board's Cell Counter.
  */
 class Cell {
 private:
@@ -19,35 +20,70 @@ private:
     CellCounter *counter;
     char content;
     vector<Cell *> neighbours;
-    int numOfNeighbours;
 
 public:
+    /**
+     * Constructor. Recieves a Coordinate, a pointer to the Counter, and content.
+     */
     Cell(Coordinate *, CellCounter *, char = ' ');
 
+    /**
+     * Getter for the Cell's content.
+     * @return char - content.
+     */
     char getContent() const;
 
+    /**
+     * Setter for the Cell's content.
+     */
     void setContent(char);
 
+    /**
+     * Getter for the list (vector) of the Cell's neighbouring Cells.
+     * @return vector<Cell*> - neighbours.
+     */
     vector<Cell *> getNeighbours() const;
 
+    /**
+     * Setter for the Cell's neighbours.
+     */
     void setNeighbours(vector<Cell *>);
 
+    /**
+     * Getter for the Cell's position.
+     * @return Coordinate - position.
+     */
     Coordinate *getPosition() const;
 
-    string getPostionAsString() const;
-
+    /**
+     * Returns a string representing the Cell with its content (for console).
+     * @return
+     */
     string toString() const;
 
+    /**
+     * Checks wether the Cell is empty or not ('empty' meaning content == ' ').
+     * It also accepts a Cell with the content '*' since it marks possible moves.
+     * @return bool - true if content
+     */
     bool isEmpty() const;
 
-    void setNumOfNeighbours(int);
-
-    int getNumOfNeighbours();
-
+    /**
+     * Returns a list (vector) of directions to where the neighbouring Cells are.
+     * @return vector<Coordinate> - directions.
+     */
     vector<Coordinate *> getNeighboursByDirection();
 
+    /**
+     * Function to deal with the counting of the Cells through their flipping.
+     * @param previous - the previous content of the flipped Cell.
+     * @param current  - the new content of the flipped Cell.
+     */
     void sumOne(char previous, char current);
 
+    /**
+     * Destructor.
+     */
     ~Cell();
 
 };

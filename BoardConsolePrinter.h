@@ -10,7 +10,7 @@
 
 class BoardConsolePrinter : public BoardPrinter {
 public:
-    BoardConsolePrinter();
+    BoardConsolePrinter() {};
 
     virtual void print(Cell ***board, int size, string message = " ") const;
 

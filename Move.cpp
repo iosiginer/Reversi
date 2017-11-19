@@ -29,3 +29,11 @@ int Move::getGain() const {
     return this->gain;
 }
 
+Move::~Move() {
+    delete position;
+    for (int i = 0; i < directions.size(); i++) { delete directions[i]; }
+    directions.clear();
+}
+
+
+

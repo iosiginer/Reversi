@@ -8,9 +8,13 @@
 #include "Board.h"
 #include "GameLogic.h"
 #include "ClassicLogic.h"
-#include "HumanConsolePlayer.h"
+#include "HumanPlayer.h"
 
-
+/**
+ * Class in charge of holding all other classes and controling the Flow of the Game (duh...).
+ * Holds a reference to: Board, Logic, two Players. Also holds three booleans to control the turns and
+ * their logic.
+ */
 class GameFlow {
 private:
     Board *board;
@@ -18,19 +22,34 @@ private:
     Player *player1;
     Player *player2;
     bool player1Turn;
-
-    void playOneTurn();
-
-    void gameOver() const;
-
     bool noMove;
     bool noMoreMoves;
 
-public:
-    GameFlow(char, char, int = 8);
+    /**
+     * Let one player play.
+     */
+    void playOneTurn();
 
+    /**
+     * Finish the Game. Presenting the player with a "Game over screen" //TODO make it better, it's crap now.
+     */
+    void gameOver() const;
+
+
+public:
+    /**
+     * Constructor. Gets two chars and an int, used to create the Board and the Players.
+     */
+    explicit GameFlow(char = 'X', char = 'O', int = 8);
+
+    /**
+     * Perform the loop that allows the Game to be played.
+     */
     void run();
 
+    /**
+     * Destructor. Careful. Code equivalent to a (Reversi) Neutrino Bomb.
+     */
     ~GameFlow();
 };
 

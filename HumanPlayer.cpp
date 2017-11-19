@@ -3,20 +3,22 @@
 //
 
 #include <limits>
-#include "HumanConsolePlayer.h"
+#include "HumanPlayer.h"
 
-HumanConsolePlayer::HumanConsolePlayer(char content) : content(content) {}
+HumanPlayer::HumanPlayer(char content) : content(content) {}
 
 
-Move *HumanConsolePlayer::move(vector<Move *> possibleMoves) {
+Move *HumanPlayer::move(vector<Move *> possibleMoves) {
     int row, col;
+    char comma;
+    int &rowRef = row, colRef = col;
     bool validMove = false;
     Move *move = NULL;
     do {
         showPossibleMoves(possibleMoves);
-        cout << "Please enter your move row col: ";
-        cin >> row >> col;
-        checkInput(row, col);
+        cout << "Please enter your move row,col: ";
+        cin >> row >> comma >> col;
+        checkInput(rowRef, colRef);
         for (int i = 0; i < possibleMoves.size(); i++) {
             Move *moveToCheck = possibleMoves[i];
             Coordinate *checkPos = moveToCheck->getCoordinate();
@@ -35,30 +37,30 @@ Move *HumanConsolePlayer::move(vector<Move *> possibleMoves) {
 }
 
 
-bool HumanConsolePlayer::isOpponent(char adv) const {
-    return (content != adv && adv != ' ');
+bool HumanPlayer::isOpponent(char adv) const {
+    return (content != adv && adv != ' ' && adv != '*');
 }
 
 
-void HumanConsolePlayer::showPossibleMoves(vector<Move *> moves) const {
+void HumanPlayer::showPossibleMoves(vector<Move *> moves) const {
     cout << "You play with: " << this->content << endl;
     cout << "You possible moves are: ";
     for (int i = 0; i < moves.size(); i++) {
-        cout << " " << moves[i]->getCoordinateAsString() << " " << moves[i]->getGain();
+        cout << " " << moves[i]->getCoordinateAsString() << " ";
     }
     cout << endl << endl;
 }
 
-char HumanConsolePlayer::getContent() const {
+char HumanPlayer::getContent() const {
     return this->content;
 }
 
-void HumanConsolePlayer::conquerCell(Cell *cell) {
+void HumanPlayer::conquerCell(Cell *cell) {
     cell->sumOne(cell->getContent(), this->getContent());
     cell->setContent(this->content);
 }
 
-void HumanConsolePlayer::checkInput(int &row, int &col) const {
+void HumanPlayer::checkInput(int &row, int &col) const {
     if (cin.fail()) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
