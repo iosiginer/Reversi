@@ -3,5 +3,26 @@ project(Reversi)
 
 set(CMAKE_CXX_STANDARD 98)
 
-set(SOURCE_FILES main.cpp Board.cpp Board.h Cell.cpp Cell.h Coordinate.cpp Coordinate.h GameFlow.cpp GameFlow.h Player.h GameLogic.h Move.cpp Move.h ClassicLogic.cpp ClassicLogic.h BoardPrinter.h BoardConsolePrinter.cpp BoardConsolePrinter.h ConsolePlayer.h HumanConsolePlayer.cpp HumanConsolePlayer.h CellCounter.cpp CellCounter.h)
+set(SOURCE_FILES main.cpp
+        Board.cpp
+        Board.h
+        Cell.cpp
+        Cell.h
+        Coordinate.cpp
+        Coordinate.h
+        GameFlow.cpp
+        GameFlow.h
+        Player.h
+        GameLogic.h
+        Move.cpp
+        Move.h
+        ClassicLogic.cpp
+        ClassicLogic.h
+        BoardPrinter.h
+        BoardConsolePrinter.cpp
+        BoardConsolePrinter.h
+        HumanPlayer.cpp
+        HumanPlayer.h
+        CellCounter.cpp
+        CellCounter.h)
 add_executable(Reversi ${SOURCE_FILES})
