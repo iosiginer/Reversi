@@ -13,7 +13,7 @@ public:
     virtual Move *move(vector<Move *> possibleMoves);
 
     virtual bool isOpponent(char) const;
-    
+
 
 private:
 };
