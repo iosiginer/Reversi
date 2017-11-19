@@ -9,6 +9,7 @@
 #include "GameLogic.h"
 #include "ClassicLogic.h"
 #include "HumanPlayer.h"
+#include "AIPlayer.h"
 
 /**
  * Class in charge of holding all other classes and controling the Flow of the Game (duh...).
@@ -35,6 +36,10 @@ private:
      */
     void gameOver() const;
 
+    /**
+     * The method initialize the second player by user choice: AI or Human.
+     */
+    void initPlayer2(char first, char second);
 
 public:
     /**

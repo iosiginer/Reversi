@@ -10,11 +10,23 @@
 GameFlow::GameFlow(char first, char second, int size) {
     this->board = new Board(first, second, size);
     this->player1 = new HumanPlayer(first);
-    this->player2 = new HumanPlayer(second);
-    this->player1Turn = true;
     this->logic = new ClassicLogic(board);
+    this->player1Turn = true;
+    initPlayer2(first, second);
     this->noMove = false;
     this->noMoreMoves = false;
+}
+
+void GameFlow::initPlayer2(char first, char second) {
+    int choice;
+    cout << "Choose against who you want to play: \n\t 1. Human \n\t 2. AI" << endl;
+    cin >> choice;
+    if (choice == 1) {
+        this->player2 = new HumanPlayer(second);
+    } else {
+        cout<<"Under construction, waiting for Iosi";
+        exit(0);
+    }
 }
 
 void GameFlow::playOneTurn() {
