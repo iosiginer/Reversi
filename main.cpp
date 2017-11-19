@@ -3,7 +3,6 @@
 
 using namespace std;
 
-// barak gayyyy
 int main(int argc, char *argv[]) {
     char p1 = 'X';
     char p2 = 'O';
