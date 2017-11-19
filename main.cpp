@@ -3,9 +3,10 @@
 
 using namespace std;
 
+// barak gayyyy
 int main(int argc, char *argv[]) {
-    char p1 = 'B';
-    char p2 = 'I';
+    char p1 = 'X';
+    char p2 = 'O';
     int size = 8;
     if (argc > 1) {
         p1 = *argv[1];
