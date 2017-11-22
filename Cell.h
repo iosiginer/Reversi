@@ -9,6 +9,7 @@
 #include <vector>
 #include "Coordinate.h"
 #include "CellCounter.h"
+#include "Cloneable.h"
 
 /**
  * Class containing the definition of a Cell, which conforms the Board matrix.
@@ -67,12 +68,6 @@ public:
      * @return bool - true if content
      */
     bool isEmpty() const;
-
-    /**
-     * Returns a list (vector) of directions to where the neighbouring Cells are.
-     * @return vector<Coordinate> - directions.
-     */
-    vector<Coordinate *> getNeighboursByDirection();
 
     /**
      * Function to deal with the counting of the Cells through their flipping.

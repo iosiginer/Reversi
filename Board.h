@@ -9,6 +9,7 @@
 #include "BoardPrinter.h"
 #include "Player.h"
 #include "CellCounter.h"
+#include "Cloneable.h"
 
 #include <iostream>
 
@@ -17,7 +18,7 @@
  * which can be empty or have a char content. It also holds a printer (depending on the interface) and a Counter
  * to be in charge of the points throughout the Game.
  */
-class Board {
+class Board : public Cloneable {
 private:
     int size;
     Cell ***matrix;
@@ -29,6 +30,8 @@ private:
      */
     void flipGains(Coordinate *startingPos, Player *currentPlayer, Coordinate *directionToMoveTo);
 
+    void initialize(char play1, char play2, CellCounter *counter);
+
 
 public:
     /**
@@ -37,7 +40,7 @@ public:
      * @param play2 - the content for Player 2.
      * @param size  - the desired size of the Board.
      */
-    Board(char play1 = 'X', char play2 = 'O', int size = 8);
+    Board(int size = 8, char play1 = 'X', char play2 = 'O');
 
     /**
      * Calls an outern Printer class to deal with showing the Board on the GUI.
@@ -107,6 +110,8 @@ public:
      * @return string - the points of both players.
      */
     string getPoints() const;
+
+    Board *clone() const;
 
     /**
      * Destructor!!! Use carefully.

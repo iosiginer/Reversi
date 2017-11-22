@@ -5,14 +5,15 @@
 #include <cstdlib>
 #include <cstdio>
 #include "GameFlow.h"
+#include "AIPlayer.h"
 
 
 GameFlow::GameFlow(char first, char second, int size) {
-    this->board = new Board(first, second, size);
+    this->board = new Board(size, first, second);
     this->player1 = new HumanPlayer(first);
-    this->logic = new ClassicLogic(board);
-    this->player1Turn = true;
     initPlayer2(first, second);
+    this->player1Turn = true;
+    this->logic = new ClassicLogic(board);
     this->noMove = false;
     this->noMoreMoves = false;
 }
@@ -24,8 +25,8 @@ void GameFlow::initPlayer2(char first, char second) {
     if (choice == 1) {
         this->player2 = new HumanPlayer(second);
     } else {
-        cout<<"Under construction, waiting for Iosi";
-        exit(0);
+        GameLogic &logicRef = *this->logic;
+        this->player2 = new AIPlayer(second, first, *board, logicRef);
     }
 }
 
@@ -41,7 +42,6 @@ void GameFlow::playOneTurn() {
         player = player2;
         this->player1Turn = true;
     }
-
     vector<Move *> possibleMoves = logic->getPossibleMoves(player);
     if (possibleMoves.empty()) {
         if (!noMove) {

@@ -3,7 +3,8 @@ project(Reversi)
 
 set(CMAKE_CXX_STANDARD 98)
 
-set(SOURCE_FILES main.cpp
+set(SOURCE_FILES
+        main.cpp
         Board.cpp
         Board.h
         Cell.cpp
@@ -24,5 +25,8 @@ set(SOURCE_FILES main.cpp
         HumanPlayer.cpp
         HumanPlayer.h
         CellCounter.cpp
-        CellCounter.h)
+        CellCounter.h
+        AIPlayer.cpp
+        AIPlayer.h
+        Cloneable.h)
 add_executable(Reversi ${SOURCE_FILES})

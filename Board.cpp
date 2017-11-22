@@ -5,10 +5,15 @@
 #include "Board.h"
 #include "BoardConsolePrinter.h"
 
-Board::Board(char play1, char play2, int size) : size(size) {
+Board::Board(int size, char play1, char play2) : size(size) {
     this->matrix = new Cell **[size];
     this->counter = new CellCounter(play1, play2);
     this->printer = new BoardConsolePrinter();
+    initialize(play1, play2, counter);
+}
+
+
+void Board::initialize(char play1, char play2, CellCounter *counter) {
     for (int row = 0; row < size; row++) {
         this->matrix[row] = new Cell *[size];
         for (int col = 0; col < size; col++) {
@@ -26,6 +31,7 @@ Board::Board(char play1, char play2, int size) : size(size) {
     matrix[middle][middle]->setContent(play2);
     matrix[middle - 1][middle - 1]->setContent(play2);
 }
+
 
 void Board::print() const {
     this->printer->print(matrix, size, getPoints());
@@ -106,7 +112,7 @@ string Board::getPoints() const {
     result += player1P;
     result += " vs. Player 2: ";
     result += player2P;
-    return result.c_str();
+    return result;
 }
 
 Board::~Board() {
@@ -119,4 +125,16 @@ Board::~Board() {
     }
     delete[] matrix;
     delete printer;
+}
+
+Board *Board::clone() const {
+    Board *cloneBoard = new Board(this->size);
+    CellCounter *cloneCounter = this->counter->clone();
+    cloneBoard->initialize(' ', ' ', cloneCounter);
+    for (int row = 1; row <= size; row++) {
+        for (int col = 1; col <= size; col++) {
+            cloneBoard->getCell(row, col)->setContent(this->getCell(row, col)->getContent());
+        }
+    }
+    return cloneBoard;
 }

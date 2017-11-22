@@ -9,6 +9,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
+#include "Cloneable.h"
 
 using namespace std;
 
@@ -55,6 +56,7 @@ public:
      * @return Coordinate - direction to next cell.
      */
     Coordinate *getDirectionTo(Coordinate *) const;
+
 };
 
 
