@@ -6,9 +6,10 @@
 #include "HumanPlayer.h"
 
 
-AIPlayer::AIPlayer(char content, char oppContent, Board board, GameLogic &logic) : content(content),
+AIPlayer::AIPlayer(char content, char oppContent, Board *board, GameLogic &logic) : content(content),
                                                                                    oppContent(oppContent),
-                                                                                   logic(logic) {
+                                                                                   logic(logic),
+                                                                                   cleanBoard(board){
 }
 
 bool AIPlayer::isOpponent(char adv) const {

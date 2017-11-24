@@ -11,11 +11,11 @@
 GameFlow::GameFlow(char first, char second, int size) {
     this->board = new Board(size, first, second);
     this->player1 = new HumanPlayer(first);
+    this->logic = new ClassicLogic(board);
     initPlayer2(first, second);
     this->player1Turn = true;
-    this->logic = new ClassicLogic(board);
     this->noMove = false;
-    this->noMoreMoves = false;
+        this->noMoreMoves = false;
 }
 
 void GameFlow::initPlayer2(char first, char second) {
@@ -25,8 +25,7 @@ void GameFlow::initPlayer2(char first, char second) {
     if (choice == 1) {
         this->player2 = new HumanPlayer(second);
     } else {
-        GameLogic &logicRef = *this->logic;
-        this->player2 = new AIPlayer(second, first, *board, logicRef);
+        this->player2 = new AIPlayer(second, first, board, *this->logic);
     }
 }
 
