@@ -4,9 +4,12 @@
 
 #include "Cell.h"
 
-Cell::Cell(Coordinate *position, CellCounter *counter, char content) : content(content), position(position),
-                                                                       counter(counter) {
-    this->neighbours = vector<Cell *>();
+Cell::Cell(Coordinate *position, CellCounter *counter, vector<Coordinate> neighbours, char content) : content(content),
+                                                                                                      position(
+                                                                                                              position),
+                                                                                                      counter(counter),
+                                                                                                      neighbours(
+                                                                                                              neighbours) {
 }
 
 
@@ -25,14 +28,9 @@ bool Cell::isEmpty() const {
     return (this->content == ' ' || this->content == '*');
 }
 
-vector<Cell *> Cell::getNeighbours() const {
+vector<Coordinate> Cell::getNeighbours() const {
     return this->neighbours;
 }
-
-void Cell::setNeighbours(vector<Cell *> neighbours) {
-    this->neighbours = neighbours;
-}
-
 
 void Cell::sumOne(char previous, char current) {
     this->counter->changeValue(previous, current);

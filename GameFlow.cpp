@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <cstdio>
 #include "GameFlow.h"
-#include "AIPlayer.h"
 
 
 GameFlow::GameFlow(char first, char second, int size) {
@@ -26,7 +25,7 @@ void GameFlow::initPlayer2(char first, char second) {
         this->player2 = new HumanPlayer(second);
     } else {
         GameLogic &logicRef = *this->logic;
-        this->player2 = new AIPlayer(second, first, *board, logicRef);
+        this->player2 = new AIPlayer(second, first, board, logicRef);
     }
 }
 

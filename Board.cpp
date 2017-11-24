@@ -17,12 +17,7 @@ void Board::initialize(char play1, char play2, CellCounter *counter) {
     for (int row = 0; row < size; row++) {
         this->matrix[row] = new Cell *[size];
         for (int col = 0; col < size; col++) {
-            this->matrix[row][col] = new Cell(new Coordinate(row + 1, col + 1), counter);
-        }
-    }
-    for (int row = 0; row < size; row++) {
-        for (int col = 0; col < size; col++) {
-            setNeighbours(this->matrix[row][col]);
+            this->matrix[row][col] = new Cell(new Coordinate(row + 1, col + 1), counter, getNeighbours(row, col));
         }
     }
     int middle = size / 2;
@@ -47,18 +42,19 @@ Cell *Board::getCell(int row, int col) const {
     return this->matrix[row - 1][col - 1];
 }
 
-void Board::setNeighbours(Cell *cell) {
-    vector<Cell *> neighbours;
+vector<Coordinate> Board::getNeighbours(int row, int column) {
+    vector<Coordinate> neighbours;
+    Coordinate coor = Coordinate(row + 1, column + 1);
     Coordinate directions[] = {Coordinate(-1, -1), Coordinate(-1, 0), Coordinate(-1, 1), Coordinate(0, -1),
                                Coordinate(0, 1), Coordinate(1, -1), Coordinate(1, 0), Coordinate(1, 1),};
 
     for (int i = 0; i < 8; i++) {
-        Coordinate position = cell->getPosition()->sum(&directions[i]);
+        Coordinate position = coor.sum(&directions[i]);
         if (this->contains(position)) {
-            neighbours.push_back(this->getCell(position));
+            neighbours.push_back(position);
         }
     }
-    cell->setNeighbours(neighbours);
+    return neighbours;
 }
 
 bool Board::contains(Coordinate pos) const {

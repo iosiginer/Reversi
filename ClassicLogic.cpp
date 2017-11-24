@@ -8,6 +8,8 @@ ClassicLogic::ClassicLogic(Board *board) : board(board) {}
 
 
 vector<Move *> ClassicLogic::getPossibleMoves(Player *player) const {
+    cout << "getting moves" << endl;
+
     vector<Move *> moves;
     int gain = 0;
     for (int row = 1; row <= board->getSize(); row++) {
@@ -31,14 +33,15 @@ vector<Coordinate *> ClassicLogic::getDirections(Coordinate pos, Player *player,
     vector<Coordinate *> result;
     Cell *cell = board->getCell(pos);
     vector<Coordinate *> directions;
-    vector<Cell *> neighbours = cell->getNeighbours();
+    vector<Coordinate> neighbours = cell->getNeighbours();
     for (int i = 0; i < neighbours.size(); i++) {
-        Coordinate *dir = cell->getPosition()->getDirectionTo(neighbours[i]->getPosition());
+        Coordinate *dir = cell->getPosition()->getDirectionTo(&neighbours[i]);
         int maybe = 0;
         Cell *nextCell = board->getCell(pos.sum(dir));
         if (player->isOpponent(nextCell->getContent())) {
             maybe += 1;
             if (validDirection(nextCell->getPosition(), player, dir, &maybe)) {
+                cout << cell->getPosition()->toString() << " is a valid move." << endl;
                 result.push_back(dir);
             } else { delete dir; }
         } else { delete dir; }

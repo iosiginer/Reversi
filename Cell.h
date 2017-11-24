@@ -20,13 +20,13 @@ private:
     Coordinate *position;
     CellCounter *counter;
     char content;
-    vector<Cell *> neighbours;
+    vector<Coordinate> neighbours;
 
 public:
     /**
      * Constructor. Recieves a Coordinate, a pointer to the Counter, and content.
      */
-    Cell(Coordinate *, CellCounter *, char = ' ');
+    Cell(Coordinate *, CellCounter *, vector<Coordinate> neighbours, char = ' ');
 
     /**
      * Getter for the Cell's content.
@@ -43,12 +43,7 @@ public:
      * Getter for the list (vector) of the Cell's neighbouring Cells.
      * @return vector<Cell*> - neighbours.
      */
-    vector<Cell *> getNeighbours() const;
-
-    /**
-     * Setter for the Cell's neighbours.
-     */
-    void setNeighbours(vector<Cell *>);
+    vector<Coordinate> getNeighbours() const;
 
     /**
      * Getter for the Cell's position.

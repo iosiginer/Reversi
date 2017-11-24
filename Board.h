@@ -32,6 +32,10 @@ private:
 
     void initialize(char play1, char play2, CellCounter *counter);
 
+    /**
+    * Finds which are the neighbouring Cells of the given Cell, and assigns them to it.
+    */
+    vector<Coordinate> getNeighbours(int row, int column);
 
 public:
     /**
@@ -59,10 +63,6 @@ public:
      */
     Cell *getCell(Coordinate) const;
 
-    /**
-     * Finds which are the neighbouring Cells of the given Cell, and assigns them to it.
-     */
-    void setNeighbours(Cell *);
 
     /**
      * Checks whether the Board contains a Cell at the given Coordinates.
