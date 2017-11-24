@@ -34,7 +34,7 @@ void Board::initialize(char play1, char play2, CellCounter *counter) {
 
 
 void Board::print() const {
-    this->printer->print(matrix, size, getPoints());
+    this->printer->print(matrix, size);
 }
 
 Cell *Board::getCell(Coordinate pos) const {
@@ -105,14 +105,8 @@ int Board::getPlayer2Points() const {
     return counter->getPoints2();
 }
 
-string Board::getPoints() const {
-    string player1P = dynamic_cast<ostringstream *>( &(ostringstream() << getPlayer1Points()))->str();
-    string player2P = dynamic_cast<ostringstream *>( &(ostringstream() << getPlayer2Points()))->str();
-    string result = "Player 1: ";
-    result += player1P;
-    result += " vs. Player 2: ";
-    result += player2P;
-    return result;
+int Board::getPoints() const {
+    return counter->getPoints1() - counter->getPoints2();
 }
 
 Board::~Board() {

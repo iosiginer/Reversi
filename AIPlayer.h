@@ -17,7 +17,7 @@
 class AIPlayer : public Player {
 private:
     char content, oppContent;
-    Board *cleanBoard, *testBoard;
+    Board *cleanBoard;
     GameLogic &logic;
 
 public:
@@ -47,11 +47,16 @@ public:
     virtual void conquerCell(Cell *);
 
     /**
+     * Gets the content of the Player, the color.
+     * @return char - the char representing the player.
+     */
+    char getContent() const;
+
+    /**
      * Destructor.
      */
     virtual ~AIPlayer() {
         delete cleanBoard;
-        delete testBoard;
     }
 
 

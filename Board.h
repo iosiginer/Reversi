@@ -109,7 +109,7 @@ public:
      * Returns a string showing the points of both players. To be showed in GUI.
      * @return string - the points of both players.
      */
-    string getPoints() const;
+    int getPoints() const;
 
     Board *clone() const;
 
