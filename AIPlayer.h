@@ -55,11 +55,7 @@ public:
     /**
      * Destructor.
      */
-    virtual ~AIPlayer() {
-        delete cleanBoard;
-    }
-
-
+    virtual ~AIPlayer() {}
 };
 
 
