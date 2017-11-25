@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <cstdio>
 #include "GameFlow.h"
-#include "AIPlayer.h"
 
 
 GameFlow::GameFlow(char first, char second, int size) {
@@ -15,7 +14,7 @@ GameFlow::GameFlow(char first, char second, int size) {
     initPlayer2(first, second);
     this->player1Turn = true;
     this->noMove = false;
-        this->noMoreMoves = false;
+    this->noMoreMoves = false;
 }
 
 void GameFlow::initPlayer2(char first, char second) {
@@ -64,6 +63,7 @@ void GameFlow::run() {
         playOneTurn();
     }
     gameOver();
+    cout << "done";
 }
 
 void GameFlow::gameOver() const {

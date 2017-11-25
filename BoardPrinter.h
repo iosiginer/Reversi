@@ -19,7 +19,7 @@ public:
      * @param size - the size of the Board.
      * @param message - an optional message to print for the user.
      */
-    virtual void print(Cell ***board, int size) const = 0;
+    virtual void print(Cell ***board, int size, int points) const = 0;
 
     /**
      * Destructor.

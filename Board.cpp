@@ -29,7 +29,7 @@ void Board::initialize(char play1, char play2, CellCounter *counter) {
 
 
 void Board::print() const {
-    this->printer->print(matrix, size);
+    this->printer->print(matrix, size, getPoints());
 }
 
 Cell *Board::getCell(Coordinate pos) const {

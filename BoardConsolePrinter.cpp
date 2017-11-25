@@ -5,7 +5,7 @@
 #include "BoardConsolePrinter.h"
 
 
-void BoardConsolePrinter::print(Cell ***board, int size) const {
+void BoardConsolePrinter::print(Cell ***board, int size, int points) const {
     cout << endl;
     cout << "\e[1mCurrent Board:" << endl;
     for (int row = 0; row <= size; row++) {
@@ -20,5 +20,6 @@ void BoardConsolePrinter::print(Cell ***board, int size) const {
         for (int i = 0; i < size * 2 + 1; i++) { cout << "--"; };
         cout << endl;
     }
+    cout << "Points: " << points << endl;
     cout << "\e[0m";
 }

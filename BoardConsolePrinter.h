@@ -12,7 +12,7 @@ class BoardConsolePrinter : public BoardPrinter {
 public:
     BoardConsolePrinter() {};
 
-    virtual void print(Cell ***board, int size) const;
+    virtual void print(Cell ***board, int size, int points) const;
 
     ~BoardConsolePrinter() {}
 
