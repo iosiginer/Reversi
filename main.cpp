@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 #include "GameFlow.h"
 
 using namespace std;

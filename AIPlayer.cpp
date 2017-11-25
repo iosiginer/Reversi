@@ -7,9 +7,9 @@
 
 
 AIPlayer::AIPlayer(char content, char oppContent, Board *board, GameLogic &logic) : content(content),
-                                                                                    oppContent(oppContent),
-                                                                                    logic(logic),
-                                                                                    cleanBoard(board) {
+                                                                                   oppContent(oppContent),
+                                                                                   logic(logic),
+                                                                                   cleanBoard(board){
 }
 
 bool AIPlayer::isOpponent(char adv) const {
@@ -37,9 +37,7 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
         testBoard = cleanBoard->clone();            // get a clean board for testing
         testBoard->applyMove(possibleMoves[i], this);   // apply the current move
         opponentMoves = this->logic.getPossibleMoves(dummyPlayer);
-        cout << " got possible moves for opponent" << endl;
         for (int j = 0; j < opponentMoves.size(); j++) {    // loop through the opp moves
-            cout << "opponent move number " << i << ',' << j << endl;
             testBoard->applyMove(opponentMoves[j], dummyPlayer);
             currentMaxOpPoints = testBoard->getPoints();
             if (currentMaxOpPoints > maxOpponentPoints) {
@@ -51,7 +49,6 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
             chosenMove = possibleMoves[i];
         }
     }
-    delete dummyPlayer;
     return chosenMove;
 }
 
