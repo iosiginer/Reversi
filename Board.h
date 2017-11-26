@@ -47,6 +47,15 @@ public:
     Board(int size = 8, char play1 = 'X', char play2 = 'O');
 
     /**
+    * Constructor. Has all default arguments that can be changed by hand or by arguments in the Terminal.
+    * @param play1 - the content for Player 1.
+    * @param play2 - the content for Player 2.
+    * @param size  - the desired size of the Board.
+    * @param counter - the counter cells of the Board.
+    */
+    Board(int size, char play1, char play2, CellCounter *counter);
+
+    /**
      * Calls an outern Printer class to deal with showing the Board on the GUI.
      */
     void print() const;

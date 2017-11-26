@@ -12,6 +12,13 @@ Board::Board(int size, char play1, char play2) : size(size) {
     initialize(play1, play2, counter);
 }
 
+Board::Board(int size, char play1, char play2, CellCounter *counter) : size(size) {
+    this->matrix = new Cell **[size];
+    this->printer = new BoardConsolePrinter();
+    this->counter = counter;
+    initialize(play1, play2, counter);
+}
+
 
 void Board::initialize(char play1, char play2, CellCounter *counter) {
     for (int row = 0; row < size; row++) {
@@ -117,10 +124,8 @@ Board::~Board() {
     delete printer;
 }
 
-Board *Board::clone() const {
-    Board *cloneBoard = new Board(this->size);
-    CellCounter *cloneCounter = this->counter->clone();
-    cloneBoard->initialize(' ', ' ', cloneCounter);
+Board* Board::clone() const {
+    Board *cloneBoard = new Board(this->size, ' ', ' ', this->counter->clone());
     for (int row = 1; row <= size; row++) {
         for (int col = 1; col <= size; col++) {
             cloneBoard->getCell(row, col)->setContent(this->getCell(row, col)->getContent());

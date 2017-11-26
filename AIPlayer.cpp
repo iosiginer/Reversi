@@ -32,11 +32,10 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
     map<Move *, int> movesMap; // map to store each move with its correspondent max opponent gain
     Player *dummyPlayer = new HumanPlayer(oppContent);
     vector<Move *> opponentMoves;
-    Board *testBoard;
     // Loop through each possible move the AIPlayer has, and for each find the maximum score the opposing
     // player can achieve
     for (int i = 0; i < possibleMoves.size(); i++) {
-        testBoard = cleanBoard->clone();            // get a clean board for testing
+        Board *testBoard = cleanBoard->clone();            // get a clean board for testing
         testBoard->applyMove(possibleMoves[i], this);   // apply the current move
         opponentMoves = this->logic.getPossibleMoves(dummyPlayer, testBoard);
         // if the opponents doesn't have moving options, this is the best move
@@ -51,7 +50,7 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
             }
         }
         movesMap.insert(map<Move *, int>::value_type(possibleMoves[i], maxScore));
-        delete testBoard;
+        delete (testBoard);
         for (int j = 0; j < opponentMoves.size(); j++) {
             delete opponentMoves[j];
         }
