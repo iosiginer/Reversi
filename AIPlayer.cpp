@@ -3,6 +3,7 @@
 //
 
 #include <map>
+#include <cstdlib>
 #include "AIPlayer.h"
 #include "HumanPlayer.h"
 
@@ -37,7 +38,7 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
     for (int i = 0; i < possibleMoves.size(); i++) {
         testBoard = cleanBoard->clone();            // get a clean board for testing
         testBoard->applyMove(possibleMoves[i], this);   // apply the current move
-        opponentMoves = this->logic.getPossibleMoves(dummyPlayer);
+        opponentMoves = this->logic.getPossibleMoves(dummyPlayer, testBoard);
         // if the opponents doesn't have moving options, this is the best move
         if (opponentMoves.empty()) { return possibleMoves[i]; }
 
@@ -50,6 +51,7 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
             }
         }
         movesMap.insert(map<Move *, int>::value_type(possibleMoves[i], maxScore));
+        delete testBoard;
     }
 
     map<Move *, int>::iterator it;
@@ -61,9 +63,12 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
             minGain = it->second;
         }
         if (it->second == minGain) {
-            if (it->first->getGain() >= chosenMove->getGain()) { chosenMove = it->first; }
+            int randomChoice = rand() % 10;
+            cout << randomChoice << endl;
+            if (randomChoice < 8) { chosenMove = it->first; }
         }
     }
     cout << "The computer played " << chosenMove->getCoordinateAsString() << endl;
+    delete dummyPlayer;
     return chosenMove;
 }

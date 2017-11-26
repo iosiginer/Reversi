@@ -9,8 +9,8 @@
 
 GameFlow::GameFlow(char first, char second, int size) {
     this->board = new Board(size, first, second);
+    this->logic = new ClassicLogic();
     this->player1 = new HumanPlayer(first);
-    this->logic = new ClassicLogic(board);
     initPlayer2(first, second);
     this->player1Turn = true;
     this->noMove = false;
@@ -40,7 +40,7 @@ void GameFlow::playOneTurn() {
         player = player2;
         this->player1Turn = true;
     }
-    vector<Move *> possibleMoves = logic->getPossibleMoves(player);
+    vector<Move *> possibleMoves = logic->getPossibleMoves(player, board);
     if (possibleMoves.empty()) {
         if (!noMove) {
             noMove = true;
@@ -63,7 +63,6 @@ void GameFlow::run() {
         playOneTurn();
     }
     gameOver();
-    cout << "done";
 }
 
 void GameFlow::gameOver() const {
