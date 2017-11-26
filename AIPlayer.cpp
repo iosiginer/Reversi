@@ -39,8 +39,11 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
         testBoard->applyMove(possibleMoves[i], this);   // apply the current move
         opponentMoves = this->logic.getPossibleMoves(dummyPlayer, testBoard);
         // if the opponents doesn't have moving options, this is the best move
-        if (opponentMoves.empty()) { return possibleMoves[i]; }
-
+        if (opponentMoves.empty()) {
+            delete (testBoard);
+            delete(dummyPlayer);
+            return possibleMoves[i];
+        }
         int score = testBoard->getPoints();
         int currentScore, maxScore = score;
         for (int j = 0; j < opponentMoves.size(); j++) {
