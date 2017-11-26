@@ -52,7 +52,11 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
         }
         movesMap.insert(map<Move *, int>::value_type(possibleMoves[i], maxScore));
         delete testBoard;
+        for (int j = 0; j < opponentMoves.size(); j++) {
+            delete opponentMoves[j];
+        }
     }
+    delete dummyPlayer;
 
     map<Move *, int>::iterator it;
     Move *chosenMove = movesMap.begin()->first;
@@ -69,6 +73,5 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
         }
     }
     cout << "The computer played " << chosenMove->getCoordinateAsString() << endl;
-    delete dummyPlayer;
     return chosenMove;
 }
