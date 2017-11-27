@@ -1,6 +1,7 @@
-//
-// Created by iosi on 11/5/17.
-//
+/**
+ * Josef Ginerman 332494830
+ * Barak Talmor 308146240
+ */
 
 #ifndef REVERSI_PLAYER_H
 #define REVERSI_PLAYER_H

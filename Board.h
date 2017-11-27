@@ -1,6 +1,7 @@
-//
-// Created by iosi on 11/3/17.
-//
+/**
+ * Josef Ginerman 332494830
+ * Barak Talmor 308146240
+ */
 
 #ifndef REVERSI_BOARD_H
 #define REVERSI_BOARD_H
@@ -120,6 +121,10 @@ public:
      */
     int getPoints() const;
 
+    /**
+     * Function to return a cloned version of the Board. That is, a new Board with the same contents.
+     * @return Board * - pointer to a new Board.
+     */
     Board *clone() const;
 
     /**

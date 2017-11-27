@@ -1,10 +1,12 @@
-//
-// Created by iosi on 19/11/17.
-//
+/**
+ * Josef Ginerman 332494830
+ * Barak Talmor 308146240
+ */
 
 #ifndef REVERSI_AIPLAYER_H
 #define REVERSI_AIPLAYER_H
 
+#include <map>
 
 #include "Player.h"
 #include "Board.h"
@@ -19,6 +21,8 @@ private:
     char content, oppContent;
     Board *cleanBoard;
     GameLogic &logic;
+
+    map<Move *, int> getMovesMap(vector<Move *> possibleMoves);
 
 public:
     /**

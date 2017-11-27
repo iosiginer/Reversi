@@ -1,6 +1,7 @@
-//
-// Created by iosi on 08/11/17.
-//
+/**
+ * Josef Ginerman 332494830
+ * Barak Talmor 308146240
+ */
 
 #ifndef REVERSI_CLASSICLOGIC_H
 #define REVERSI_CLASSICLOGIC_H

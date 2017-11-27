@@ -1,6 +1,7 @@
-//
-// Created by iosi on 11/5/17.
-//
+/**
+ * Josef Ginerman 332494830
+ * Barak Talmor 308146240
+ */
 
 #ifndef REVERSI_GAMEFLOW_H
 #define REVERSI_GAMEFLOW_H
@@ -32,7 +33,7 @@ private:
     void playOneTurn();
 
     /**
-     * Finish the Game. Presenting the player with a "Game over screen" //TODO make it better, it's crap now.
+     * Finish the Game. Presenting the player with a "Game over screen" //
      */
     void gameOver() const;
 

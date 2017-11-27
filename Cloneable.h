@@ -1,6 +1,7 @@
-//
-// Created by iosi on 19/11/17.
-//
+/**
+ * Josef Ginerman 332494830
+ * Barak Talmor 308146240
+ */
 
 #ifndef REVERSI_CLONEABLE_H
 #define REVERSI_CLONEABLE_H

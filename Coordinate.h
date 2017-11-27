@@ -1,6 +1,7 @@
-//
-// Created by iosi on 11/3/17.
-//
+/**
+ * Josef Ginerman 332494830
+ * Barak Talmor 308146240
+ */
 
 #ifndef REVERSI_COORDINATE_H
 #define REVERSI_COORDINATE_H
