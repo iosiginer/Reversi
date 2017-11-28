@@ -1,8 +1,3 @@
-/**
- * Josef Ginerman 332494830
- * Barak Talmor 308146240
- */
-
 #include "Cell.h"
 
 Cell::Cell(Coordinate *position, CellCounter *counter, vector<Coordinate> neighbours, char content) : content(content),
