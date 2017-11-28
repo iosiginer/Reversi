@@ -4,7 +4,7 @@
 
 
 GameFlow::GameFlow(char first, char second, int size, Printer *printer) : printer(printer) {
-    this->board = new Board(size, first, second);
+    this->board = new Board(size, first, second, printer);
     this->logic = new ClassicLogic();
     this->player1 = new HumanPlayer(first);
     initPlayer2(first, second);

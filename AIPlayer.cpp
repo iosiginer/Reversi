@@ -28,7 +28,7 @@ char AIPlayer::getContent() const {
 Move *AIPlayer::move(vector<Move *> possibleMoves) {
     map<Move *, int> movesMap = getMovesMap(possibleMoves);
     if (movesMap.size() == 1) {
-
+        printer->printStream("The computer played" + movesMap.begin()->first->getCoordinateAsString());
         return movesMap.begin()->first;
     }
     map<Move *, int>::iterator it;

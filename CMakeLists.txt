@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.8)
 project(Reversi)
 
+add_subdirectory(gtest_src/googletest)
+include_directories(src)
+include_directories(include)
+include_directories(gtest_src/googletest/include)
+include_directories(gtest_src/googlemock/include)
+
 set(CMAKE_CXX_STANDARD 98)
 
 set(SOURCE_FILES
@@ -19,9 +25,9 @@ set(SOURCE_FILES
         Move.h
         ClassicLogic.cpp
         ClassicLogic.h
-        BoardPrinter.h
-        BoardConsolePrinter.cpp
-        BoardConsolePrinter.h
+        Printer.h
+        ConsolePrinter.cpp
+        ConsolePrinter.h
         HumanPlayer.cpp
         HumanPlayer.h
         CellCounter.cpp
@@ -29,4 +35,14 @@ set(SOURCE_FILES
         AIPlayer.cpp
         AIPlayer.h
         Cloneable.h)
+set(TEST_FILES
+        tests/aIPlayer_test.cpp
+        tests/AIPlayerTest.h
+        tests/BoardTest.h
+        tests/board_test.cpp
+        tests/classic_logic_test.cpp
+        tests/ClassicLogicTest.h
+        tests/coordinate_test.cpp
+        tests/gtest_main.cpp)
 add_executable(Reversi ${SOURCE_FILES})
+target_link_libraries(Reversi gtest gtest_main)
