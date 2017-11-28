@@ -1,7 +1,3 @@
-//
-// Created by iosi on 10/11/17.
-//
-
 #ifndef REVERSI_CELLCOUNTER_H
 #define REVERSI_CELLCOUNTER_H
 
