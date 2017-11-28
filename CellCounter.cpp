@@ -31,7 +31,7 @@ int CellCounter::getWinner() const {
 }
 
 bool CellCounter::gameOver(int size) const {
-    return (points1 + points2 == size * size);
+    return (points1 + points2 == size * size) || (points1 == 0) || (points2 == 0);
 }
 
 int CellCounter::getPoints1() const {
