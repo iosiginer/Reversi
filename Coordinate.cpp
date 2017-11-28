@@ -24,3 +24,7 @@ Coordinate *Coordinate::getDirectionTo(Coordinate *to) const {
     int fromCol = this->getCol();
     return new Coordinate(to->getRow() - fromRow, to->getCol() - fromCol);
 }
+
+bool Coordinate::operator==(const Coordinate& coord2) {
+    return (getRow() == coord2.getRow()) && (getCol() == coord2.getCol());
+}

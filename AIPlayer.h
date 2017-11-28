@@ -16,6 +16,7 @@ private:
     char content, oppContent;
     Board *cleanBoard;
     GameLogic &logic;
+    Printer *printer;
 
     map<Move *, int> getMovesMap(vector<Move *> possibleMoves);
 
@@ -25,7 +26,7 @@ public:
      * @param content  - the content of this player.
      * @param oppContent - the content of the opponent.
      */
-    AIPlayer(char content, char oppContent, Board *, GameLogic &);
+    AIPlayer(char content, char oppContent, Board *, GameLogic &, Printer *printer);
 
     /**
      * Perform the logics of picking a move for this turn.

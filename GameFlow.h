@@ -18,6 +18,7 @@ private:
     GameLogic *logic;
     Player *player1;
     Player *player2;
+    Printer *printer;
     bool player1Turn;
     bool noMove;
     bool noMoreMoves;
@@ -41,7 +42,7 @@ public:
     /**
      * Constructor. Gets two chars and an int, used to create the Board and the Players.
      */
-    explicit GameFlow(char = 'X', char = 'O', int = 8);
+    explicit GameFlow(char = 'X', char = 'O', int = 8, Printer *printer = new ConsolePrinter());
 
     /**
      * Perform the loop that allows the Game to be played.

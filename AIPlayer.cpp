@@ -3,10 +3,12 @@
 #include "HumanPlayer.h"
 
 
-AIPlayer::AIPlayer(char content, char oppContent, Board *board, GameLogic &logic) : content(content),
+AIPlayer::AIPlayer(char content, char oppContent, Board *board, GameLogic &logic,
+                                                                Printer *printer) : content(content),
                                                                                     oppContent(oppContent),
                                                                                     logic(logic),
-                                                                                    cleanBoard(board) {
+                                                                                    cleanBoard(board),
+                                                                                    printer(printer){
 }
 
 bool AIPlayer::isOpponent(char adv) const {
@@ -39,11 +41,10 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
         }
         if (it->second == minGain) {
             int randomChoice = rand() % 10;
-            cout << randomChoice << endl;
             if (randomChoice < 8) { chosenMove = it->first; }
         }
     }
-    cout << "The computer played " << chosenMove->getCoordinateAsString() << endl;
+    printer->printStream("The computer played" + chosenMove->getCoordinateAsString());
     return chosenMove;
 }
 
@@ -60,7 +61,6 @@ map<Move *, int> AIPlayer::getMovesMap(vector<Move *> possibleMoves) {
         opponentMoves = this->logic.getPossibleMoves(dummyPlayer, testBoard);
         // if the opponents doesn't have moving options, this is the best move
         if (opponentMoves.empty()) {
-            cout << "Im here" << endl;
             delete (testBoard);
             delete(dummyPlayer);
             movesMap.clear();

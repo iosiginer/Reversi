@@ -2,10 +2,11 @@
 #define REVERSI_BOARD_H
 
 #include "Move.h"
-#include "BoardPrinter.h"
+#include "Printer.h"
 #include "Player.h"
 #include "CellCounter.h"
 #include "Cloneable.h"
+#include "ConsolePrinter.h"
 
 #include <iostream>
 
@@ -19,7 +20,7 @@ private:
     int size;
     Cell ***matrix;
     CellCounter *counter;
-    BoardPrinter *printer;
+    Printer *printer;
 
     /**
      * Recieves a direction to move towards, and flip every Cell until it reaches one that belongs to the Player.
@@ -40,7 +41,7 @@ public:
      * @param play2 - the content for Player 2.
      * @param size  - the desired size of the Board.
      */
-    Board(int size = 8, char play1 = 'X', char play2 = 'O');
+    Board(int size = 8, char play1 = 'X', char play2 = 'O', Printer *printer = new ConsolePrinter());
 
     /**
     * Constructor. Has all default arguments that can be changed by hand or by arguments in the Terminal.
@@ -49,7 +50,7 @@ public:
     * @param size  - the desired size of the Board.
     * @param counter - the counter cells of the Board.
     */
-    Board(int size, char play1, char play2, CellCounter *counter);
+    Board(int size, char play1, char play2, CellCounter *counter, Printer *printer);
 
     /**
      * Calls an outern Printer class to deal with showing the Board on the GUI.

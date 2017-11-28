@@ -3,7 +3,7 @@
 #include "GameFlow.h"
 
 
-GameFlow::GameFlow(char first, char second, int size) {
+GameFlow::GameFlow(char first, char second, int size, Printer *printer) : printer(printer) {
     this->board = new Board(size, first, second);
     this->logic = new ClassicLogic();
     this->player1 = new HumanPlayer(first);
@@ -20,7 +20,7 @@ void GameFlow::initPlayer2(char first, char second) {
     if (choice == 1) {
         this->player2 = new HumanPlayer(second);
     } else {
-        this->player2 = new AIPlayer(second, first, board, *this->logic);
+        this->player2 = new AIPlayer(second, first, board, *this->logic, printer);
     }
 }
 
@@ -28,11 +28,11 @@ void GameFlow::playOneTurn() {
     board->print();
     Player *player;
     if (player1Turn) {
-        cout << "Player 1 it's your turn!" << endl;
+        printer->printStream("Player 1 it's your turn!");
         player = player1;
         this->player1Turn = false;
     } else {
-        cout << "Player 2 it's your turn!" << endl;
+        printer->printStream("Player 2 it's your turn!");
         player = player2;
         this->player1Turn = true;
     }
@@ -43,7 +43,8 @@ void GameFlow::playOneTurn() {
         } else {
             noMoreMoves = true;
         }
-        cout << "No possible moves. Play passes back to the other player. Press any key to continue." << endl;
+        printer->printStream("No possible moves. Play passes back to the other player."
+                                     " Press any key to continue.");
         char c = static_cast<char>(getchar());
         cout << c;
         cout << c;
@@ -65,12 +66,16 @@ void GameFlow::gameOver() const {
     board->print();
     int winner = board->getWinner();
     if (0 == winner) {
-        cout << "It's a tie!!" << endl;
+        printer->printStream("It's a tie!!");
     } else {
         int points1 = board->getPlayer1Points();
         int points2 = board->getPlayer2Points();
-        cout << "Player " << winner << " has won. With a score of " << max(points1, points2) << " against " <<
-             min(points1, points2) << endl;
+        ostringstream win, maxPoint, minPoint;
+        win << winner;
+        maxPoint << max(points1,points2);
+        minPoint << min(points1,points2);
+        printer->printStream("Player " + win.str() + " has won with a score of " +
+                                     maxPoint.str() + " against " + minPoint.str());
     }
 }
 
@@ -79,4 +84,5 @@ GameFlow::~GameFlow() {
     delete player2;
     delete logic;
     delete board;
+    delete printer;
 }

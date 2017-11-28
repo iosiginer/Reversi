@@ -32,6 +32,12 @@ void Cell::sumOne(char previous, char current) {
     this->counter->changeValue(previous, current);
 }
 
+bool Cell::operator ==(const Cell& cell2) {
+    return (getPosition()->getRow() == cell2.getPosition()->getRow() &&
+            getPosition()->getCol() == cell2.getPosition()->getCol() &&
+            getContent() == cell2.getContent());
+}
+
 Cell::~Cell() {
     delete position;
     neighbours.clear();

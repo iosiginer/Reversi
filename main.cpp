@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include "GameFlow.h"
+#include "ConsolePrinter.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ int main(int argc, char *argv[]) {
         p2 = *argv[2];
         istringstream(argv[3]) >> size;
     }
-    GameFlow reversi(p1, p2, size);
+    Printer *printer = new ConsolePrinter();
+    GameFlow reversi(p1, p2, size, printer);
     reversi.run();
 }

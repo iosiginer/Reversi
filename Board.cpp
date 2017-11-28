@@ -1,17 +1,16 @@
 #include "Board.h"
-#include "BoardConsolePrinter.h"
+#include "ConsolePrinter.h"
 
-Board::Board(int size, char play1, char play2) : size(size) {
+Board::Board(int size, char play1, char play2, Printer *printer) : size(size), printer(printer) {
     this->matrix = new Cell **[size];
     this->counter = new CellCounter(play1, play2);
-    this->printer = new BoardConsolePrinter();
     initialize(play1, play2, counter);
 }
 
-Board::Board(int size, char play1, char play2, CellCounter *counter) : size(size) {
+Board::Board(int size, char play1, char play2, CellCounter *counter, Printer *printer) : size(size),
+                                                                                         counter(counter),
+                                                                                         printer(printer){
     this->matrix = new Cell **[size];
-    this->printer = new BoardConsolePrinter();
-    this->counter = counter;
     initialize(play1, play2, counter);
 }
 
@@ -32,7 +31,7 @@ void Board::initialize(char play1, char play2, CellCounter *counter) {
 
 
 void Board::print() const {
-    this->printer->print(matrix, size, getPoints());
+    this->printer->printBoard(matrix, size, getPoints());
 }
 
 Cell *Board::getCell(Coordinate pos) const {
@@ -117,11 +116,10 @@ Board::~Board() {
         delete[] matrix[row];
     }
     delete[] matrix;
-    delete printer;
 }
 
 Board* Board::clone() const {
-    Board *cloneBoard = new Board(this->size, ' ', ' ', this->counter->clone());
+    Board *cloneBoard = new Board(this->size, ' ', ' ', this->counter->clone(), printer);
     for (int row = 1; row <= size; row++) {
         for (int col = 1; col <= size; col++) {
             cloneBoard->getCell(row, col)->setContent(this->getCell(row, col)->getContent());

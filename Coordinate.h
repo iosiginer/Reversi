@@ -1,3 +1,7 @@
+//
+// Created by iosi on 11/3/17.
+//
+
 #ifndef REVERSI_COORDINATE_H
 #define REVERSI_COORDINATE_H
 
@@ -52,6 +56,12 @@ public:
      * @return Coordinate - direction to next cell.
      */
     Coordinate *getDirectionTo(Coordinate *) const;
+
+    /**
+     * Overloading for operator ==
+     * @return true for euqal, otherwise false.
+     */
+    bool operator ==(const Coordinate&);
 
 };
 

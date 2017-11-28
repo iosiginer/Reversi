@@ -66,7 +66,11 @@ public:
      * @param current  - the new content of the flipped Cell.
      */
     void sumOne(char previous, char current);
-
+    /**
+     * Overloading for operator ==
+     * @return true for euqal, otherwise false.
+     */
+    bool operator ==(const Cell&);
     /**
      * Destructor.
      */
