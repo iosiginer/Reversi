@@ -1,7 +1,3 @@
-//
-// Created by iosi on 10/11/17.
-//
-
 #include "BoardConsolePrinter.h"
 
 
