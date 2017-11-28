@@ -1,7 +1,3 @@
-//
-// Created by iosi on 11/3/17.
-//
-
 #include "Coordinate.h"
 
 Coordinate::Coordinate(int row, int col) : row(row), col(col) {}
