@@ -1,8 +1,3 @@
-/**
- * Josef Ginerman 332494830
- * Barak Talmor 308146240
- */
-
 #ifndef REVERSI_AIPLAYER_H
 #define REVERSI_AIPLAYER_H
 
