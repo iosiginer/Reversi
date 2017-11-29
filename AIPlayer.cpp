@@ -28,7 +28,7 @@ char AIPlayer::getContent() const {
 Move *AIPlayer::move(vector<Move *> possibleMoves) {
     map<Move *, int> movesMap = getMovesMap(possibleMoves);
     if (movesMap.size() == 1) {
-        printer->printStream("The computer played" + movesMap.begin()->first->getCoordinateAsString());
+        printer->printStream("The computer played" + movesMap.begin()->first->getCoordinateAsString() + "\n");
         return movesMap.begin()->first;
     }
     map<Move *, int>::iterator it;
@@ -41,17 +41,17 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
         }
         if (it->second == minGain) {
             int randomChoice = rand() % 10;
-            if (randomChoice < 8) { chosenMove = it->first; }
+            if (randomChoice < 7) { chosenMove = it->first; }
         }
     }
-    printer->printStream("The computer played" + chosenMove->getCoordinateAsString());
+    printer->printStream("The computer played" + chosenMove->getCoordinateAsString() + "\n");
     return chosenMove;
 }
 
 
 map<Move *, int> AIPlayer::getMovesMap(vector<Move *> possibleMoves) {
     map<Move *, int> movesMap; // map to store each move with its correspondent max opponent gain
-    Player *dummyPlayer = new HumanPlayer(oppContent);
+    Player *dummyPlayer = new HumanPlayer(oppContent,printer);
     vector<Move *> opponentMoves;
     // Loop through each possible move the AIPlayer has, and for each find the maximum score the opposing
     // player can achieve

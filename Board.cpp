@@ -45,12 +45,13 @@ Cell *Board::getCell(int row, int col) const {
 }
 
 vector<Coordinate> Board::getNeighbours(int row, int column) {
+    const int maxNeighbours = 8;
     vector<Coordinate> neighbours;
     Coordinate coor = Coordinate(row + 1, column + 1);
     Coordinate directions[] = {Coordinate(-1, -1), Coordinate(-1, 0), Coordinate(-1, 1), Coordinate(0, -1),
                                Coordinate(0, 1), Coordinate(1, -1), Coordinate(1, 0), Coordinate(1, 1),};
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < maxNeighbours; i++) {
         Coordinate position = coor.sum(&directions[i]);
         if (this->contains(position)) {
             neighbours.push_back(position);

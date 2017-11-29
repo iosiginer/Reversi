@@ -20,5 +20,5 @@ void ConsolePrinter::printBoard(Cell ***board, int size, int points) const {
 }
 
 void ConsolePrinter::printStream(string str) const {
-    cout << str << endl;
+    cout << str;
 }

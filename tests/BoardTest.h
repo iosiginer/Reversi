@@ -15,16 +15,19 @@ struct BoardTest : testing::Test {
     Player* blackPlayer;
     Player* whitePlayer;
     Move* move;
+    Printer *printer;
     BoardTest() {
         board = new Board();
-        blackPlayer = new HumanPlayer('X');
-        whitePlayer = new HumanPlayer('O');
+        printer = new ConsolePrinter();
+        blackPlayer = new HumanPlayer('X', printer);
+        whitePlayer = new HumanPlayer('O', printer);
     }
 
     ~BoardTest() {
         delete(board);
         delete(blackPlayer);
         delete(whitePlayer);
+        delete(printer);
     }
 };
 

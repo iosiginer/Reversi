@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include "GameFlow.h"
-#include "ConsolePrinter.h"
+#include "Menu.h"
 
 using namespace std;
 

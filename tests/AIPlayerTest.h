@@ -20,7 +20,7 @@ struct AIPlayerTest : testing::Test{
         logic = new ClassicLogic();
         printer = new ConsolePrinter();
         aPlayer = new AIPlayer('X', 'O', board, *logic, printer);
-        humanPlayer = new HumanPlayer('X');
+        humanPlayer = new HumanPlayer('X', printer);
     }
 
     ~AIPlayerTest() {
@@ -28,6 +28,7 @@ struct AIPlayerTest : testing::Test{
         delete(logic);
         delete(aPlayer);
         delete(humanPlayer);
+        delete(printer);
         for (int i = 0; i < moves.size(); i++) { delete moves[i]; }
         moves.clear();
     }

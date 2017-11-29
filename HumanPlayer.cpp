@@ -1,7 +1,7 @@
 #include <limits>
 #include "HumanPlayer.h"
 
-HumanPlayer::HumanPlayer(char content) : content(content) {}
+HumanPlayer::HumanPlayer(char content, Printer *printer) : content(content), printer(printer) {}
 
 
 Move *HumanPlayer::move(vector<Move *> possibleMoves) {
@@ -12,7 +12,7 @@ Move *HumanPlayer::move(vector<Move *> possibleMoves) {
     Move *move = NULL;
     do {
         showPossibleMoves(possibleMoves);
-        cout << "Please enter your move row,col: ";
+        printer->printStream("Please enter your move row,col: ");
         cin >> row >> comma >> col;
         checkInput(rowRef, colRef);
         for (int i = 0; i < possibleMoves.size(); i++) {
@@ -25,10 +25,11 @@ Move *HumanPlayer::move(vector<Move *> possibleMoves) {
             }
         }
         if (!validMove) {
-            cout << "Wrong move, please try again." << endl;
+            printer->printStream("Wrong move, please try again.\n");
         }
     } while (!validMove);
-    cout << "You picked " << move->getCoordinateAsString() << endl;
+    printer->printStream("You picked " + move->getCoordinateAsString() + "\n");
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return move;
 }
 
@@ -39,12 +40,13 @@ bool HumanPlayer::isOpponent(char adv) const {
 
 
 void HumanPlayer::showPossibleMoves(vector<Move *> moves) const {
-    cout << "You play with: " << this->content << endl;
-    cout << "You possible moves are: ";
+    ostringstream cont;
+    cont << this->content;
+    printer->printStream("You play with: " + cont.str() + "\n" + "You possible moves are: ");
     for (int i = 0; i < moves.size(); i++) {
-        cout << " " << moves[i]->getCoordinateAsString() << " ";
+        printer->printStream(" " + moves[i]->getCoordinateAsString() + " ");
     }
-    cout << endl << endl;
+    printer->printStream("\n\n");
 }
 
 char HumanPlayer::getContent() const {

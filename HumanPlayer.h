@@ -3,6 +3,7 @@
 
 
 #include "Player.h"
+#include "Printer.h"
 
 /**
  * Class for a Human player playing from the Console.
@@ -11,6 +12,7 @@
 class HumanPlayer : public Player {
 private:
     char content;
+    Printer *printer;
 
     /**
      * Checks the input given by the user, to check if it is of form (int,int).
@@ -25,7 +27,7 @@ public:
      * Constructor. Recieves a char to act as content of the player throughout the Game.
      * @param content char - the content for the Player.
      */
-    HumanPlayer(char content);
+    HumanPlayer(char content, Printer *printer);
 
     /**
      * Performs a move on the Board, according to input by the user.
