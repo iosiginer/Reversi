@@ -1,12 +1,13 @@
 #include <cstdlib>
 #include <cstdio>
 #include "GameFlow.h"
+#include "Menu.h"
 
 
 GameFlow::GameFlow(char first, char second, int size, Printer *printer) : printer(printer) {
     this->board = new Board(size, first, second, printer);
     this->logic = new ClassicLogic();
-    this->player1 = new HumanPlayer(first);
+    this->player1 = new HumanPlayer(first, printer);
     initPlayer2(first, second);
     this->player1Turn = true;
     this->noMove = false;
@@ -14,11 +15,10 @@ GameFlow::GameFlow(char first, char second, int size, Printer *printer) : printe
 }
 
 void GameFlow::initPlayer2(char first, char second) {
-    int choice;
-    cout << "Choose against who you want to play: \n\t 1. Human \n\t 2. AI" << endl;
-    cin >> choice;
-    if (choice == 1) {
-        this->player2 = new HumanPlayer(second);
+    Menu menu(printer);
+    if ((menu.runMenu()) == 1) {
+        cout << "here";
+        this->player2 = new HumanPlayer(second, printer);
     } else {
         this->player2 = new AIPlayer(second, first, board, *this->logic, printer);
     }
@@ -28,11 +28,11 @@ void GameFlow::playOneTurn() {
     board->print();
     Player *player;
     if (player1Turn) {
-        printer->printStream("Player 1 it's your turn!");
+        printer->printStream("Player 1 it's your turn!\n");
         player = player1;
         this->player1Turn = false;
     } else {
-        printer->printStream("Player 2 it's your turn!");
+        printer->printStream("Player 2 it's your turn!\n");
         player = player2;
         this->player1Turn = true;
     }
@@ -44,7 +44,7 @@ void GameFlow::playOneTurn() {
             noMoreMoves = true;
         }
         printer->printStream("No possible moves. Play passes back to the other player."
-                                     " Press any key to continue.");
+                                     " Press any key to continue.\n");
         char c = static_cast<char>(getchar());
         cout << c;
         cout << c;
@@ -66,7 +66,7 @@ void GameFlow::gameOver() const {
     board->print();
     int winner = board->getWinner();
     if (0 == winner) {
-        printer->printStream("It's a tie!!");
+        printer->printStream("It's a tie!!\n");
     } else {
         int points1 = board->getPlayer1Points();
         int points2 = board->getPlayer2Points();
@@ -75,7 +75,7 @@ void GameFlow::gameOver() const {
         maxPoint << max(points1,points2);
         minPoint << min(points1,points2);
         printer->printStream("Player " + win.str() + " has won with a score of " +
-                                     maxPoint.str() + " against " + minPoint.str());
+                                     maxPoint.str() + " against " + minPoint.str() + "\n");
     }
 }
 

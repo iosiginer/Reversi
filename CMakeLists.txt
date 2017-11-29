@@ -34,7 +34,7 @@ set(SOURCE_FILES
         CellCounter.h
         AIPlayer.cpp
         AIPlayer.h
-        Cloneable.h)
+        Cloneable.h Menu.h Menu.cpp)
 set(TEST_FILES
         tests/aIPlayer_test.cpp
         tests/AIPlayerTest.h
