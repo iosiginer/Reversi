@@ -67,7 +67,7 @@ map<Move *, int> AIPlayer::getMovesMap(vector<Move *> possibleMoves) {
             movesMap.insert(map<Move *, int>::value_type(possibleMoves[i], 0));
             return movesMap;
         }
-        int score = testBoard->getPoints();
+        int score = testBoard->getPlayer1Points() - testBoard->getPlayer2Points();
         int currentScore, maxScore = score;
         for (int j = 0; j < opponentMoves.size(); j++) {
             currentScore = score + opponentMoves[j]->getGain() * 2 + 1;

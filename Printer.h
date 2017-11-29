@@ -15,7 +15,7 @@ public:
      * @param size - the size of the Board.
      * @param message - an optional message to print for the user.
      */
-    virtual void printBoard(Cell ***board, int size, int points) const = 0;
+    virtual void printBoard(Cell ***board, int size, string points) const = 0;
 
     /**
      * Print the stream to the interface

@@ -46,8 +46,6 @@ void GameFlow::playOneTurn() {
         printer->printStream("No possible moves. Play passes back to the other player."
                                      " Press any key to continue.\n");
         char c = static_cast<char>(getchar());
-        cout << c;
-        cout << c;
     } else {
         noMove = false;
         board->applyMove(player->move(possibleMoves), player);

@@ -1,5 +1,4 @@
 #include "Board.h"
-#include "ConsolePrinter.h"
 
 Board::Board(int size, char play1, char play2, Printer *printer) : size(size), printer(printer) {
     this->matrix = new Cell **[size];
@@ -104,8 +103,12 @@ int Board::getPlayer2Points() const {
     return counter->getPoints2();
 }
 
-int Board::getPoints() const {
-    return counter->getPoints1() - counter->getPoints2();
+string Board::getPoints() const {
+    ostringstream p1Convert;
+    ostringstream p2Convert;
+    p1Convert << counter->getPoints1();
+    p2Convert << counter->getPoints2();
+    return "Points: Player 1: " + p1Convert.str() + " vs. Player 2: " + p2Convert.str();
 }
 
 Board::~Board() {

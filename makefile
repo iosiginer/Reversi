@@ -8,3 +8,5 @@ a.out: compileAll
 
 compileAll: *.h *.cpp
 	g++ -c *.cpp
+
+
