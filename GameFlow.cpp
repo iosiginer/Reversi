@@ -9,9 +9,7 @@ GameFlow::GameFlow(char first, char second, int size, Printer *printer) : printe
     this->logic = new ClassicLogic();
     this->player1 = new HumanPlayer(first, printer);
     initPlayer2(first, second);
-    this->player1Turn = true;
-    this->noMove = false;
-    this->noMoreMoves = false;
+    this->turnManager = new TurnManager(player1, player2);
 }
 
 void GameFlow::initPlayer2(char first, char second) {
@@ -26,35 +24,23 @@ void GameFlow::initPlayer2(char first, char second) {
 
 void GameFlow::playOneTurn() {
     board->print();
-    Player *player;
-    if (player1Turn) {
-        printer->printStream("Player 1 it's your turn!\n");
-        player = player1;
-        this->player1Turn = false;
-    } else {
-        printer->printStream("Player 2 it's your turn!\n");
-        player = player2;
-        this->player1Turn = true;
-    }
+    Player *player = turnManager->nextPlayer();
     vector<Move *> possibleMoves = logic->getPossibleMoves(player, board);
     if (possibleMoves.empty()) {
-        if (!noMove) {
-            noMove = true;
-        } else {
-            noMoreMoves = true;
-        }
+        turnManager->noMove();
         printer->printStream("No possible moves. Play passes back to the other player."
                                      " Press any key to continue.\n");
         char c = static_cast<char>(getchar());
     } else {
-        noMove = false;
+        turnManager->yesMove();
         board->applyMove(player->move(possibleMoves), player);
+        // delete extra data
         for (int i = 0; i < possibleMoves.size(); i++) { delete possibleMoves[i]; }
     }
 }
 
 void GameFlow::run() {
-    while (!board->gameOver() && !noMoreMoves) {
+    while (!board->gameOver() && !turnManager->noMoreMoves()) {
         playOneTurn();
     }
     gameOver();
@@ -84,3 +70,4 @@ GameFlow::~GameFlow() {
     delete board;
     delete printer;
 }
+

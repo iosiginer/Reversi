@@ -60,3 +60,8 @@ ClassicLogic::validDirection(Coordinate *pos, Player *player, Coordinate *direct
     }
     return true;
 }
+
+Move *ClassicLogic::getMoveByPosition(Coordinate *pos, Player *player, Board *board) {
+    int gain = 0;
+    return new Move(pos, getDirections(*pos, player, &gain, board));
+}

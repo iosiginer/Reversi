@@ -20,11 +20,14 @@ private:
      * @return bool - true only if the direction gives any gains for the Move.
      */
     bool validDirection(Coordinate *, Player *, Coordinate *, int *, Board *) const;
+
 public:
     /**
      * Constructor for ClassicLogic.
      */
     ClassicLogic();
+
+    Move *getMoveByPosition(Coordinate *pos, Player *player, Board *board);
 
     /**
      * Analizes each empty cell and finds all the possible moves for the Player.

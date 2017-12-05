@@ -6,6 +6,7 @@
 #include "ClassicLogic.h"
 #include "HumanPlayer.h"
 #include "AIPlayer.h"
+#include "TurnManager.h"
 
 /**
  * Class in charge of holding all other classes and controling the Flow of the Game (duh...).
@@ -19,9 +20,7 @@ private:
     Player *player1;
     Player *player2;
     Printer *printer;
-    bool player1Turn;
-    bool noMove;
-    bool noMoreMoves;
+    TurnManager *turnManager;
 
     /**
      * Let one player play.
@@ -39,10 +38,12 @@ private:
     void initPlayer2(char first, char second);
 
 public:
+
+    GameFlow(Player *, Player *, int = 8, Printer *printer = new ConsolePrinter());
     /**
      * Constructor. Gets two chars and an int, used to create the Board and the Players.
      */
-    explicit GameFlow(char = 'X', char = 'O', int = 8, Printer *printer = new ConsolePrinter());
+    GameFlow(char = 'X', char = 'O', int = 8, Printer *printer = new ConsolePrinter());
 
     /**
      * Perform the loop that allows the Game to be played.
