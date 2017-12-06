@@ -1,8 +1,3 @@
-/**
- * Barak Talmor
- * 308146240
- */
-
 #include <limits>
 #include "Menu.h"
 
