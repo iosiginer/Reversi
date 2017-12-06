@@ -32,7 +32,11 @@ private:
      */
     void gameOver() const;
 
-    void initPlayer2(Color first, Color second);
+    /**
+     * Prints the Menu options, and lets the user decide.
+     * According to the User choice, it creates the players.
+     */
+    void runMenu();
 
 
 public:

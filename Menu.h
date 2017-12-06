@@ -14,7 +14,7 @@ public:
      * Running the menu and return the choice
      * @return choice
      */
-    int runMenu(/*Player *player1, Player *player2, Board *board, GameLogic &logic*/) const;
+    void runMenu(Player *player1, Player *player2, Board *board, GameLogic &logic) const;
 private:
     Printer *printer;
 };

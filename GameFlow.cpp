@@ -1,25 +1,40 @@
 #include <cstdlib>
 #include <cstdio>
+#include <limits>
 #include "GameFlow.h"
-#include "Menu.h"
 
 
 GameFlow::GameFlow(int size, Printer *printer) : printer(printer) {
     this->board = new Board(BLACK, WHITE, size, printer);
     this->logic = new ClassicLogic();
-    this->player1 = new HumanPlayer(BLACK, printer);
-    initPlayer2(BLACK, WHITE);
-    // Menu menu(printer);
-    // menu.runMenu(player1, player2, board, *logic);
+    runMenu();
     this->turnManager = new TurnManager(player1, player2);
 }
 
-void GameFlow::initPlayer2(Color first, Color second) {
-    Menu menu(printer);
-    if ((menu.runMenu()) == 1) {
-        this->player2 = new HumanPlayer(second, printer);
-    } else {
-        this->player2 = new AIPlayer(second, first, board, *this->logic, printer);
+void GameFlow::runMenu() {
+    int choice;
+    printer->printStream("Choose against who you want to play: \n\t 1. Human \n\t 2. AI\n\t 3. Network\n");
+    cin >> choice;
+    while (cin.fail() || (choice > 3)) {
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        printer->printStream("Wrong choice, try again \n");
+        cin >> choice;
+    }
+    switch (choice) {
+        case 1:
+        default:
+            this->player1 = new HumanPlayer(BLACK, printer);
+            this->player2 = new HumanPlayer(WHITE, printer);
+            break;
+        case 2:
+            this->player1 = new HumanPlayer(BLACK, printer);
+            this->player2 = new AIPlayer(WHITE, BLACK, board, *logic, printer);
+            break;
+        case 3: // TODO CHANGE TO NETWORK
+            this->player1 = new HumanPlayer(BLACK, printer);
+            this->player2 = new HumanPlayer(WHITE, printer);
+
     }
 }
 
