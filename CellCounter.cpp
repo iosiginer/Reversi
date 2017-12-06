@@ -5,22 +5,23 @@
 
 #include "CellCounter.h"
 
-CellCounter::CellCounter(char player1, char player2) : player1(player1), player2(player2) {
+CellCounter::CellCounter() {
+    player1 = BLACK;
+    player2 = WHITE;
     points1 = points2 = 2;
 }
 
 
-CellCounter::CellCounter(char player1, char player2, int points1, int points2) : player1(player1), player2(player2),
-                                                                                 points1(points1), points2(points2) {}
+CellCounter::CellCounter(int points1, int points2) : points1(points1), points2(points2) {}
 
 
-void CellCounter::changeValue(char previous, char current) {
+void CellCounter::changeValue(Color previous, Color current) {
     if (current == player1) {
         points1 += 1;
-        if (previous != ' ') { points2 -= 1; }
+        if (previous != EMPTY) { points2 -= 1; }
     } else if (current == player2) {
         points2 += 1;
-        if (previous != ' ') { points1 -= 1; }
+        if (previous != EMPTY) { points1 -= 1; }
     }
 }
 
@@ -43,5 +44,5 @@ int CellCounter::getPoints2() const {
 }
 
 CellCounter *CellCounter::clone() const {
-    return new CellCounter(this->player1, this->player2, this->points1, this->points2);
+    return new CellCounter(this->points1, this->points2);
 }

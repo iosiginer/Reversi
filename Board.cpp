@@ -1,33 +1,25 @@
 #include "Board.h"
 
-Board::Board(int size, char play1, char play2, Printer *printer) : size(size), printer(printer) {
+Board::Board(Color color1, Color color2, int size, Printer *printer, CellCounter *counter) : size(size),
+                                                                                             counter(counter),
+                                                                                             printer(printer) {
     this->matrix = new Cell **[size];
-    this->counter = new CellCounter(play1, play2);
-    initialize(play1, play2, counter);
-}
-
-Board::Board(int size, char play1, char play2, CellCounter *counter, Printer *printer) : size(size),
-                                                                                         counter(counter),
-                                                                                         printer(printer){
-    this->matrix = new Cell **[size];
-    initialize(play1, play2, counter);
-}
-
-
-void Board::initialize(char play1, char play2, CellCounter *counter) {
+    this->colorP1 = color1;
+    this->colorP2 = color2;
     for (int row = 0; row < size; row++) {
         this->matrix[row] = new Cell *[size];
         for (int col = 0; col < size; col++) {
-            this->matrix[row][col] = new Cell(new Coordinate(row + 1, col + 1), counter, getNeighbours(row, col));
+            Coordinate *coordinate = new Coordinate(row + 1, col + 1);
+            vector<Coordinate> neighbours = getNeighbours(row, col);
+            this->matrix[row][col] = new Cell(coordinate, counter, neighbours);
         }
     }
     int middle = size / 2;
-    matrix[middle][middle - 1]->setContent(play1);
-    matrix[middle - 1][middle]->setContent(play1);
-    matrix[middle][middle]->setContent(play2);
-    matrix[middle - 1][middle - 1]->setContent(play2);
+    matrix[middle][middle - 1]->setContent(colorP1);
+    matrix[middle - 1][middle]->setContent(colorP1);
+    matrix[middle][middle]->setContent(colorP2);
+    matrix[middle - 1][middle - 1]->setContent(colorP2);
 }
-
 
 void Board::print() const {
     this->printer->printBoard(matrix, size, getPoints());
@@ -44,7 +36,7 @@ Cell *Board::getCell(int row, int col) const {
 }
 
 vector<Coordinate> Board::getNeighbours(int row, int column) {
-    const int maxNeighbours = 8;
+    int maxNeighbours = 8;
     vector<Coordinate> neighbours;
     Coordinate coor = Coordinate(row + 1, column + 1);
     Coordinate directions[] = {Coordinate(-1, -1), Coordinate(-1, 0), Coordinate(-1, 1), Coordinate(0, -1),
@@ -122,8 +114,8 @@ Board::~Board() {
     delete[] matrix;
 }
 
-Board* Board::clone() const {
-    Board *cloneBoard = new Board(this->size, ' ', ' ', this->counter->clone(), printer);
+Board *Board::clone() const {
+    Board *cloneBoard = new Board(colorP1, colorP2, this->size, printer, this->counter->clone());
     for (int row = 1; row <= size; row++) {
         for (int col = 1; col <= size; col++) {
             cloneBoard->getCell(row, col)->setContent(this->getCell(row, col)->getContent());

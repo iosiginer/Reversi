@@ -22,7 +22,7 @@ struct ClassicLogicTest : testing::Test {
         board = new Board();
         logic = new ClassicLogic();
         printer = new ConsolePrinter();
-        player = new HumanPlayer('X', printer);
+        player = new HumanPlayer(BLACK, printer);
     }
 
     ~ClassicLogicTest() {

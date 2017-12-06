@@ -24,8 +24,8 @@ TEST_F(ClassicLogicTest, moves) {
 
 TEST_F(ClassicLogicTest, noMoves) {
     //Making board without moves for 'X'
-    board->getCell(4,4)->setContent('X');
-    board->getCell(5,5)->setContent('X');
+    board->getCell(4, 4)->setContent(BLACK);
+    board->getCell(5, 5)->setContent(BLACK);
     moves = logic->getPossibleMoves(player, board);
     //Checking if the vector didn't get moves
     EXPECT_TRUE(moves.empty());

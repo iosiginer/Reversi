@@ -3,16 +3,16 @@
 #include "HumanPlayer.h"
 
 
-AIPlayer::AIPlayer(char content, char oppContent, Board *board, GameLogic &logic,
-                                                                Printer *printer) : content(content),
+AIPlayer::AIPlayer(Color content, Color oppContent, Board *board, GameLogic &logic,
+                   Printer *printer) : content(content),
                                                                                     oppContent(oppContent),
                                                                                     logic(logic),
                                                                                     cleanBoard(board),
                                                                                     printer(printer){
 }
 
-bool AIPlayer::isOpponent(char adv) const {
-    return (content != adv && adv != ' ' && adv != '*');
+bool AIPlayer::isOpponent(Color adv) const {
+    return (content != adv && adv != WHITE);
 }
 
 void AIPlayer::conquerCell(Cell *cell) {
@@ -21,7 +21,7 @@ void AIPlayer::conquerCell(Cell *cell) {
 }
 
 
-char AIPlayer::getContent() const {
+Color AIPlayer::getContent() const {
     return this->content;
 }
 

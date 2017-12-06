@@ -1,7 +1,7 @@
 #include <limits>
 #include "HumanPlayer.h"
 
-HumanPlayer::HumanPlayer(char content, Printer *printer) : content(content), printer(printer) {}
+HumanPlayer::HumanPlayer(Color content, Printer *printer) : content(content), printer(printer) {}
 
 
 Move *HumanPlayer::move(vector<Move *> possibleMoves) {
@@ -34,8 +34,8 @@ Move *HumanPlayer::move(vector<Move *> possibleMoves) {
 }
 
 
-bool HumanPlayer::isOpponent(char adv) const {
-    return (content != adv && adv != ' ' && adv != '*');
+bool HumanPlayer::isOpponent(Color adv) const {
+    return (content != adv && adv != EMPTY);
 }
 
 
@@ -49,7 +49,7 @@ void HumanPlayer::showPossibleMoves(vector<Move *> moves) const {
     printer->printStream("\n\n");
 }
 
-char HumanPlayer::getContent() const {
+Color HumanPlayer::getContent() const {
     return this->content;
 }
 

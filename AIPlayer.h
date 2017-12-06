@@ -13,7 +13,7 @@
  */
 class AIPlayer : public Player {
 private:
-    char content, oppContent;
+    Color content, oppContent;
     Board *cleanBoard;
     GameLogic &logic;
     Printer *printer;
@@ -26,7 +26,7 @@ public:
      * @param content  - the content of this player.
      * @param oppContent - the content of the opponent.
      */
-    AIPlayer(char content, char oppContent, Board *, GameLogic &, Printer *printer);
+    AIPlayer(Color content, Color oppContent, Board *, GameLogic &, Printer *printer);
 
     /**
      * Perform the logics of picking a move for this turn.
@@ -39,7 +39,7 @@ public:
      * Checks to see if the given content belongs to the opposing player.
      * @return bool - true if the char belongs to the opponent
      */
-    virtual bool isOpponent(char) const;
+    virtual bool isOpponent(Color) const;
 
     /**
      * Set the Cell's content to be the same as the Player's own.
@@ -48,9 +48,9 @@ public:
 
     /**
      * Gets the content of the Player, the color.
-     * @return char - the char representing the player.
+     * @return Color - the char representing the player.
      */
-    char getContent() const;
+    virtual Color getContent() const;
 
     /**
      * Destructor.

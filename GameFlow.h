@@ -32,18 +32,15 @@ private:
      */
     void gameOver() const;
 
-    /**
-     * The method initialize the second player by user choice: AI or Human.
-     */
-    void initPlayer2(char first, char second);
+    void initPlayer2(Color first, Color second);
+
 
 public:
 
-    GameFlow(Player *, Player *, int = 8, Printer *printer = new ConsolePrinter());
     /**
      * Constructor. Gets two chars and an int, used to create the Board and the Players.
      */
-    GameFlow(char = 'X', char = 'O', int = 8, Printer *printer = new ConsolePrinter());
+    GameFlow(int = 8, Printer *printer = new ConsolePrinter());
 
     /**
      * Perform the loop that allows the Game to be played.

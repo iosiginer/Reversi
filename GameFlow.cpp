@@ -4,18 +4,19 @@
 #include "Menu.h"
 
 
-GameFlow::GameFlow(char first, char second, int size, Printer *printer) : printer(printer) {
-    this->board = new Board(size, first, second, printer);
+GameFlow::GameFlow(int size, Printer *printer) : printer(printer) {
+    this->board = new Board(BLACK, WHITE, size, printer);
     this->logic = new ClassicLogic();
-    this->player1 = new HumanPlayer(first, printer);
-    initPlayer2(first, second);
+    this->player1 = new HumanPlayer(BLACK, printer);
+    initPlayer2(BLACK, WHITE);
+    // Menu menu(printer);
+    // menu.runMenu(player1, player2, board, *logic);
     this->turnManager = new TurnManager(player1, player2);
 }
 
-void GameFlow::initPlayer2(char first, char second) {
+void GameFlow::initPlayer2(Color first, Color second) {
     Menu menu(printer);
     if ((menu.runMenu()) == 1) {
-        cout << "here";
         this->player2 = new HumanPlayer(second, printer);
     } else {
         this->player2 = new AIPlayer(second, first, board, *this->logic, printer);
@@ -40,7 +41,7 @@ void GameFlow::playOneTurn() {
 }
 
 void GameFlow::run() {
-    while (!board->gameOver() && !turnManager->noMoreMoves()) {
+    while (!(board->gameOver() || turnManager->noMoreMoves())) {
         playOneTurn();
     }
     gameOver();
@@ -56,10 +57,10 @@ void GameFlow::gameOver() const {
         int points2 = board->getPlayer2Points();
         ostringstream win, maxPoint, minPoint;
         win << winner;
-        maxPoint << max(points1,points2);
-        minPoint << min(points1,points2);
+        maxPoint << max(points1, points2);
+        minPoint << min(points1, points2);
         printer->printStream("Player " + win.str() + " has won with a score of " +
-                                     maxPoint.str() + " against " + minPoint.str() + "\n");
+                             maxPoint.str() + " against " + minPoint.str() + "\n");
     }
 }
 

@@ -2,21 +2,22 @@
 #define REVERSI_CELLCOUNTER_H
 
 #include <iostream>
+#include "Color.h"
 #include "Cloneable.h"
 
 using namespace std;
 
 class CellCounter : public Cloneable {
 private:
-    char player1, player2;
+    Color player1, player2;
     int points1, points2;
 
 public:
-    CellCounter(char player1 = 'X', char player2 = 'O');
+    CellCounter();
 
-    CellCounter(char player1, char player2, int points1, int points2);
+    CellCounter(int points1, int points2);
 
-    void changeValue(char previous, char current);
+    void changeValue(Color previous, Color current);
 
     int getWinner() const;
 

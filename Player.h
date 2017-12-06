@@ -23,12 +23,18 @@ public:
      * Checks whether a Cell's content belongs to the opponent.
      * @return true if the Cell's content is not empty and is different from own content.
      */
-    virtual bool isOpponent(char) const = 0;
+    virtual bool isOpponent(Color) const = 0;
 
     /**
      * Set the Cell's content to be the same as the Player's own.
      */
     virtual void conquerCell(Cell *) = 0;
+
+    /**
+     * Gets the content of the Player.
+     * @return Color - the color with which the player plays.
+     */
+    virtual Color getContent() const = 0;
 
     /**
      * Destructor.

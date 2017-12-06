@@ -1,6 +1,7 @@
 #ifndef REVERSI_BOARD_H
 #define REVERSI_BOARD_H
 
+#include "Color.h"
 #include "Move.h"
 #include "Printer.h"
 #include "Player.h"
@@ -21,13 +22,12 @@ private:
     Cell ***matrix;
     CellCounter *counter;
     Printer *printer;
+    Color colorP1, colorP2;
 
     /**
      * Recieves a direction to move towards, and flip every Cell until it reaches one that belongs to the Player.
      */
     void flipGains(Coordinate *startingPos, Player *currentPlayer, Coordinate *directionToMoveTo);
-
-    void initialize(char play1, char play2, CellCounter *counter);
 
     /**
     * Finds which are the neighbouring Cells of the given Cell, and assigns them to it.
@@ -35,13 +35,6 @@ private:
     vector<Coordinate> getNeighbours(int row, int column);
 
 public:
-    /**
-     * Constructor. Has all default arguments that can be changed by hand or by arguments in the Terminal.
-     * @param play1 - the content for Player 1.
-     * @param play2 - the content for Player 2.
-     * @param size  - the desired size of the Board.
-     */
-    Board(int size = 8, char play1 = 'X', char play2 = 'O', Printer *printer = new ConsolePrinter());
 
     /**
     * Constructor. Has all default arguments that can be changed by hand or by arguments in the Terminal.
@@ -50,7 +43,8 @@ public:
     * @param size  - the desired size of the Board.
     * @param counter - the counter cells of the Board.
     */
-    Board(int size, char play1, char play2, CellCounter *counter, Printer *printer);
+    Board(Color = BLACK, Color = WHITE, int size = 8,
+          Printer *printer = new ConsolePrinter(), CellCounter *counter = new CellCounter());
 
     /**
      * Calls an outern Printer class to deal with showing the Board on the GUI.

@@ -19,8 +19,8 @@ struct AIPlayerTest : testing::Test{
         board = new Board();
         logic = new ClassicLogic();
         printer = new ConsolePrinter();
-        aPlayer = new AIPlayer('X', 'O', board, *logic, printer);
-        humanPlayer = new HumanPlayer('X', printer);
+        aPlayer = new AIPlayer(BLACK, WHITE, board, *logic, printer);
+        humanPlayer = new HumanPlayer(BLACK, printer);
     }
 
     ~AIPlayerTest() {

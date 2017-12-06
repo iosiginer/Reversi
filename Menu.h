@@ -2,6 +2,7 @@
 #define REVERSI_MENU_H
 
 #include "Printer.h"
+#include "GameFlow.h"
 
 class Menu {
 public:
@@ -13,7 +14,7 @@ public:
      * Running the menu and return the choice
      * @return choice
      */
-    int runMenu() const;
+    int runMenu(/*Player *player1, Player *player2, Board *board, GameLogic &logic*/) const;
 private:
     Printer *printer;
 };

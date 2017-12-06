@@ -19,8 +19,8 @@ struct BoardTest : testing::Test {
     BoardTest() {
         board = new Board();
         printer = new ConsolePrinter();
-        blackPlayer = new HumanPlayer('X', printer);
-        whitePlayer = new HumanPlayer('O', printer);
+        blackPlayer = new HumanPlayer(BLACK, printer);
+        whitePlayer = new HumanPlayer(WHITE, printer);
     }
 
     ~BoardTest() {

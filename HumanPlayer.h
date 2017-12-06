@@ -11,7 +11,7 @@
  */
 class HumanPlayer : public Player {
 private:
-    char content;
+    Color content;
     Printer *printer;
 
     /**
@@ -27,7 +27,7 @@ public:
      * Constructor. Recieves a char to act as content of the player throughout the Game.
      * @param content char - the content for the Player.
      */
-    HumanPlayer(char content, Printer *printer);
+    HumanPlayer(Color content, Printer *printer);
 
     /**
      * Performs a move on the Board, according to input by the user.
@@ -41,13 +41,13 @@ public:
      * Checks whether a Cell's content belongs to the opponent.
      * @return true if the Cell's content is not empty and is different from own content.
      */
-    virtual bool isOpponent(char) const;
+    virtual bool isOpponent(Color) const;
 
     /**
      * Getter for the content.
-     * @return char - the content of the Player.
+     * @return Color - the content of the Player.
      */
-    virtual char getContent() const;
+    virtual Color getContent() const;
 
     /**
      * Set the Cell's content to be the same as the Player's own.

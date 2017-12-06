@@ -38,7 +38,9 @@ set(SOURCE_FILES
         Menu.h
         Menu.cpp
         TurnManager.cpp
-        TurnManager.h)
+        TurnManager.h
+        Color.h
+        )
 
 set(TEST_FILES
         tests/aIPlayer_test.cpp

@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include "Color.h"
 #include "Coordinate.h"
 #include "CellCounter.h"
 #include "Cloneable.h"
@@ -15,25 +16,26 @@ class Cell {
 private:
     Coordinate *position;
     CellCounter *counter;
-    char content;
+    Color content;
     vector<Coordinate> neighbours;
 
 public:
+
     /**
      * Constructor. Recieves a Coordinate, a pointer to the Counter, and content.
      */
-    Cell(Coordinate *, CellCounter *, vector<Coordinate> neighbours, char = ' ');
+    Cell(Coordinate *, CellCounter *, vector<Coordinate> neighbours);
 
     /**
      * Getter for the Cell's content.
      * @return char - content.
      */
-    char getContent() const;
+    Color getContent() const;
 
     /**
      * Setter for the Cell's content.
      */
-    void setContent(char);
+    void setContent(Color);
 
     /**
      * Getter for the list (vector) of the Cell's neighbouring Cells.
@@ -65,7 +67,7 @@ public:
      * @param previous - the previous content of the flipped Cell.
      * @param current  - the new content of the flipped Cell.
      */
-    void sumOne(char previous, char current);
+    void sumOne(Color previous, Color current);
     /**
      * Overloading for operator ==
      * @return true for euqal, otherwise false.
