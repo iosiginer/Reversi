@@ -21,7 +21,7 @@ private:
     Player *player2;
     Printer *printer;
     TurnManager *turnManager;
-    Move *lastMove;
+    Coordinate *lastMove;
 
     /**
      * Let one player play.

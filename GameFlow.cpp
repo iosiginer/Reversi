@@ -7,7 +7,7 @@
 
 
 GameFlow::GameFlow(int size, Printer *printer) : printer(printer) {
-    this->board = new Board(BLACK, WHITE, size, printer);
+    this->board = new Board(BLACK, WHITE, 4, printer);
     this->logic = new ClassicLogic();
     this->lastMove = NULL;
     runMenu();
@@ -35,7 +35,7 @@ void GameFlow::runMenu() {
             this->player2 = new AIPlayer(WHITE, BLACK, board, *logic, printer);
             break;
         case 3:
-            Client *client = new Client("127.0.0.1", 8000);
+            static Client *client = new Client("127.0.0.1", 8000);
             try {
                 client->connectToServer();
             } catch (const char *msg) {
@@ -65,17 +65,19 @@ void GameFlow::playOneTurn() {
     vector<Move *> possibleMoves = logic->getPossibleMoves(player, board);
     if (possibleMoves.empty()) {
         turnManager->noMove();
-        printer->printStream("No possible moves. Play passes back to the other player."
-                                     " Press any key to continue.\n");
-        char c = static_cast<char>(getchar());
+        this->lastMove = NULL;
+        player->noMove();
     } else {
         turnManager->yesMove();
         Move *move = player->move(possibleMoves);
-        this->lastMove = move;
+        this->lastMove = move->getCoordinate();
         board->applyMove(move, player);
+        if ((board->gameOver() || turnManager->noMoreMoves())) {
+            lastMove = new Coordinate(lastMove->getRow() + 8, lastMove->getCol() + 8);
+        }
         // delete extra data
         for (int i = 0; i < possibleMoves.size(); i++) {
-            if (lastMove != possibleMoves[i]) {
+            if (lastMove != possibleMoves[i]->getCoordinate()) {
                 delete possibleMoves[i];
             }
         }
@@ -107,6 +109,7 @@ void GameFlow::gameOver() const {
 }
 
 GameFlow::~GameFlow() {
+    delete lastMove;
     delete player1;
     delete player2;
     delete logic;

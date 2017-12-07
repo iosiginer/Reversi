@@ -1,4 +1,5 @@
 #include <limits>
+#include <cstdio>
 #include "HumanPlayer.h"
 
 HumanPlayer::HumanPlayer(Color content, Printer *printer) : content(content), printer(printer) {}
@@ -32,6 +33,13 @@ Move *HumanPlayer::move(vector<Move *> possibleMoves) {
     printer->printStream("You picked " + move->getCoordinateAsString() + "\n");
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return move;
+}
+
+
+void HumanPlayer::noMove() const {
+    printer->printStream("No possible moves. Play passes back to the other player."
+                                 " Press any key to continue.\n");
+    char c = static_cast<char>(getchar());
 }
 
 

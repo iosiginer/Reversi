@@ -3,6 +3,7 @@
  * ID : 332494830
  **/
 
+#include <cstdio>
 #include "NetworkPlayer.h"
 
 
@@ -10,24 +11,39 @@ NetworkPlayer::~NetworkPlayer() {
     delete client;
 }
 
-NetworkPlayer::NetworkPlayer(Color content, Move **lastMove, Board *board, GameLogic &logic, Printer *printer,
+NetworkPlayer::NetworkPlayer(Color content, Coordinate **lastMove, Board *board, GameLogic &logic, Printer *printer,
                              Client *client) :
         content(content), lastMove(lastMove), board(board), logic(logic), printer(printer), client(client) {}
 
 Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
     if (*lastMove) {
-        string str = (*lastMove)->getCoordinate()->toString();
-        char* copy = new char[str.size() + 1];
-        strcpy(copy, str.c_str());
-        client->sendMove(copy);
-        delete[] copy;
+        if (!board->contains(**lastMove)) {
+            **lastMove = Coordinate((*lastMove)->getRow() - 8, (*lastMove)->getCol() - 8);
+            char *endingMove = new char[(*lastMove)->toString().size() + 1];
+            strcpy(endingMove, (*lastMove)->toString().c_str());
+            client->sendMove(endingMove);
+            char *end = const_cast<char *>("End");
+            client->sendMove(end);
+            return NULL;
+        }
+        string str = (*lastMove)->toString();
+        if (strcmp(str.c_str(), "0, 0") == 0) {
+            char *noMove = const_cast<char *>("NoMove");
+            client->sendMove(noMove);
+        } else {
+            char *copy = new char[str.size() + 1];
+            strcpy(copy, str.c_str());
+            client->sendMove(copy);
+            delete[] copy;
+        }
     }
-    char* newMove = client->receiveMove();
+    char *newMove = client->receiveMove();
     Move *move = parseIntoMove(newMove);
+    printer->printStream("Your opponent chose: " + move->getCoordinate()->toString() + "\n");
     return move;
 }
 
-Move *NetworkPlayer::parseIntoMove(char* newMove) {
+Move *NetworkPlayer::parseIntoMove(char *newMove) {
     NetworkPlayer *self = this;
     int row, col;
     Coordinate *position;
@@ -58,6 +74,25 @@ void NetworkPlayer::conquerCell(Cell *cell) {
 
 Color NetworkPlayer::getContent() const {
     return this->content;
+}
+
+void NetworkPlayer::noMove() const {
+    if (*lastMove) {
+        string str = (*lastMove)->toString();
+        if (strcmp(str.c_str(), "0, 0") == 0) {
+            char *noMove = const_cast<char *>("NoMove");
+            client->sendMove(noMove);
+        } else {
+            char *copy = new char[str.size() + 1];
+            strcpy(copy, str.c_str());
+            client->sendMove(copy);
+            delete[] copy;
+
+        }
+    }
+    printer->printStream("No possible moves. Play passes back to the other player."
+                                 " Press any key to continue.\n");
+    char c = static_cast<char>(getchar());
 }
 
 

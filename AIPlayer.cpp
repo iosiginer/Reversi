@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <cstdio>
 #include "AIPlayer.h"
 #include "HumanPlayer.h"
 
@@ -83,4 +84,10 @@ map<Move *, int> AIPlayer::getMovesMap(vector<Move *> possibleMoves) {
     }
     delete dummyPlayer;
     return movesMap;
+}
+
+void AIPlayer::noMove() const {
+    printer->printStream("No possible moves. Play passes back to the other player."
+                                 " Press any key to continue.\n");
+    char c = static_cast<char>(getchar());
 };

@@ -37,6 +37,11 @@ public:
     virtual Color getContent() const = 0;
 
     /**
+     * Function to deal with when the player can't Move in this turn.
+     */
+    virtual void noMove() const = 0;
+
+    /**
      * Destructor.
      */
     virtual ~Player() {}

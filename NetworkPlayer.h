@@ -15,7 +15,7 @@
 class NetworkPlayer : public Player {
 private:
     Color content;
-    Move **lastMove;
+    Coordinate **lastMove;
     GameLogic &logic;
     Board *board;
     Printer *printer;
@@ -24,7 +24,8 @@ private:
     Move *parseIntoMove(char* newMove);
 
 public:
-    NetworkPlayer(Color content, Move **lastMove, Board *board, GameLogic &logic, Printer *printer, Client *client);
+    NetworkPlayer(Color content, Coordinate **lastMove, Board *board, GameLogic &logic, Printer *printer,
+                  Client *client);
 
     ~NetworkPlayer();
 
@@ -35,6 +36,11 @@ public:
     virtual Color getContent() const;
 
     virtual bool isOpponent(Color) const;
+
+    /**
+    * Function to deal with when the player can't Move in this turn.
+    */
+    virtual void noMove() const;
 
 };
 

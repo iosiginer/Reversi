@@ -53,6 +53,11 @@ public:
     virtual Color getContent() const;
 
     /**
+    * Function to deal with when the player can't Move in this turn.
+    */
+    virtual void noMove() const;
+
+    /**
      * Destructor.
      */
     virtual ~AIPlayer() {}

@@ -62,6 +62,10 @@ int Board::getSize() const {
 
 void Board::applyMove(Move *move, Player *player) {
     Coordinate *pos = move->getCoordinate();
+    // No move was made, so the Board got the move (0, 0).
+    if (pos->getRow() == 0 && pos->getCol() == 0) {
+        return;
+    }
     player->conquerCell(this->getCell(*pos));
     vector<Coordinate *> directions = move->getDirections();
     for (int i = 0; i < directions.size(); i++) {

@@ -56,6 +56,12 @@ public:
 
 
     /**
+     * Function to deal with when the player can't Move in this turn.
+     */
+    virtual void noMove() const;
+
+
+    /**
      * Prints the possible moves of the Player for the current turn.
      */
     virtual void showPossibleMoves(vector<Move *>) const;
