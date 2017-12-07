@@ -39,7 +39,7 @@ void GameFlow::runMenu() {
             try {
                 client->connectToServer();
             } catch (const char *msg) {
-                cout << "Failed to connect to server. Reason:" << msg << endl;
+                cout << "Failed to connect to server. Reason: " << msg << endl;
                 exit(-1);
             }
             int turn = client->receiveNumber();
