@@ -11,10 +11,10 @@
 #include "../HumanPlayer.h"
 
 struct BoardTest : testing::Test {
-    Board* board;
-    Player* blackPlayer;
-    Player* whitePlayer;
-    Move* move;
+    Board *board;
+    Player *blackPlayer;
+    Player *whitePlayer;
+    Move *move;
     Printer *printer;
     BoardTest() {
         board = new Board();

@@ -6,15 +6,16 @@
 #include "../ClassicLogic.h"
 #include "gtest/gtest.h"
 
-struct AIPlayerTest : testing::Test{
+struct AIPlayerTest : testing::Test {
     Board *board;
     ClassicLogic *logic;
     Player *aPlayer;
     Player *humanPlayer;
-    Move* choice;
+    Move *choice;
     vector<Move *> moves;
     vector<Coordinate *> direction;
     Printer *printer;
+
     AIPlayerTest() {
         board = new Board();
         logic = new ClassicLogic();
@@ -24,11 +25,11 @@ struct AIPlayerTest : testing::Test{
     }
 
     ~AIPlayerTest() {
-        delete(board);
-        delete(logic);
-        delete(aPlayer);
-        delete(humanPlayer);
-        delete(printer);
+        delete (board);
+        delete (logic);
+        delete (aPlayer);
+        delete (humanPlayer);
+        delete (printer);
         for (int i = 0; i < moves.size(); i++) { delete moves[i]; }
         moves.clear();
     }

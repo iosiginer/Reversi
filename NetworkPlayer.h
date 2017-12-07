@@ -15,16 +15,16 @@
 class NetworkPlayer : public Player {
 private:
     Color content;
-    Move *lastMove;
+    Move **lastMove;
     GameLogic &logic;
     Board *board;
     Printer *printer;
     Client *client;
 
-    Move *parseIntoMove(string newMove);
+    Move *parseIntoMove(char* newMove);
 
 public:
-    NetworkPlayer(Color content, Move *lastMove, Board *board, GameLogic &logic, Printer *printer, Client *client);
+    NetworkPlayer(Color content, Move **lastMove, Board *board, GameLogic &logic, Printer *printer, Client *client);
 
     ~NetworkPlayer();
 
