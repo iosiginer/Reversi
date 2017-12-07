@@ -7,7 +7,7 @@
 
 
 GameFlow::GameFlow(int size, Printer *printer) : printer(printer) {
-    this->board = new Board(BLACK, WHITE, 4, printer);
+    this->board = new Board(BLACK, WHITE, size, printer);
     this->logic = new ClassicLogic();
     this->lastMove = NULL;
     runMenu();
