@@ -34,29 +34,27 @@ void Client::connectToServer() {
     struct sockaddr_in serverAddress;
     bzero((char *) &address, sizeof(address));
     serverAddress.sin_family = AF_INET;
-    memcpy((char *) &serverAddress.sin_addr.s_addr, (char
-    *) server->h_addr, server->h_length);
+    memcpy((char *) &serverAddress.sin_addr.s_addr, (char *) server->h_addr, server->h_length);
     // htons converts values between host and network byteorders
     serverAddress.sin_port = htons(serverPort);
     // Establish a connection with the TCP server
-    if (connect(clientSocket, (struct sockaddr
-    *) &serverAddress, sizeof(serverAddress)) == -1) {
+    if (connect(clientSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
     cout << "Connected to server" << endl;
 }
 
-void Client::sendMove(string position) {
+void Client::sendMove(char* position) {
     // Write the exercise arguments to the socket
-    ssize_t n = write(clientSocket, position.data(), position.size());
+    ssize_t n = write(clientSocket, position, sizeof(position));
     if (n == -1) {
         throw "Error writing Move to socket";
     }
 }
 
-std::string Client::receiveMove() {
-    string newMove;
-    ssize_t n = read(clientSocket, &newMove, newMove.size());
+char* Client::receiveMove() {
+    char *newMove = new char[9];
+    int n = read(clientSocket, newMove, sizeof(char) * 9);
     if (n == -1) {
         throw "Error reading Move from socket";
     }

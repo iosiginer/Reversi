@@ -10,27 +10,32 @@ NetworkPlayer::~NetworkPlayer() {
     delete client;
 }
 
-NetworkPlayer::NetworkPlayer(Color content, Move *lastMove, Board *board, GameLogic &logic, Printer *printer,
+NetworkPlayer::NetworkPlayer(Color content, Move **lastMove, Board *board, GameLogic &logic, Printer *printer,
                              Client *client) :
         content(content), lastMove(lastMove), board(board), logic(logic), printer(printer), client(client) {}
 
 Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
-    if (lastMove != NULL) {
-        client->sendMove(lastMove->getCoordinate()->toString());
+    if (*lastMove) {
+        string str = (*lastMove)->getCoordinate()->toString();
+        char* copy = new char[str.size() + 1];
+        strcpy(copy, str.c_str());
+        client->sendMove(copy);
+        delete[] copy;
     }
-    string newMove = client->receiveMove();
+    char* newMove = client->receiveMove();
     Move *move = parseIntoMove(newMove);
     return move;
 }
 
-Move *NetworkPlayer::parseIntoMove(string newMove) {
+Move *NetworkPlayer::parseIntoMove(char* newMove) {
     NetworkPlayer *self = this;
     int row, col;
     Coordinate *position;
     // newMove is in the form "X, Y"
     // X is row and Y is col
-    string rowAsString = newMove.substr(0, newMove.find(", "));
-    string colAsString = newMove.substr(newMove.find(", ") + 1, newMove.size());
+    string newMoveStr(newMove, 9);
+    string rowAsString = newMoveStr.substr(0, newMoveStr.find(", "));
+    string colAsString = newMoveStr.substr(newMoveStr.find(", ") + 1, newMoveStr.size());
     stringstream convertRow(rowAsString);
     stringstream convertCol(colAsString);
     if ((convertRow >> row) && (convertCol >> col)) {
@@ -38,6 +43,7 @@ Move *NetworkPlayer::parseIntoMove(string newMove) {
     } else {
         throw "Couldn't receive move";
     }
+    delete[] newMove;
     return logic.getMoveByPosition(position, self, board);
 }
 

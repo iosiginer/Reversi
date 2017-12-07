@@ -20,9 +20,9 @@ public:
 
     void connectToServer();
 
-    void sendMove(std::string position);
+    void sendMove(char* position);
 
-    std::string receiveMove();
+    char* receiveMove();
 
     int receiveNumber();
 

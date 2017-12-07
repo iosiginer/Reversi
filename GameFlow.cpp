@@ -35,7 +35,7 @@ void GameFlow::runMenu() {
             this->player2 = new AIPlayer(WHITE, BLACK, board, *logic, printer);
             break;
         case 3:
-            Client *client = new Client("127.0.0.1", 8000);
+            Client *client = new Client("127.0.0.1", 8001);
             try {
                 client->connectToServer();
             } catch (const char *msg) {
@@ -47,11 +47,11 @@ void GameFlow::runMenu() {
             switch (turn) {
                 case 1:
                     this->player1 = new HumanPlayer(BLACK, printer);
-                    this->player2 = new NetworkPlayer(WHITE, lastMove, board, *logic, printer, client);
+                    this->player2 = new NetworkPlayer(WHITE, &lastMove, board, *logic, printer, client);
                     break;
                 case 2:
                     this->player2 = new HumanPlayer(WHITE, printer);
-                    this->player1 = new NetworkPlayer(BLACK, lastMove, board, *logic, printer, client);
+                    this->player1 = new NetworkPlayer(BLACK, &lastMove, board, *logic, printer, client);
                     break;
                 default:
                     throw "Problem!";
@@ -74,7 +74,11 @@ void GameFlow::playOneTurn() {
         this->lastMove = move;
         board->applyMove(move, player);
         // delete extra data
-        for (int i = 0; i < possibleMoves.size(); i++) { delete possibleMoves[i]; }
+        for (int i = 0; i < possibleMoves.size(); i++) {
+            if (lastMove != possibleMoves[i]) {
+                delete possibleMoves[i];
+            }
+        }
     }
 }
 
