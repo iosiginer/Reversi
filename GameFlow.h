@@ -9,7 +9,7 @@
 #include "TurnManager.h"
 
 /**
- * Class in charge of holding all other classes and controling the Flow of the Game (duh...).
+ * Class in charge of holding all other classes and controlling the Flow of the Game (duh...).
  * Holds a reference to: Board, Logic, two Players. Also holds three booleans to control the turns and
  * their logic.
  */
@@ -21,6 +21,7 @@ private:
     Player *player2;
     Printer *printer;
     TurnManager *turnManager;
+    Move *lastMove;
 
     /**
      * Let one player play.

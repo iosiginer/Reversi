@@ -23,6 +23,16 @@ public:
      * @return vector<Move *> - the list of possible moves for the Player.
      */
     virtual vector<Move *> getPossibleMoves(Player *, Board *) const = 0;
+
+    /**
+     * Returns a Move instantation with the Coordinate in arguments as position.
+     * @param pos - the wanted position for the Move.
+     * @param player - the current playing player.
+     * @param board - the current board.
+     * @return Move - the move, ready to be used.
+     */
+    virtual Move *getMoveByPosition(Coordinate *pos, Player *player, Board *board) = 0;
+
 };
 
 #endif //REVERSI_GAMELOGIC_H

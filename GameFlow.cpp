@@ -2,11 +2,14 @@
 #include <cstdio>
 #include <limits>
 #include "GameFlow.h"
+#include "Client.h"
+#include "NetworkPlayer.h"
 
 
 GameFlow::GameFlow(int size, Printer *printer) : printer(printer) {
     this->board = new Board(BLACK, WHITE, size, printer);
     this->logic = new ClassicLogic();
+    this->lastMove = NULL;
     runMenu();
     this->turnManager = new TurnManager(player1, player2);
 }
@@ -31,10 +34,28 @@ void GameFlow::runMenu() {
             this->player1 = new HumanPlayer(BLACK, printer);
             this->player2 = new AIPlayer(WHITE, BLACK, board, *logic, printer);
             break;
-        case 3: // TODO CHANGE TO NETWORK
-            this->player1 = new HumanPlayer(BLACK, printer);
-            this->player2 = new HumanPlayer(WHITE, printer);
-
+        case 3:
+            Client *client = new Client("127.0.0.1", 8000);
+            try {
+                client->connectToServer();
+            } catch (const char *msg) {
+                cout << "Failed to connect to server. Reason:" << msg << endl;
+                exit(-1);
+            }
+            int turn = client->receiveNumber();
+            cout << "You are player number " << turn << endl;
+            switch (turn) {
+                case 1:
+                    this->player1 = new HumanPlayer(BLACK, printer);
+                    this->player2 = new NetworkPlayer(WHITE, lastMove, board, *logic, printer, client);
+                    break;
+                case 2:
+                    this->player2 = new HumanPlayer(WHITE, printer);
+                    this->player1 = new NetworkPlayer(BLACK, lastMove, board, *logic, printer, client);
+                    break;
+                default:
+                    throw "Problem!";
+            }
     }
 }
 
@@ -49,7 +70,9 @@ void GameFlow::playOneTurn() {
         char c = static_cast<char>(getchar());
     } else {
         turnManager->yesMove();
-        board->applyMove(player->move(possibleMoves), player);
+        Move *move = player->move(possibleMoves);
+        this->lastMove = move;
+        board->applyMove(move, player);
         // delete extra data
         for (int i = 0; i < possibleMoves.size(); i++) { delete possibleMoves[i]; }
     }

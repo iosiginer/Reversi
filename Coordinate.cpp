@@ -11,7 +11,7 @@ string Coordinate::toString() const {
     ostringstream colConvert;
     rowConvert << row;
     colConvert << col;
-    return '(' + rowConvert.str() + ',' + colConvert.str() + ')';
+    return rowConvert.str() + ", " + colConvert.str();
 }
 
 

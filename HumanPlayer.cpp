@@ -5,6 +5,7 @@ HumanPlayer::HumanPlayer(Color content, Printer *printer) : content(content), pr
 
 
 Move *HumanPlayer::move(vector<Move *> possibleMoves) {
+
     int row, col;
     char comma;
     int &rowRef = row, colRef = col;
@@ -16,10 +17,10 @@ Move *HumanPlayer::move(vector<Move *> possibleMoves) {
         cin >> row >> comma >> col;
         checkInput(rowRef, colRef);
         for (int i = 0; i < possibleMoves.size(); i++) {
-            Move *moveToCheck = possibleMoves[i];
-            Coordinate *checkPos = moveToCheck->getCoordinate();
+            Move *currentMove = possibleMoves[i];
+            Coordinate *checkPos = currentMove->getCoordinate();
             if (checkPos->getRow() == row && checkPos->getCol() == col) {
-                move = moveToCheck;
+                move = currentMove;
                 validMove = true;
                 break;
             }
@@ -40,11 +41,15 @@ bool HumanPlayer::isOpponent(Color adv) const {
 
 
 void HumanPlayer::showPossibleMoves(vector<Move *> moves) const {
-    ostringstream cont;
-    cont << this->content;
-    printer->printStream("You play with: " + cont.str() + "\n" + "You possible moves are: ");
+    string cont;
+    if (this->content == BLACK) {
+        cont = "blacks";
+    } else if (this->content == WHITE) {
+        cont = "whites";
+    }
+    printer->printStream("You play with: " + cont + "\n" + "You possible moves are: ");
     for (int i = 0; i < moves.size(); i++) {
-        printer->printStream(" " + moves[i]->getCoordinateAsString() + " ");
+        printer->printStream(" (" + moves[i]->getCoordinateAsString() + ") ");
     }
     printer->printStream("\n\n");
 }

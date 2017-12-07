@@ -40,6 +40,10 @@ set(SOURCE_FILES
         TurnManager.cpp
         TurnManager.h
         Color.h
+        Client.cpp
+        Client.h
+        NetworkPlayer.cpp
+        NetworkPlayer.h
         )
 
 set(TEST_FILES

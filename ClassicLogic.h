@@ -27,7 +27,14 @@ public:
      */
     ClassicLogic();
 
-    Move *getMoveByPosition(Coordinate *pos, Player *player, Board *board);
+    /**
+     * Returns a Move instantation with the Coordinate in arguments as position.
+     * @param pos - the wanted position for the Move.
+     * @param player - the current playing player.
+     * @param board - the current board.
+     * @return Move - the move, ready to be used.
+     */
+    virtual Move *getMoveByPosition(Coordinate *pos, Player *player, Board *board);
 
     /**
      * Analizes each empty cell and finds all the possible moves for the Player.
