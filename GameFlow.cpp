@@ -35,7 +35,7 @@ void GameFlow::runMenu() {
             this->player2 = new AIPlayer(WHITE, BLACK, board, *logic, printer);
             break;
         case 3:
-            Client *client = new Client("127.0.0.1", 8001);
+            Client *client = new Client("127.0.0.1", 8000);
             try {
                 client->connectToServer();
             } catch (const char *msg) {

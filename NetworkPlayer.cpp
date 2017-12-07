@@ -52,6 +52,7 @@ bool NetworkPlayer::isOpponent(Color color) const {
 }
 
 void NetworkPlayer::conquerCell(Cell *cell) {
+    cell->sumOne(cell->getContent(), this->getContent());
     cell->setContent(this->content);
 }
 
