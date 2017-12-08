@@ -6,7 +6,10 @@ HumanPlayer::HumanPlayer(Color content, Printer *printer) : content(content), pr
 
 
 Move *HumanPlayer::move(vector<Move *> possibleMoves) {
-
+    if (possibleMoves.empty()) {
+        noMove();
+        return NULL;
+    }
     int row, col;
     char comma;
     int &rowRef = row, colRef = col;

@@ -17,11 +17,11 @@ class GameFlow {
 private:
     Board *board;
     GameLogic *logic;
-    Player *player1;
-    Player *player2;
+    Player *players[2];
     Printer *printer;
     TurnManager *turnManager;
     Coordinate *lastMove;
+    bool network;
 
     /**
      * Let one player play.

@@ -27,6 +27,10 @@ Color AIPlayer::getContent() const {
 }
 
 Move *AIPlayer::move(vector<Move *> possibleMoves) {
+    if (possibleMoves.empty()) {
+        noMove();
+        return NULL;
+    }
     map<Move *, int> movesMap = getMovesMap(possibleMoves);
     if (movesMap.size() == 1) {
         printer->printStream("The computer played" + movesMap.begin()->first->getCoordinateAsString() + "\n");

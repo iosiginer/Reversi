@@ -9,6 +9,8 @@
  * different kinds of them, like: console or GUI, human or AI, local or network.
  */
 class Player {
+private:
+    Color content;
 
 public:
     /**

@@ -11,7 +11,8 @@ GameFlow::GameFlow(int size, Printer *printer) : printer(printer) {
     this->logic = new ClassicLogic();
     this->lastMove = NULL;
     runMenu();
-    this->turnManager = new TurnManager(player1, player2);
+    this->turnManager = new TurnManager(players[0], players[1]);
+    this->network = false;
 }
 
 void GameFlow::runMenu() {
@@ -27,14 +28,15 @@ void GameFlow::runMenu() {
     switch (choice) {
         case 1:
         default:
-            this->player1 = new HumanPlayer(BLACK, printer);
-            this->player2 = new HumanPlayer(WHITE, printer);
+            this->players[0] = new HumanPlayer(BLACK, printer);
+            this->players[1] = new HumanPlayer(WHITE, printer);
             break;
         case 2:
-            this->player1 = new HumanPlayer(BLACK, printer);
-            this->player2 = new AIPlayer(WHITE, BLACK, board, *logic, printer);
+            this->players[0] = new HumanPlayer(BLACK, printer);
+            this->players[1] = new AIPlayer(WHITE, BLACK, board, *logic, printer);
             break;
         case 3:
+            network = true;
             static Client *client = new Client("127.0.0.1", 8000);
             try {
                 client->connectToServer();
@@ -46,12 +48,12 @@ void GameFlow::runMenu() {
             cout << "You are player number " << turn << endl;
             switch (turn) {
                 case 1:
-                    this->player1 = new HumanPlayer(BLACK, printer);
-                    this->player2 = new NetworkPlayer(WHITE, &lastMove, board, *logic, printer, client);
+                    this->players[0] = new HumanPlayer(BLACK, printer);
+                    this->players[1] = new NetworkPlayer(WHITE, &lastMove, board, *logic, printer, client);
                     break;
                 case 2:
-                    this->player2 = new HumanPlayer(WHITE, printer);
-                    this->player1 = new NetworkPlayer(BLACK, &lastMove, board, *logic, printer, client);
+                    this->players[1] = new HumanPlayer(WHITE, printer);
+                    this->players[0] = new NetworkPlayer(BLACK, &lastMove, board, *logic, printer, client);
                     break;
                 default:
                     throw "Problem!";
@@ -63,23 +65,19 @@ void GameFlow::playOneTurn() {
     board->print();
     Player *player = turnManager->nextPlayer();
     vector<Move *> possibleMoves = logic->getPossibleMoves(player, board);
-    if (possibleMoves.empty()) {
-        turnManager->noMove();
-        this->lastMove = NULL;
-        player->noMove();
-    } else {
+    Move *move = player->move(possibleMoves);
+    if (move != NULL) {
         turnManager->yesMove();
-        Move *move = player->move(possibleMoves);
         this->lastMove = move->getCoordinate();
         board->applyMove(move, player);
-        if ((board->gameOver() || turnManager->noMoreMoves())) {
-            lastMove = new Coordinate(lastMove->getRow() + 8, lastMove->getCol() + 8);
-        }
-        // delete extra data
-        for (int i = 0; i < possibleMoves.size(); i++) {
-            if (lastMove != possibleMoves[i]->getCoordinate()) {
-                delete possibleMoves[i];
-            }
+    } else {
+        turnManager->noMove();
+        *(this->lastMove) = Coordinate(0, 0);
+    }
+    // delete extra data
+    for (int i = 0; i < possibleMoves.size(); i++) {
+        if (lastMove != possibleMoves[i]->getCoordinate()) {
+            delete possibleMoves[i];
         }
     }
 }
@@ -87,6 +85,9 @@ void GameFlow::playOneTurn() {
 void GameFlow::run() {
     while (!(board->gameOver() || turnManager->noMoreMoves())) {
         playOneTurn();
+    }
+    if (network) {
+        this->turnManager->nextPlayer()->noMove();
     }
     gameOver();
 }
@@ -110,8 +111,8 @@ void GameFlow::gameOver() const {
 
 GameFlow::~GameFlow() {
     delete lastMove;
-    delete player1;
-    delete player2;
+    delete players[0];
+    delete players[1];
     delete logic;
     delete board;
     delete printer;

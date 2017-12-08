@@ -17,15 +17,6 @@ NetworkPlayer::NetworkPlayer(Color content, Coordinate **lastMove, Board *board,
 
 Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
     if (*lastMove) {
-        if (!board->contains(**lastMove)) {
-            **lastMove = Coordinate((*lastMove)->getRow() - 8, (*lastMove)->getCol() - 8);
-            char *endingMove = new char[(*lastMove)->toString().size() + 1];
-            strcpy(endingMove, (*lastMove)->toString().c_str());
-            client->sendMove(endingMove);
-            char *end = const_cast<char *>("End");
-            client->sendMove(end);
-            return NULL;
-        }
         string str = (*lastMove)->toString();
         if (strcmp(str.c_str(), "0, 0") == 0) {
             char *noMove = const_cast<char *>("NoMove");
@@ -37,6 +28,10 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             delete[] copy;
         }
     }
+    if (possibleMoves.empty()) {
+        noMove();
+        return NULL;
+    }
     char *newMove = client->receiveMove();
     Move *move = parseIntoMove(newMove);
     printer->printStream("Your opponent chose: " + move->getCoordinate()->toString() + "\n");
@@ -44,6 +39,9 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
 }
 
 Move *NetworkPlayer::parseIntoMove(char *newMove) {
+    if (strcmp(newMove, "NoMove") == 0) {
+        return NULL;
+    }
     NetworkPlayer *self = this;
     int row, col;
     Coordinate *position;
@@ -77,20 +75,8 @@ Color NetworkPlayer::getContent() const {
 }
 
 void NetworkPlayer::noMove() const {
-    if (*lastMove) {
-        string str = (*lastMove)->toString();
-        if (strcmp(str.c_str(), "0, 0") == 0) {
-            char *noMove = const_cast<char *>("NoMove");
-            client->sendMove(noMove);
-        } else {
-            char *copy = new char[str.size() + 1];
-            strcpy(copy, str.c_str());
-            client->sendMove(copy);
-            delete[] copy;
-
-        }
-    }
-    printer->printStream("No possible moves. Play passes back to the other player."
+    client->sendMove(const_cast<char *>("NoMove"));
+    printer->printStream("Your opponent can't play, so you go again!"
                                  " Press any key to continue.\n");
     char c = static_cast<char>(getchar());
 }
