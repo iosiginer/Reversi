@@ -81,5 +81,13 @@ void NetworkPlayer::noMove() const {
     char c = static_cast<char>(getchar());
 }
 
+void NetworkPlayer::lasMove() const {
+    string str = (*lastMove)->toString();
+    char *copy = new char[str.size() + 1];
+    strcpy(copy, str.c_str());
+    client->sendMove(copy);
+    delete[] copy;
+}
+
 
 

@@ -7,12 +7,11 @@
 
 
 GameFlow::GameFlow(int size, Printer *printer) : printer(printer) {
-    this->board = new Board(BLACK, WHITE, size, printer);
+    this->board = new Board(BLACK, WHITE, 4, printer);
     this->logic = new ClassicLogic();
     this->lastMove = NULL;
     runMenu();
     this->turnManager = new TurnManager(players[0], players[1]);
-    this->network = false;
 }
 
 void GameFlow::runMenu() {
@@ -36,7 +35,6 @@ void GameFlow::runMenu() {
             this->players[1] = new AIPlayer(WHITE, BLACK, board, *logic, printer);
             break;
         case 3:
-            network = true;
             static Client *client = new Client("127.0.0.1", 8000);
             try {
                 client->connectToServer();
@@ -74,6 +72,9 @@ void GameFlow::playOneTurn() {
         turnManager->noMove();
         *(this->lastMove) = Coordinate(0, 0);
     }
+    if (gameOver()) {
+        turnManager->nextPlayer()->lasMove();
+    }
     // delete extra data
     for (int i = 0; i < possibleMoves.size(); i++) {
         if (lastMove != possibleMoves[i]->getCoordinate()) {
@@ -83,16 +84,13 @@ void GameFlow::playOneTurn() {
 }
 
 void GameFlow::run() {
-    while (!(board->gameOver() || turnManager->noMoreMoves())) {
+    while (!gameOver()) {
         playOneTurn();
     }
-    if (network) {
-        this->turnManager->nextPlayer()->noMove();
-    }
-    gameOver();
+    finishGame();
 }
 
-void GameFlow::gameOver() const {
+void GameFlow::finishGame() const {
     board->print();
     int winner = board->getWinner();
     if (0 == winner) {
@@ -116,5 +114,9 @@ GameFlow::~GameFlow() {
     delete logic;
     delete board;
     delete printer;
+}
+
+bool GameFlow::gameOver() const {
+    return (board->gameOver() || turnManager->noMoreMoves());
 }
 

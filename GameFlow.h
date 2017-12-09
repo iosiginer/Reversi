@@ -21,7 +21,6 @@ private:
     Printer *printer;
     TurnManager *turnManager;
     Coordinate *lastMove;
-    bool network;
 
     /**
      * Let one player play.
@@ -31,7 +30,13 @@ private:
     /**
      * Finish the Game. Presenting the player with a "Game over screen" //
      */
-    void gameOver() const;
+    void finishGame() const;
+
+    /**
+     * Deals with checking if the Game should end.
+     * @return bool - true if the game has to end.
+     */
+    bool gameOver() const;
 
     /**
      * Prints the Menu options, and lets the user decide.
