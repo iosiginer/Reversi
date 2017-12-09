@@ -17,7 +17,7 @@ NetworkPlayer::NetworkPlayer(Color content, Coordinate **lastMove, Board *board,
 
 Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
     if (*lastMove) {
-        string str = (*lastMove)->toString();
+        string str = ( *lastMove )->toString();
         if (strcmp(str.c_str(), "0, 0") == 0) {
             char *noMove = const_cast<char *>("NoMove");
             client->sendMove(noMove);
@@ -26,15 +26,17 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             strcpy(copy, str.c_str());
             client->sendMove(copy);
             delete[] copy;
+            printer->printStream("Waiting for the other player's move...\n");
         }
     }
     if (possibleMoves.empty()) {
         noMove();
-        return NULL;
     }
     char *newMove = client->receiveMove();
     Move *move = parseIntoMove(newMove);
-    printer->printStream("Your opponent chose: " + move->getCoordinate()->toString() + "\n");
+    if (move) {
+        printer->printStream("Your opponent chose: " + move->getCoordinate()->toString() + "\n");
+    }
     return move;
 }
 
@@ -47,12 +49,12 @@ Move *NetworkPlayer::parseIntoMove(char *newMove) {
     Coordinate *position;
     // newMove is in the form "X, Y"
     // X is row and Y is col
-    string newMoveStr(newMove, 9);
+    string newMoveStr(newMove, 7);
     string rowAsString = newMoveStr.substr(0, newMoveStr.find(", "));
     string colAsString = newMoveStr.substr(newMoveStr.find(", ") + 1, newMoveStr.size());
     stringstream convertRow(rowAsString);
     stringstream convertCol(colAsString);
-    if ((convertRow >> row) && (convertCol >> col)) {
+    if (( convertRow >> row ) && ( convertCol >> col )) {
         position = new Coordinate(row, col);
     } else {
         throw "Couldn't receive move";
@@ -62,7 +64,7 @@ Move *NetworkPlayer::parseIntoMove(char *newMove) {
 }
 
 bool NetworkPlayer::isOpponent(Color color) const {
-    return ((color != this->content) && (color != EMPTY));
+    return (( color != this->content ) && ( color != EMPTY ));
 }
 
 void NetworkPlayer::conquerCell(Cell *cell) {
@@ -75,19 +77,14 @@ Color NetworkPlayer::getContent() const {
 }
 
 void NetworkPlayer::noMove() const {
-    client->sendMove(const_cast<char *>("NoMove"));
     printer->printStream("Your opponent can't play, so you go again!"
-                                 " Press any key to continue.\n");
-    char c = static_cast<char>(getchar());
+                                 " Waiting to the other player to be notified.\n");
 }
 
 void NetworkPlayer::lasMove() const {
-    string str = (*lastMove)->toString();
+    string str = ( *lastMove )->toString();
     char *copy = new char[str.size() + 1];
     strcpy(copy, str.c_str());
     client->sendMove(copy);
     delete[] copy;
 }
-
-
-

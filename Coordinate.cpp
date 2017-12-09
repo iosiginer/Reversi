@@ -28,3 +28,11 @@ Coordinate *Coordinate::getDirectionTo(Coordinate *to) const {
 bool Coordinate::operator==(const Coordinate& coord2) {
     return (getRow() == coord2.getRow()) && (getCol() == coord2.getCol());
 }
+
+bool Coordinate::operator !=(const Coordinate& coord2) {
+    return !this->operator==(coord2);
+}
+
+Coordinate *Coordinate::clone() const {
+    return new Coordinate(this->getRow(), this->getCol());
+}

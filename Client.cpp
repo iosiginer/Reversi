@@ -3,6 +3,7 @@
  **/
 
 #include "Client.h"
+#include "ConsolePrinter.h"
 
 using namespace std;
 
@@ -66,6 +67,14 @@ int Client::receiveNumber() {
     ssize_t n = read(clientSocket, &turn, sizeof(turn));
     if (n == -1) {
         throw "Error reading Move from socket";
+    }
+    if (turn == 1) {
+        ConsolePrinter printer;
+        printer.printStream("Waiting for the other player to join...\n");
+        ssize_t n = read(clientSocket, &turn, sizeof(turn));
+        if (n == -1) {
+            throw "Error reading Move from socket";
+        }
     }
     return turn;
 }

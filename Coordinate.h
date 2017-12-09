@@ -17,7 +17,7 @@ using namespace std;
  * Class in charge of storing a pair of ints. To be used as Coordinates for the Cells in the Board
  * and as directions for the gains in Move.
  */
-class Coordinate {
+class Coordinate : Cloneable {
 private:
     int row, col;
 
@@ -62,6 +62,18 @@ public:
      * @return true for euqal, otherwise false.
      */
     bool operator ==(const Coordinate&);
+
+    /**
+    * Overloading for operator !=
+    * @return not for operator ==
+    */
+    bool operator !=(const Coordinate&);
+
+    /**
+     * Creating clone coordinate
+     * @return coordinate
+     */
+    virtual Coordinate *clone() const;
 
 };
 

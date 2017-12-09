@@ -50,7 +50,7 @@ public:
     /**
      * Constructor. Gets two chars and an int, used to create the Board and the Players.
      */
-    GameFlow(int = 8, Printer *printer = new ConsolePrinter());
+    GameFlow(int = 4, Printer *printer = new ConsolePrinter());
 
     /**
      * Perform the loop that allows the Game to be played.

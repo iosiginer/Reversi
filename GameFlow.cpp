@@ -35,15 +35,16 @@ void GameFlow::runMenu() {
             this->players[1] = new AIPlayer(WHITE, BLACK, board, *logic, printer);
             break;
         case 3:
-            static Client *client = new Client("127.0.0.1", 8000);
+            static Client *client = new Client("127.0.0.1", 8001);
             try {
                 client->connectToServer();
             } catch (const char *msg) {
-                cout << "Failed to connect to server. Reason: " << msg << endl;
-                exit(-1);
+                throw "Failed to connect to server";
             }
             int turn = client->receiveNumber();
-            cout << "You are player number " << turn << endl;
+            ostringstream turnStr;
+            turnStr << turn;
+            printer->printStream("You are player " + turnStr.str() + "\n");
             switch (turn) {
                 case 1:
                     this->players[0] = new HumanPlayer(BLACK, printer);
@@ -54,7 +55,7 @@ void GameFlow::runMenu() {
                     this->players[0] = new NetworkPlayer(BLACK, &lastMove, board, *logic, printer, client);
                     break;
                 default:
-                    throw "Problem!";
+                    throw "Can't initialize players!";
             }
     }
 }
@@ -66,20 +67,27 @@ void GameFlow::playOneTurn() {
     Move *move = player->move(possibleMoves);
     if (move != NULL) {
         turnManager->yesMove();
-        this->lastMove = move->getCoordinate();
+        if (lastMove) {
+            delete(lastMove);
+        }
+        this->lastMove = move->getCoordinate()->clone();
         board->applyMove(move, player);
     } else {
         turnManager->noMove();
-        *(this->lastMove) = Coordinate(0, 0);
+        if (lastMove) { delete(lastMove); }
+        (this->lastMove) = new Coordinate(0, 0);
     }
     if (gameOver()) {
         turnManager->nextPlayer()->lasMove();
     }
+    bool notInVector = true;
     // delete extra data
     for (int i = 0; i < possibleMoves.size(); i++) {
-        if (lastMove != possibleMoves[i]->getCoordinate()) {
-            delete possibleMoves[i];
-        }
+        if (notInVector && possibleMoves[i]->getCoordinate() == move->getCoordinate()) { notInVector = false; }
+        delete possibleMoves[i];
+    }
+    if(notInVector && move) {
+        delete move;
     }
 }
 
@@ -87,6 +95,7 @@ void GameFlow::run() {
     while (!gameOver()) {
         playOneTurn();
     }
+    delete lastMove;
     finishGame();
 }
 
@@ -108,12 +117,12 @@ void GameFlow::finishGame() const {
 }
 
 GameFlow::~GameFlow() {
-    delete lastMove;
     delete players[0];
     delete players[1];
     delete logic;
     delete board;
     delete printer;
+    delete turnManager;
 }
 
 bool GameFlow::gameOver() const {
