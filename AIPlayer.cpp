@@ -28,7 +28,6 @@ Color AIPlayer::getContent() const {
 
 Move *AIPlayer::move(vector<Move *> possibleMoves) {
     if (possibleMoves.empty()) {
-        noMove();
         return NULL;
     }
     map<Move *, int> movesMap = getMovesMap(possibleMoves);
@@ -49,7 +48,7 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
             if (randomChoice < 7) { chosenMove = it->first; }
         }
     }
-    printer->printStream("The computer played" + chosenMove->getCoordinateAsString() + "\n");
+    printer->printStream("The computer played " + chosenMove->getCoordinateAsString() + "\n");
     return chosenMove;
 }
 
