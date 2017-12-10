@@ -88,4 +88,5 @@ void NetworkPlayer::lasMove() const {
     strcpy(copy, str.c_str());
     client->sendMove(copy);
     delete[] copy;
+    client->sendMove("End");
 }
