@@ -44,7 +44,7 @@ public:
     * @param counter - the counter cells of the Board.
     */
     Board(Color = BLACK, Color = WHITE, int size = 8,
-          Printer *printer = new ConsolePrinter(), CellCounter *counter = new CellCounter());
+          Printer *printer = new ConsolePrinter(), CellCounter *counter = new CellCounter(2,2));
 
     /**
      * Calls an outern Printer class to deal with showing the Board on the GUI.

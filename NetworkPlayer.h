@@ -21,6 +21,10 @@ private:
     Printer *printer;
     Client *client;
 
+    /**
+     * The method converting the move from string to move
+     * @return Move
+     */
     Move *parseIntoMove(char* newMove);
 
 public:
@@ -28,13 +32,27 @@ public:
                   Client *client);
 
     ~NetworkPlayer();
-
+    /**
+     * The method returns the player choice
+     * @return move
+     */
     virtual Move *move(vector<Move *> possibleMoves);
 
+    /**
+     * The method getting a cell and change its content to the color of the player
+     */
     virtual void conquerCell(Cell *);
 
+    /**
+     * The method get the color
+     * @return color
+     */
     virtual Color getContent() const;
 
+    /**
+     * The method checks if the color belong to the opponent
+     * @return true for yes, otherwise false
+     */
     virtual bool isOpponent(Color) const;
 
     /**

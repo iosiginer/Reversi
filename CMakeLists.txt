@@ -35,8 +35,6 @@ set(SOURCE_FILES
         AIPlayer.cpp
         AIPlayer.h
         Cloneable.h
-        Menu.h
-        Menu.cpp
         TurnManager.cpp
         TurnManager.h
         Color.h
@@ -53,6 +51,6 @@ set(TEST_FILES
         tests/board_test.cpp
         tests/classic_logic_test.cpp
         tests/ClassicLogicTest.h
-        tests/coordinate_test.cpp)
+        tests/coordinate_test.cpp FileReader.cpp FileReader.h)
 add_executable(Reversi ${SOURCE_FILES} ${TEST_FILES})
 target_link_libraries(Reversi gtest gtest_main)

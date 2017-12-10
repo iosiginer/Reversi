@@ -12,7 +12,10 @@ CellCounter::CellCounter() {
 }
 
 
-CellCounter::CellCounter(int points1, int points2) : points1(points1), points2(points2) {}
+CellCounter::CellCounter(int points1, int points2) : points1(points1), points2(points2) {
+    player1 = BLACK;
+    player2 = WHITE;
+}
 
 
 void CellCounter::changeValue(Color previous, Color current) {

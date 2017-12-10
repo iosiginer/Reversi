@@ -1,35 +1,32 @@
-/**
- * Created by Josef Ginerman on 07/12/17.
- **/
-
 #include "Client.h"
-#include "ConsolePrinter.h"
-
+#include <stdexcept>
 using namespace std;
 
-Client::Client(const char *serverIP, int serverPort) :
-        serverIP(serverIP), serverPort(serverPort),
-        clientSocket(0) {
-    cout << "Client" << endl;
+Client::Client(Printer *printer) : clientSocket(0), printer(printer) {
+    FileReader f("ServerDetails.txt");
+    serverIP = f.readIP();
+    serverPort = f.readPort();
+    printer->printStream("Client\n");
+    cout << serverIP << "\n" << serverPort << endl;
 }
 
 void Client::connectToServer() {
     // Create a socket point
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
-    if (clientSocket == -1) {
-        throw "Error opening socket";
+    if (clientSocket == ERROR) {
+        __throw_runtime_error("Error opening socket");
     }
     // Convert the ip string to a network address
     struct in_addr address;
     if (!inet_aton(serverIP, &address)) {
-        throw "Can't parse IP address";
+        __throw_runtime_error("Can't parse IP address");
     }
     // Get a hostent structure for the given host address
     struct hostent *server;
     server = gethostbyaddr((const void *) &address, sizeof
             address, AF_INET);
     if (server == NULL) {
-        throw "Host is unreachable";
+        __throw_runtime_error("Host is unreachable");
     }
     // Create a structure for the server address
     struct sockaddr_in serverAddress;
@@ -39,24 +36,24 @@ void Client::connectToServer() {
     // htons converts values between host and network byteorders
     serverAddress.sin_port = htons(serverPort);
     // Establish a connection with the TCP server
-    if (connect(clientSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) == -1) {
-        throw "Error connecting to server";
+    if (connect(clientSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) == ERROR) {
+        __throw_runtime_error("Error connecting to server");
     }
-    cout << "Connected to server" << endl;
+    printer->printStream("Connected to server\n");
 }
 
 void Client::sendMove(char* position) {
     // Write the exercise arguments to the socket
-    ssize_t n = write(clientSocket, position, sizeof(position));
-    if (n == -1) {
+    ssize_t n = write(clientSocket, position, strlen(position));
+    if (n == ERROR) {
         throw "Error writing Move to socket";
     }
 }
 
 char* Client::receiveMove() {
-    char *newMove = new char[9];
-    int n = read(clientSocket, newMove, sizeof(char) * 9);
-    if (n == -1) {
+    char *newMove = new char[MAX_MOVE];
+    int n = read(clientSocket, newMove, sizeof(char) * MAX_MOVE);
+    if (n == ERROR) {
         throw "Error reading Move from socket";
     }
     return newMove;
@@ -65,18 +62,21 @@ char* Client::receiveMove() {
 int Client::receiveNumber() {
     int turn;
     ssize_t n = read(clientSocket, &turn, sizeof(turn));
-    if (n == -1) {
+    if (n == ERROR) {
         throw "Error reading Move from socket";
     }
     if (turn == 1) {
         ConsolePrinter printer;
         printer.printStream("Waiting for the other player to join...\n");
         ssize_t n = read(clientSocket, &turn, sizeof(turn));
-        if (n == -1) {
+        if (n == ERROR) {
             throw "Error reading Move from socket";
         }
     }
     return turn;
 }
 
-
+Client::~Client() {
+    close(clientSocket);
+    delete[](serverIP);
+}

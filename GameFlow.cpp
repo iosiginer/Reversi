@@ -7,7 +7,8 @@
 
 
 GameFlow::GameFlow(int size, Printer *printer) : printer(printer) {
-    this->board = new Board(BLACK, WHITE, 4, printer);
+    CellCounter *counter = new CellCounter();
+    this->board = new Board(BLACK, WHITE, 4, printer, counter);
     this->logic = new ClassicLogic();
     this->lastMove = NULL;
     runMenu();
@@ -35,7 +36,7 @@ void GameFlow::runMenu() {
             this->players[1] = new AIPlayer(WHITE, BLACK, board, *logic, printer);
             break;
         case 3:
-            static Client *client = new Client("127.0.0.1", 8001);
+            static Client *client = new Client(printer);
             try {
                 client->connectToServer();
             } catch (const char *msg) {
