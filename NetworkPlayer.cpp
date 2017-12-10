@@ -22,7 +22,8 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             char *noMove = const_cast<char *>("NoMove");
             client->sendMove(noMove);
         } else {
-            char *copy = new char[str.size() + 1];
+            char *copy = new char[MAX_MOVE];
+            memset(copy,0,MAX_MOVE);
             strcpy(copy, str.c_str());
             client->sendMove(copy);
             delete[] copy;
@@ -49,9 +50,9 @@ Move *NetworkPlayer::parseIntoMove(char *newMove) {
     Coordinate *position;
     // newMove is in the form "X, Y"
     // X is row and Y is col
-    string newMoveStr(newMove, 7);
+    string newMoveStr(newMove, MAX_MOVE);
     string rowAsString = newMoveStr.substr(0, newMoveStr.find(", "));
-    string colAsString = newMoveStr.substr(newMoveStr.find(", ") + 1, newMoveStr.size());
+    string colAsString = newMoveStr.substr(newMoveStr.find(", ") + 1, MAX_MOVE);
     stringstream convertRow(rowAsString);
     stringstream convertCol(colAsString);
     if (( convertRow >> row ) && ( convertCol >> col )) {
@@ -83,7 +84,7 @@ void NetworkPlayer::noMove() const {
 
 void NetworkPlayer::lasMove() const {
     string str = ( *lastMove )->toString();
-    char *copy = new char[str.size() + 1];
+    char *copy = new char[MAX_MOVE];
     strcpy(copy, str.c_str());
     client->sendMove(copy);
     delete[] copy;

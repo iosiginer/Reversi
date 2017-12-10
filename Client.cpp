@@ -7,7 +7,6 @@ Client::Client(Printer *printer) : clientSocket(0), printer(printer) {
     serverIP = f.readIP();
     serverPort = f.readPort();
     printer->printStream("Client\n");
-    cout << serverIP << "\n" << serverPort << endl;
 }
 
 void Client::connectToServer() {
@@ -44,7 +43,7 @@ void Client::connectToServer() {
 
 void Client::sendMove(char* position) {
     // Write the exercise arguments to the socket
-    ssize_t n = write(clientSocket, position, strlen(position));
+    ssize_t n = write(clientSocket, position, MAX_MOVE);
     if (n == ERROR) {
         throw "Error writing Move to socket";
     }
@@ -52,7 +51,7 @@ void Client::sendMove(char* position) {
 
 char* Client::receiveMove() {
     char *newMove = new char[MAX_MOVE];
-    int n = read(clientSocket, newMove, sizeof(char) * MAX_MOVE);
+    int n = read(clientSocket, newMove, MAX_MOVE);
     if (n == ERROR) {
         throw "Error reading Move from socket";
     }

@@ -1,8 +1,3 @@
-/**
- * Created by Josef Ginerman on 07/12/17.
- * ID : 332494830
- **/
-
 #ifndef REVERSI_NETWORKPLAYER_H
 #define REVERSI_NETWORKPLAYER_H
 
