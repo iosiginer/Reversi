@@ -43,17 +43,26 @@ void Client::connectToServer() {
 
 void Client::sendMove(char* position) {
     // Write the exercise arguments to the socket
-    ssize_t n = write(clientSocket, position, MAX_MOVE);
-    if (n == ERROR) {
-        throw "Error writing Move to socket";
+    try {
+        ssize_t n = write(clientSocket, position, MAX_MOVE);
+        if (n == ERROR) {
+            throw "Error writing Move to socket";
+        }
+    } catch (const char *msg) {
+        exit(0);
     }
 }
 
 char* Client::receiveMove() {
     char *newMove = new char[MAX_MOVE];
-    int n = read(clientSocket, newMove, MAX_MOVE);
-    if (n == ERROR) {
-        throw "Error reading Move from socket";
+    memset(newMove, 0, MAX_MOVE);
+    try {
+        int n = read(clientSocket, newMove, MAX_MOVE);
+        if (n == ERROR) {
+            throw "Error reading Move from socket";
+        }
+    } catch (const char *msg) {
+        exit(0);
     }
     return newMove;
 }

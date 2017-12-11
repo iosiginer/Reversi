@@ -31,7 +31,11 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
         }
     }
     if (possibleMoves.empty()) {
+        string str = ( *lastMove )->toString();
         noMove();
+        if (strcmp(str.c_str(), "0, 0") == 0) {
+            return NULL;
+        }
     }
     char *newMove = client->receiveMove();
     Move *move = parseIntoMove(newMove);
@@ -43,6 +47,7 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
 
 Move *NetworkPlayer::parseIntoMove(char *newMove) {
     if (strcmp(newMove, "NoMove") == 0) {
+        delete[] (newMove);
         return NULL;
     }
     NetworkPlayer *self = this;
@@ -84,9 +89,13 @@ void NetworkPlayer::noMove() const {
 
 void NetworkPlayer::lasMove() const {
     string str = ( *lastMove )->toString();
-    char *copy = new char[MAX_MOVE];
-    strcpy(copy, str.c_str());
-    client->sendMove(copy);
-    delete[] copy;
-    client->sendMove("End");
+    if (strcmp(str.c_str(), "0, 0") == 0) {
+        char *endMove = const_cast<char *>("End");
+        client->sendMove(endMove);
+    } else {
+        char *copy = new char[MAX_MOVE];
+        strcpy(copy, str.c_str());
+        client->sendMove(copy);
+        delete[] copy;
+    }
 }
