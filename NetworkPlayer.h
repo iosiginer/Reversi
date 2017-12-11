@@ -54,7 +54,7 @@ public:
      * Functio to deal with the Last move in a network game. Only does something in the network player.
      * @return Move - NULL in most kinds of players.
      */
-    virtual void lasMove() const;
+    virtual void playLastMove() const;
 
     /**
     * Function to deal with when the player can't Move in this turn.

@@ -79,7 +79,7 @@ void GameFlow::playOneTurn() {
         (this->lastMove) = new Coordinate(0, 0);
     }
     if (gameOver()) {
-        turnManager->nextPlayer()->lasMove();
+        turnManager->nextPlayer()->playLastMove();
     }
     bool notInVector = true;
     // delete extra data

@@ -29,8 +29,3 @@ void TurnManager::yesMove() {
 bool TurnManager::noMoreMoves() const {
     return (noMoves[0] && noMoves[1]);
 }
-
-
-
-
-

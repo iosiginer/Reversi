@@ -87,13 +87,15 @@ void NetworkPlayer::noMove() const {
                                  " Waiting to the other player to be notified.\n");
 }
 
-void NetworkPlayer::lasMove() const {
+void NetworkPlayer::playLastMove() const {
     string str = ( *lastMove )->toString();
     if (strcmp(str.c_str(), "0, 0") == 0) {
         char *endMove = const_cast<char *>("End");
         client->sendMove(endMove);
     } else {
         char *copy = new char[MAX_MOVE];
+        memset(copy, 0, MAX_MOVE);
+        str.append("x");
         strcpy(copy, str.c_str());
         client->sendMove(copy);
         delete[] copy;
