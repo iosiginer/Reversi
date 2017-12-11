@@ -122,6 +122,3 @@ public:
      */
     ~Board();
 };
-
-
-#endif //REVERSI_BOARD_H
