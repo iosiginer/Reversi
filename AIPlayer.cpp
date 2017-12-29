@@ -13,7 +13,7 @@ AIPlayer::AIPlayer(Color content, Color oppContent, Board *board, GameLogic &log
 }
 
 bool AIPlayer::isOpponent(Color adv) const {
-    return (content != adv && adv != WHITE);
+    return (content != adv && adv != EMPTY);
 }
 
 void AIPlayer::conquerCell(Cell *cell) {
@@ -52,7 +52,6 @@ Move *AIPlayer::move(vector<Move *> possibleMoves) {
     printer->printStream("The computer played" + chosenMove->getCoordinateAsString() + "\n");
     return chosenMove;
 }
-
 
 map<Move *, int> AIPlayer::getMovesMap(vector<Move *> possibleMoves) {
     map<Move *, int> movesMap; // map to store each move with its correspondent max opponent gain

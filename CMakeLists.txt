@@ -42,7 +42,7 @@ set(SOURCE_FILES
         Client.h
         NetworkPlayer.cpp
         NetworkPlayer.h
-        )
+        MainMenu.cpp MainMenu.h)
 
 set(TEST_FILES
         tests/aIPlayer_test.cpp

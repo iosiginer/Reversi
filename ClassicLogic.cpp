@@ -63,5 +63,9 @@ ClassicLogic::validDirection(Coordinate *pos, Player *player, Coordinate *direct
 
 Move *ClassicLogic::getMoveByPosition(Coordinate *pos, Player *player, Board *board) {
     int gain = 0;
+    if (Coordinate(-1,-1) == *pos) {
+        vector<Coordinate *> s;
+        return new Move(pos, s);
+    }
     return new Move(pos, getDirections(*pos, player, &gain, board));
 }

@@ -7,6 +7,7 @@
 #include "HumanPlayer.h"
 #include "AIPlayer.h"
 #include "TurnManager.h"
+#include "Client.h"
 
 
 /**
@@ -39,19 +40,20 @@ private:
      */
     bool gameOver() const;
 
-    /**
-     * Prints the Menu options, and lets the user decide.
-     * According to the User choice, it creates the players.
-     */
-    void runMenu();
-
+    void deletePossibleMoves(vector<Move*> &possibleMoves, Move* move);
 
 public:
 
     /**
      * Constructor. Gets two chars and an int, used to create the Board and the Players.
      */
-    GameFlow(int = 4, Printer *printer = new ConsolePrinter());
+    GameFlow(int size, Printer *printer, int typeOfGame);
+
+    /**
+     * Constructor. Gets two chars and an int, used to create the Board and the Players.
+     */
+    GameFlow(int size, Printer *printer, int typeOfGame, Client *client);
+
 
     /**
      * Perform the loop that allows the Game to be played.

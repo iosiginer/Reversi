@@ -20,12 +20,12 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
         string str = ( *lastMove )->toString();
         if (strcmp(str.c_str(), "0, 0") == 0) {
             char *noMove = const_cast<char *>("NoMove");
-            client->sendMove(noMove);
+            client->send(noMove);
         } else {
             char *copy = new char[MAX_MOVE];
             memset(copy,0,MAX_MOVE);
             strcpy(copy, str.c_str());
-            client->sendMove(copy);
+            client->send(copy);
             delete[] copy;
             printer->printStream("Waiting for the other player's move...\n");
         }
@@ -37,10 +37,14 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             return NULL;
         }
     }
-    char *newMove = client->receiveMove();
+    char *newMove = client->receive();
     Move *move = parseIntoMove(newMove);
     if (move) {
-        printer->printStream("Your opponent chose: " + move->getCoordinate()->toString() + "\n");
+        if(*(move->getCoordinate()) == Coordinate(-1,-1)) {
+            printer->printStream("The other player has disconnected");
+        } else {
+            printer->printStream("Your opponent chose: " + move->getCoordinate()->toString() + "\n");
+        }
     }
     return move;
 }
@@ -56,14 +60,18 @@ Move *NetworkPlayer::parseIntoMove(char *newMove) {
     // newMove is in the form "X, Y"
     // X is row and Y is col
     string newMoveStr(newMove, MAX_MOVE);
-    string rowAsString = newMoveStr.substr(0, newMoveStr.find(", "));
-    string colAsString = newMoveStr.substr(newMoveStr.find(", ") + 1, MAX_MOVE);
-    stringstream convertRow(rowAsString);
-    stringstream convertCol(colAsString);
-    if (( convertRow >> row ) && ( convertCol >> col )) {
-        position = new Coordinate(row, col);
+    if (newMoveStr.find(",") == string::npos) {
+        position = new Coordinate(-1,-1);
     } else {
-        throw "Couldn't receive move";
+        string rowAsString = newMoveStr.substr(0, newMoveStr.find(", "));
+        string colAsString = newMoveStr.substr(newMoveStr.find(", ") + 1, MAX_MOVE);
+        stringstream convertRow(rowAsString);
+        stringstream convertCol(colAsString);
+        if (( convertRow >> row ) && ( convertCol >> col )) {
+            position = new Coordinate(row, col);
+        } else {
+            throw "Couldn't receive move";
+        }
     }
     delete[] newMove;
     return logic.getMoveByPosition(position, self, board);
@@ -91,13 +99,13 @@ void NetworkPlayer::playLastMove() const {
     string str = ( *lastMove )->toString();
     if (strcmp(str.c_str(), "0, 0") == 0) {
         char *endMove = const_cast<char *>("End");
-        client->sendMove(endMove);
+        client->send(endMove);
     } else {
         char *copy = new char[MAX_MOVE];
         memset(copy, 0, MAX_MOVE);
         str.append("x");
         strcpy(copy, str.c_str());
-        client->sendMove(copy);
+        client->send(copy);
         delete[] copy;
     }
 }

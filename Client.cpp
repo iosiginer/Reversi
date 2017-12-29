@@ -41,7 +41,7 @@ void Client::connectToServer() {
     printer->printStream("Connected to server\n");
 }
 
-void Client::sendMove(char* position) {
+void Client::send(char *position) {
     // Write the exercise arguments to the socket
     try {
         ssize_t n = write(clientSocket, position, MAX_MOVE);
@@ -53,7 +53,7 @@ void Client::sendMove(char* position) {
     }
 }
 
-char* Client::receiveMove() {
+char* Client::receive() {
     char *newMove = new char[MAX_MOVE];
     memset(newMove, 0, MAX_MOVE);
     try {
@@ -65,23 +65,6 @@ char* Client::receiveMove() {
         exit(0);
     }
     return newMove;
-}
-
-int Client::receiveNumber() {
-    int turn;
-    ssize_t n = read(clientSocket, &turn, sizeof(turn));
-    if (n == ERROR) {
-        throw "Error reading Move from socket";
-    }
-    if (turn == 1) {
-        ConsolePrinter printer;
-        printer.printStream("Waiting for the other player to join...\n");
-        ssize_t n = read(clientSocket, &turn, sizeof(turn));
-        if (n == ERROR) {
-            throw "Error reading Move from socket";
-        }
-    }
-    return turn;
 }
 
 Client::~Client() {
