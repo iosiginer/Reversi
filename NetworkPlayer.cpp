@@ -22,9 +22,11 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             char *noMove = const_cast<char *>("NoMove");
             client->send(noMove);
         } else {
+            string play = "play ";
+            play.append(str);
             char *copy = new char[MAX_MOVE];
             memset(copy,0,MAX_MOVE);
-            strcpy(copy, str.c_str());
+            strcpy(copy, play.c_str());
             client->send(copy);
             delete[] copy;
             printer->printStream("Waiting for the other player's move...\n");
@@ -98,13 +100,14 @@ void NetworkPlayer::noMove() const {
 void NetworkPlayer::playLastMove() const {
     string str = ( *lastMove )->toString();
     if (strcmp(str.c_str(), "0, 0") == 0) {
-        char *endMove = const_cast<char *>("End");
+        char *endMove = const_cast<char *>("END");
         client->send(endMove);
     } else {
         char *copy = new char[MAX_MOVE];
         memset(copy, 0, MAX_MOVE);
-        str.append("x");
-        strcpy(copy, str.c_str());
+        string strClose = "close ";
+        strClose.append(str);
+        strcpy(copy, strClose.c_str());
         client->send(copy);
         delete[] copy;
     }

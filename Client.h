@@ -1,8 +1,3 @@
-/**
- * Created by Josef Ginerman on 07/12/17.
- * ID : 332494830
- **/
-
 #ifndef REVERSI_NETWORKCLIENT_H
 #define REVERSI_NETWORKCLIENT_H
 

@@ -1,5 +1,5 @@
 #include "Move.h"
-//Ima shel yossi
+
 Move::Move(Coordinate *position, vector<Coordinate *> directions) : position(position),
                                                                     directions(directions) {
     this->gain = 0;

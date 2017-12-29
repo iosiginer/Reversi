@@ -67,6 +67,23 @@ char* Client::receive() {
     return newMove;
 }
 
+int Client::receiveNumber() {
+    int turn;
+    ssize_t n = read(clientSocket, &turn, sizeof(turn));
+    if (n == ERROR) {
+        throw "Error reading Move from socket";
+    }
+    if (turn == 1) {
+        ConsolePrinter printer;
+        printer.printStream("Waiting for the other player to join...\n");
+        ssize_t n = read(clientSocket, &turn, sizeof(turn));
+        if (n == ERROR) {
+            throw "Error reading Move from socket";
+        }
+    }
+    return turn;
+}
+
 Client::~Client() {
     close(clientSocket);
     delete[](serverIP);

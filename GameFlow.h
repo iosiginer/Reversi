@@ -40,20 +40,24 @@ private:
      */
     bool gameOver() const;
 
-    void deletePossibleMoves(vector<Move*> &possibleMoves, Move* move);
+    /**
+     * Prints the Menu options, and lets the user decide.
+     * According to the User choice, it creates the players.
+     */
+    void runMenu();
+
 
 public:
 
     /**
-     * Constructor. Gets two chars and an int, used to create the Board and the Players.
+     * Constructor for creating Human vs Network or Network vs Human
      */
-    GameFlow(int size, Printer *printer, int typeOfGame);
+    GameFlow(int size, Printer *printer, int typeOfGames, Client *client);
 
     /**
-     * Constructor. Gets two chars and an int, used to create the Board and the Players.
+     * Constructor for creating Human Vs Human or Human Vs AI
      */
-    GameFlow(int size, Printer *printer, int typeOfGame, Client *client);
-
+    GameFlow(int size, Printer *printer, int typeOfGame);
 
     /**
      * Perform the loop that allows the Game to be played.
