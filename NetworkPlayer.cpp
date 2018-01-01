@@ -110,6 +110,5 @@ void NetworkPlayer::playLastMove() const {
         strcpy(copy, strClose.c_str());
         client->send(copy);
         delete[] copy;
-
     }
 }
