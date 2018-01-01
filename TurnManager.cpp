@@ -10,7 +10,8 @@ TurnManager::TurnManager(Player *p1, Player *p2) {
     turns = 0;
     players[0] = p1;
     players[1] = p2;
-    noMoves[0] = noMoves[1] = false;
+    noMoves[0] = false;
+    noMoves[1] = false;
 }
 
 Player *TurnManager::nextPlayer() {

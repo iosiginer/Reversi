@@ -52,15 +52,6 @@ void Client::send(string message) {
     buffer = '\0';
     n = write(clientSocket, &buffer, sizeof(char));
     if (ERROR == n) throw "Error sending message";
-//    // Write the exercise arguments to the socket
-//    try {
-//        ssize_t n = write(clientSocket, position, MAX_MOVE);
-//        if (n == ERROR) {
-//            throw "Error writing Move to socket";
-//        }
-//    } catch (const char *msg) {
-//        exit(0);
-//    }
 }
 
 string Client::receive() {
@@ -75,17 +66,6 @@ string Client::receive() {
         if (buffer == '\0') break;
     }
     return message;
-//    char *newMove = new char[MAX_MOVE];
-//    memset(newMove, 0, MAX_MOVE);
-//    try {
-//        int n = read(clientSocket, newMove, MAX_MOVE);
-//        if (n == ERROR) {
-//            throw "Error reading Move from socket";
-//        }
-//    } catch (const char *msg) {
-//        exit(0);
-//    }
-//    return newMove;
 }
 
 int Client::receiveNumber() {
