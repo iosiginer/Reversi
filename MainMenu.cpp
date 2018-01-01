@@ -16,9 +16,9 @@ MainMenu::MainMenu() {
 GameFlow *MainMenu::run() {
     int choice;
     printer->printStream("Choose against who you want to play: \n\t 1. Human \n\t 2. AI\n\t 3. Network\n");
-    while(true) {
+    while (true) {
         cin >> choice;
-        while (cin.fail() || ( choice > 3 )) {
+        while (cin.fail() || (choice > 3)) {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             printer->printStream("Wrong choice, try again \n");
@@ -39,9 +39,10 @@ GameFlow *MainMenu::run() {
 
 
 GameFlow *MainMenu::createNetworkGameFlow() {
+    GameFlow *game = NULL;
     int choice;
     Client *client = new Client(printer);
-    while (true) {
+    while (NULL == game) {
         try {
             client->connectToServer();
         } catch (const char *msg) {
@@ -52,10 +53,12 @@ GameFlow *MainMenu::createNetworkGameFlow() {
         cin >> choice;
         switch (choice) {
             case 1:
-                openGame(client);
+//                openGame(client);
+                game = openGame(client);
                 break;
             case 2:
-                return joinGame(client);
+                game = joinGame(client);
+                break;
             case 3:
                 printListOfGames(client);
                 break;
@@ -85,6 +88,12 @@ GameFlow *MainMenu::openGame(Client *client) {
         return new GameFlow(BOARD_SIZE, printer, HUMAN_VS_NETWORK, client);
     } else {
         //throw "Opening the room was failed\n";
+        //message = client->receive();
+        if (strcmp(message, "start") == 0) {
+            cout << "start" << endl;
+            delete (message);
+            return new GameFlow(BOARD_SIZE, printer, HUMAN_VS_NETWORK, client);
+        }
     }
 }
 
@@ -104,10 +113,10 @@ GameFlow *MainMenu::joinGame(Client *client) {
 char *MainMenu::buildMessage(string str) {
     string roomName;
     cin.ignore();
-    getline(cin,roomName);
+    getline(cin, roomName);
     str.append(roomName);
     char *commandStr = new char[MAX_MOVE];
-    memset(commandStr,0,MAX_MOVE);
+    memset(commandStr, 0, MAX_MOVE);
     strcpy(commandStr, str.c_str());
     return commandStr;
 }
