@@ -64,6 +64,7 @@ Move *NetworkPlayer::parseIntoMove(string newMove) {
         string colAsString = newMove.substr(newMove.find(", ") + 1, MAX_MOVE);
         stringstream convertRow(rowAsString);
         stringstream convertCol(colAsString);
+        cout << row << "," << col << endl;
         if (( convertRow >> row ) && ( convertCol >> col )) {
             position = new Coordinate(row, col);
         } else {
