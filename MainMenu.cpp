@@ -52,7 +52,8 @@ GameFlow *MainMenu::createNetworkGameFlow() {
         cin >> choice;
         switch (choice) {
             case 1:
-                return openGame(client);
+                openGame(client);
+                break;
             case 2:
                 return joinGame(client);
             case 3:
@@ -68,6 +69,7 @@ GameFlow *MainMenu::createNetworkGameFlow() {
 
 void MainMenu::printListOfGames(Client *client) {
     char listOfGames[] = "list_games";
+    cout << sizeof(listOfGames);
     client->send(listOfGames);
     char *list = client->receive();
     printer->printStream(list);
@@ -78,23 +80,20 @@ GameFlow *MainMenu::openGame(Client *client) {
     printer->printStream("Please enter the name of the room you want to open\n");
     char *message = buildMessage(str);
     client->send(message);
-    delete(message);
-    //message = client->receive();
+    message = client->receive();
     if (strcmp(message, "start") == 0) {
-        delete(message);
         return new GameFlow(BOARD_SIZE, printer, HUMAN_VS_NETWORK, client);
     } else {
-        throw "Opening the room was failed\n";
+        //throw "Opening the room was failed\n";
     }
-    cout << "here";
-
 }
 
 GameFlow *MainMenu::joinGame(Client *client) {
     string roomName, str = "join ";
     printer->printStream("Please enter the name of the room you want to open\n");
-    client->send(buildMessage(str));
-    char *message = client->receive();
+    char *message = buildMessage(str);
+    client->send(message);
+    message = client->receive();
     if (strcmp(message, "start") == 0) {
         return new GameFlow(BOARD_SIZE, printer, NETWORK_VS_HUMAN, client);
     } else {
