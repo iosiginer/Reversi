@@ -1,6 +1,10 @@
 #ifndef REVERSI_MAINMENU_H
 #define REVERSI_MAINMENU_H
 
+
+#define  FAILURE "-1"
+
+
 #include "HumanPlayer.h"
 #include "AIPlayer.h"
 #include "NetworkPlayer.h"

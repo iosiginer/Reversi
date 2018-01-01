@@ -39,7 +39,7 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             return NULL;
         }
     }
-    char *newMove = client->receive();
+    string newMove = client->receive();
     Move *move = parseIntoMove(newMove);
     if (move) {
         if(*(move->getCoordinate()) == Coordinate(-1,-1)) {
@@ -51,9 +51,8 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
     return move;
 }
 
-Move *NetworkPlayer::parseIntoMove(char *newMove) {
-    if (strcmp(newMove, "NoMove") == 0) {
-        delete[] (newMove);
+Move *NetworkPlayer::parseIntoMove(string newMove) {
+    if (strcmp(newMove.c_str(), "NoMove") == 0) {
         return NULL;
     }
     NetworkPlayer *self = this;
@@ -61,12 +60,11 @@ Move *NetworkPlayer::parseIntoMove(char *newMove) {
     Coordinate *position;
     // newMove is in the form "X, Y"
     // X is row and Y is col
-    string newMoveStr(newMove, MAX_MOVE);
-    if (newMoveStr.find(",") == string::npos) {
+    if (newMove.find(",") == string::npos) {
         position = new Coordinate(-1,-1);
     } else {
-        string rowAsString = newMoveStr.substr(0, newMoveStr.find(", "));
-        string colAsString = newMoveStr.substr(newMoveStr.find(", ") + 1, MAX_MOVE);
+        string rowAsString = newMove.substr(0, newMove.find(", "));
+        string colAsString = newMove.substr(newMove.find(", ") + 1, MAX_MOVE);
         stringstream convertRow(rowAsString);
         stringstream convertCol(colAsString);
         if (( convertRow >> row ) && ( convertCol >> col )) {
@@ -75,7 +73,6 @@ Move *NetworkPlayer::parseIntoMove(char *newMove) {
             throw "Couldn't receive move";
         }
     }
-    delete[] newMove;
     return logic.getMoveByPosition(position, self, board);
 }
 
