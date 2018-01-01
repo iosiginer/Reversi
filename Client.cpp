@@ -40,30 +40,52 @@ void Client::connectToServer() {
     printer->printStream("Connected to server\n");
 }
 
-void Client::send(char *position) {
-    // Write the exercise arguments to the socket
-    try {
-        ssize_t n = write(clientSocket, position, MAX_MOVE);
-        if (n == ERROR) {
-            throw "Error writing Move to socket";
-        }
-    } catch (const char *msg) {
-        exit(0);
+void Client::send(string message) {
+    char buffer;
+    int i = 0, n;
+    while (i < message.length()) {
+        buffer = message.at(i);
+        n = write(clientSocket, &buffer, sizeof(char));
+        if (ERROR == n) throw "Error sending message";
+        i++;
     }
+    buffer = '\0';
+    n = write(clientSocket, &buffer, sizeof(char));
+    if (ERROR == n) throw "Error sending message";
+//    // Write the exercise arguments to the socket
+//    try {
+//        ssize_t n = write(clientSocket, position, MAX_MOVE);
+//        if (n == ERROR) {
+//            throw "Error writing Move to socket";
+//        }
+//    } catch (const char *msg) {
+//        exit(0);
+//    }
 }
 
-char* Client::receive() {
-    char *newMove = new char[MAX_MOVE];
-    memset(newMove, 0, MAX_MOVE);
-    try {
-        int n = read(clientSocket, newMove, MAX_MOVE);
-        if (n == ERROR) {
-            throw "Error reading Move from socket";
-        }
-    } catch (const char *msg) {
-        exit(0);
+string Client::receive() {
+    string message = "";
+    char buffer;
+    int i = 0, n;
+    while (true) {
+        n = read(clientSocket, &buffer, sizeof(char));
+        if (ERROR == n) throw "Error sending message";
+        message += buffer;
+        i++;
+        if (buffer == '\0') break;
     }
-    return newMove;
+    return message;
+//    char *newMove = new char[MAX_MOVE];
+//    memset(newMove, 0, MAX_MOVE);
+//    try {
+//        int n = read(clientSocket, newMove, MAX_MOVE);
+//        if (n == ERROR) {
+//            throw "Error reading Move from socket";
+//        }
+//    } catch (const char *msg) {
+//        exit(0);
+//    }
+//    return newMove;
 }
 
 int Client::receiveNumber() {

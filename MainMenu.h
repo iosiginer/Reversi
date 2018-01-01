@@ -1,6 +1,10 @@
 #ifndef REVERSI_MAINMENU_H
 #define REVERSI_MAINMENU_H
 
+
+#define  FAILURE "-1"
+
+
 #include "HumanPlayer.h"
 #include "AIPlayer.h"
 #include "NetworkPlayer.h"
@@ -36,7 +40,7 @@ private:
      * The method builds the message and reading the room name
      * @return char*
      */
-    char *buildMessage(string str);
+    string buildMessage(string str);
     Printer *printer;
 };
 

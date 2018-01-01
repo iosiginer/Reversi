@@ -109,4 +109,3 @@ GameFlow::~GameFlow() {
 bool GameFlow::gameOver() const {
     return (board->gameOver() || turnManager->noMoreMoves());
 }
-

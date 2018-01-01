@@ -20,7 +20,7 @@ private:
      * The method converting the move from string to move
      * @return Move
      */
-    Move *parseIntoMove(char* newMove);
+    Move *parseIntoMove(string newMove);
 
 public:
     NetworkPlayer(Color content, Coordinate **lastMove, Board *board, GameLogic &logic, Printer *printer,

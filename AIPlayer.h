@@ -29,7 +29,7 @@ public:
     AIPlayer(Color content, Color oppContent, Board *, GameLogic &, Printer *printer);
 
     /**
-     * Perform the logics of picking a move for this turn.
+     * Perform the logic of picking a move for this turn.
      * @param possibleMoves - the vector of possible moves the player has.
      * @return Move * - the move to be performed by the GameFlow.
      */

@@ -11,8 +11,8 @@ set(CMAKE_CXX_STANDARD 98)
 
 set(SOURCE_FILES
         main.cpp
-        Board.h
         Board.cpp
+        Board.h
         Cell.cpp
         Cell.h
         Coordinate.cpp

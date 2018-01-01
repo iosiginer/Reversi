@@ -34,13 +34,13 @@ public:
     /**
     * The method send the player chose to the other player
     */
-    void send(char *position);
+    void send(string message);
 
     /**
      * The method receive the other player move
      * @return the coordinate received by stream
      */
-    char* receive();
+    string receive();
 
     /**
      * The method receive the player number
