@@ -68,17 +68,18 @@ GameFlow *MainMenu::createNetworkGameFlow() {
 
 void MainMenu::printListOfGames(Client *client) {
     string listOfGames = "list_games";
-    cout << sizeof(listOfGames);
     client->send(listOfGames);
     string list = client->receive();
     printer->printStream(list);
+
 }
 
 GameFlow *MainMenu::openGame(Client *client) {
-    string roomName, str = "start ";
+    string message = "start ", fullMessage;
     printer->printStream("Please enter the name of the room you want to open\n");
-    char *message = buildMessage(str);
-    client->send(message);
+    fullMessage = buildMessage(message);
+    cout << message << endl;
+    client->send(fullMessage);
     string num = client->receive();
     cout << "I received " << num << " and that's it" << endl;
     if (strcmp("1", num.c_str()) == 0) {
@@ -90,10 +91,11 @@ GameFlow *MainMenu::openGame(Client *client) {
 }
 
 GameFlow *MainMenu::joinGame(Client *client) {
-    string roomName, str = "join ";
+    string message = "join ", fullMessage;
     printer->printStream("Please enter the name of the room you want to join\n");
-    char *message = buildMessage(str);
-    client->send(message);
+    fullMessage = buildMessage(message);
+    cout << message << endl;
+    client->send(fullMessage);
     string num = client->receive();
     cout << "I received " << num << " and that's it" << endl;
     if (strcmp("2", num.c_str()) == 0) {
@@ -104,13 +106,12 @@ GameFlow *MainMenu::joinGame(Client *client) {
     }
 }
 
-char *MainMenu::buildMessage(string str) {
-    string roomName;
+string MainMenu::buildMessage(string str) {
+    string newStr(str), roomName;
+    cout << newStr << endl;
     cin.ignore();
     getline(cin, roomName);
-    str.append(roomName);
-    char *commandStr = new char[MAX_MOVE];
-    memset(commandStr, 0, MAX_MOVE);
-    strcpy(commandStr, str.c_str());
-    return commandStr;
+    newStr.append(roomName);
+    cout << newStr << endl;
+    return newStr;
 }

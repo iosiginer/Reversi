@@ -40,7 +40,7 @@ private:
      * The method builds the message and reading the room name
      * @return char*
      */
-    char *buildMessage(string str);
+    string buildMessage(string str);
     Printer *printer;
 };
 
