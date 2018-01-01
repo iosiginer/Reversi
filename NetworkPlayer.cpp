@@ -29,6 +29,7 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             strcpy(copy, play.c_str());
             client->send(copy);
             delete[] copy;
+            printer->printStream("Waiting for the other player's move...\n");
         }
     }
     if (possibleMoves.empty()) {
@@ -38,11 +39,7 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             return NULL;
         }
     }
-    printer->printStream("Waiting for the other player's move...\n");
     string newMove = client->receive();
-    if (newMove.empty()) {
-        cout << " I got a NULL string!" << endl;
-    } else cout << newMove << " is what i got" << endl;
     Move *move = parseIntoMove(newMove);
     if (move) {
         if(*(move->getCoordinate()) == Coordinate(-1,-1)) {

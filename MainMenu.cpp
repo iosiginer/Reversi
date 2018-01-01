@@ -39,10 +39,9 @@ GameFlow *MainMenu::run() {
 
 
 GameFlow *MainMenu::createNetworkGameFlow() {
-    GameFlow *game = NULL;
     int choice;
     Client *client = new Client(printer);
-    while (NULL == game) {
+    while (true) {
         try {
             client->connectToServer();
         } catch (const char *msg) {
@@ -53,11 +52,9 @@ GameFlow *MainMenu::createNetworkGameFlow() {
         cin >> choice;
         switch (choice) {
             case 1:
-                game = openGame(client);
-                break;
+                return openGame(client);
             case 2:
-                game = joinGame(client);
-                break;
+                return joinGame(client);
             case 3:
                 printListOfGames(client);
                 break;
@@ -67,41 +64,39 @@ GameFlow *MainMenu::createNetworkGameFlow() {
                 break;
         }
     }
-    return game;
 }
 
 void MainMenu::printListOfGames(Client *client) {
     string listOfGames = "list_games";
+    cout << sizeof(listOfGames);
     client->send(listOfGames);
     string list = client->receive();
     printer->printStream(list);
 }
 
 GameFlow *MainMenu::openGame(Client *client) {
-    string roomName, str = "start ", num;
+    string roomName, str = "start ";
     printer->printStream("Please enter the name of the room you want to open\n");
-    string message = buildMessage(str);
-    cout << message << endl;
+    char *message = buildMessage(str);
     client->send(message);
-    num = client->receive();
-    cout << "I have received " << num << endl;
-    if (strcmp(num.c_str(), "1") == 0) {
+    string num = client->receive();
+    cout << "I received " << num << " and that's it" << endl;
+    if (strcmp("1", num.c_str()) == 0) {
         return new GameFlow(BOARD_SIZE, printer, HUMAN_VS_NETWORK, client);
     } else {
-        printer->printStream("Couldn't open the room.");
+        cout << "Could not open game." << endl;
         return NULL;
     }
 }
 
-
 GameFlow *MainMenu::joinGame(Client *client) {
-    string roomName, str = "join ", num;
-    printer->printStream("Please enter the name of the room you want to open\n");
-    string message = buildMessage(str);
+    string roomName, str = "join ";
+    printer->printStream("Please enter the name of the room you want to join\n");
+    char *message = buildMessage(str);
     client->send(message);
-    num = client->receive();
-    cout << "I have received " << num << endl;
-    if (strcmp(num.c_str(), "2") == 0) {
+    string num = client->receive();
+    cout << "I received " << num << " and that's it" << endl;
+    if (strcmp("2", num.c_str()) == 0) {
         return new GameFlow(BOARD_SIZE, printer, NETWORK_VS_HUMAN, client);
     } else {
         printer->printStream("Joining the room was failed\n");
@@ -109,12 +104,13 @@ GameFlow *MainMenu::joinGame(Client *client) {
     }
 }
 
-string MainMenu::buildMessage(string str) {
-    string newStr(str), roomName;
-    if (strcmp(str.c_str(), "list_games") != 0) {
-        cin.ignore();
-        getline(cin, roomName);
-        newStr.append(roomName);
-    }
-    return newStr;
+char *MainMenu::buildMessage(string str) {
+    string roomName;
+    cin.ignore();
+    getline(cin, roomName);
+    str.append(roomName);
+    char *commandStr = new char[MAX_MOVE];
+    memset(commandStr, 0, MAX_MOVE);
+    strcpy(commandStr, str.c_str());
+    return commandStr;
 }
