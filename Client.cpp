@@ -1,5 +1,4 @@
 #include "Client.h"
-#include <stdexcept>
 using namespace std;
 
 Client::Client(Printer *printer) : clientSocket(0), printer(printer) {

@@ -11,7 +11,7 @@
 
 #include "FileReader.h"
 #include "ConsolePrinter.h"
-#define MAX_MOVE 7
+#define MAX_MOVE 30
 #define ERROR -1
 
 class Client {
