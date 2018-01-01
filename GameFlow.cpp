@@ -13,12 +13,13 @@ GameFlow::GameFlow(int size, Printer *printer, int typeOfGames, Client *client) 
             this->players[1] = new NetworkPlayer(WHITE, &lastMove, board, *logic, printer, client);
             break;
         case 2:
-            this->players[1] = new HumanPlayer(WHITE, printer);
             this->players[0] = new NetworkPlayer(BLACK, &lastMove, board, *logic, printer, client);
+            this->players[1] = new HumanPlayer(WHITE, printer);
             break;
         default:
             throw "Can't initialize players!";
     }
+    this->turnManager = new TurnManager(players[0], players[1]);
 }
 
 GameFlow::GameFlow(int size, Printer *printer,int typeOfGame) : printer(printer) {
