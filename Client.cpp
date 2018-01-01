@@ -61,10 +61,11 @@ string Client::receive() {
     while (true) {
         n = read(clientSocket, &buffer, sizeof(char));
         if (ERROR == n) throw "Error sending message";
+        if (buffer == '\0') break;
         message += buffer;
         i++;
-        if (buffer == '\0') break;
     }
+    cout << message << endl;
     return message;
 }
 

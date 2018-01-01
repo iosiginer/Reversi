@@ -24,11 +24,7 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
         } else {
             string play = "play ";
             play.append(str);
-            char *copy = new char[MAX_MOVE];
-            memset(copy,0,MAX_MOVE);
-            strcpy(copy, play.c_str());
-            client->send(copy);
-            delete[] copy;
+            client->send(play);
             printer->printStream("Waiting for the other player's move...\n");
         }
     }
@@ -40,6 +36,7 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
         }
     }
     string newMove = client->receive();
+    cout << "move has been sent" << newMove << endl;
     Move *move = parseIntoMove(newMove);
     if (move) {
         if(*(move->getCoordinate()) == Coordinate(-1,-1)) {
