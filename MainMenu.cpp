@@ -68,11 +68,12 @@ GameFlow *MainMenu::createNetworkGameFlow() {
 }
 
 void MainMenu::printListOfGames(Client *client) {
+    // Changed
     char listOfGames[] = "list_games";
-    cout << sizeof(listOfGames);
     client->send(listOfGames);
     char *list = client->receive();
     printer->printStream(list);
+    delete list;
 }
 
 GameFlow *MainMenu::openGame(Client *client) {
