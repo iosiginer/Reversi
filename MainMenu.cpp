@@ -78,7 +78,7 @@ GameFlow *MainMenu::openGame(Client *client) {
     string message = "start ", fullMessage;
     printer->printStream("Please enter the name of the room you want to open\n");
     fullMessage = buildMessage(message);
-    cout << message << endl;
+    cout << fullMessage << endl;
     client->send(fullMessage);
     string num = client->receive();
     cout << "I received " << num << " and that's it" << endl;
@@ -94,7 +94,7 @@ GameFlow *MainMenu::joinGame(Client *client) {
     string message = "join ", fullMessage;
     printer->printStream("Please enter the name of the room you want to join\n");
     fullMessage = buildMessage(message);
-    cout << message << endl;
+    cout << fullMessage << endl;
     client->send(fullMessage);
     string num = client->receive();
     cout << "I received " << num << " and that's it" << endl;
@@ -108,10 +108,8 @@ GameFlow *MainMenu::joinGame(Client *client) {
 
 string MainMenu::buildMessage(string str) {
     string newStr(str), roomName;
-    cout << newStr << endl;
     cin.ignore();
     getline(cin, roomName);
     newStr.append(roomName);
-    cout << newStr << endl;
     return newStr;
 }
