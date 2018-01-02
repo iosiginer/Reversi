@@ -9,7 +9,9 @@ int main(int argc, char *argv[]) {
     do {
         MainMenu menu;
         reversi = menu.run();
-        if (reversi) reversi->run();
+        if (reversi) {
+            reversi->run();
+            delete(reversi);
+        }
     } while (reversi != NULL);
-    delete(reversi);
 }
