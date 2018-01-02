@@ -19,7 +19,7 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
     if (*lastMove) {
         string str = ( *lastMove )->toString();
         if (strcmp(str.c_str(), "0, 0") == 0) {
-            char *noMove = const_cast<char *>("NoMove");
+            string noMove = "play noMove";
             client->send(noMove);
         } else {
             string play = "play ";
@@ -36,7 +36,6 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
         }
     }
     string newMove = client->receive();
-    cout << "move has been sent" << newMove << endl;
     Move *move = parseIntoMove(newMove);
     if (move) {
         if(*(move->getCoordinate()) == Coordinate(-1,-1)) {
@@ -49,7 +48,8 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
 }
 
 Move *NetworkPlayer::parseIntoMove(string newMove) {
-    if (strcmp(newMove.c_str(), "NoMove") == 0) {
+    cout << newMove << endl;
+    if (strcmp(newMove.c_str(), "noMove") == 0) {
         return NULL;
     }
     NetworkPlayer *self = this;
@@ -64,7 +64,6 @@ Move *NetworkPlayer::parseIntoMove(string newMove) {
         string colAsString = newMove.substr(newMove.find(", ") + 1, MAX_MOVE);
         stringstream convertRow(rowAsString);
         stringstream convertCol(colAsString);
-        cout << row << "," << col << endl;
         if (( convertRow >> row ) && ( convertCol >> col )) {
             position = new Coordinate(row, col);
         } else {

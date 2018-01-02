@@ -65,7 +65,6 @@ string Client::receive() {
         message += buffer;
         i++;
     }
-    cout << message << endl;
     return message;
 }
 
