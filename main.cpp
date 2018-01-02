@@ -5,8 +5,11 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    MainMenu menu;
-    GameFlow *reversi = menu.run();
-    reversi->run();
+    GameFlow *reversi = NULL;
+    do {
+        MainMenu menu;
+        reversi = menu.run();
+        if (reversi) reversi->run();
+    } while (reversi != NULL);
     delete(reversi);
 }

@@ -30,16 +30,15 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
     }
     if (possibleMoves.empty()) {
         string str = ( *lastMove )->toString();
-        noMove();
         if (strcmp(str.c_str(), "0, 0") == 0) {
             return NULL;
-        }
+        } else noMove();
     }
     string newMove = client->receive();
     Move *move = parseIntoMove(newMove);
     if (move) {
         if(*(move->getCoordinate()) == Coordinate(-1,-1)) {
-            printer->printStream("The other player has disconnected");
+            printer->printStream("The other player has disconnected.\n");
         } else {
             printer->printStream("Your opponent chose: " + move->getCoordinate()->toString() + "\n");
         }
@@ -94,7 +93,7 @@ void NetworkPlayer::noMove() const {
 void NetworkPlayer::playLastMove() const {
     string str = ( *lastMove )->toString();
     if (strcmp(str.c_str(), "0, 0") == 0) {
-        char *endMove = const_cast<char *>("END");
+        char *endMove = const_cast<char *>("close");
         client->send(endMove);
     } else {
         char *copy = new char[MAX_MOVE];

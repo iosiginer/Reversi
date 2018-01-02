@@ -47,9 +47,9 @@ void GameFlow::playOneTurn() {
     Player *player = turnManager->nextPlayer();
     vector<Move *> possibleMoves = logic->getPossibleMoves(player, board);
     Move *move = player->move(possibleMoves);
-    if (lastMove) { delete(lastMove); }
+    if (lastMove) { delete (lastMove); }
     if (move != NULL) {
-        if (*(move->getCoordinate()) == Coordinate(-1,-1)) {
+        if (*(move->getCoordinate()) == Coordinate(-1, -1)) {
             deletePossibleMoves(possibleMoves, move);
             this->~GameFlow();
             exit(0);
@@ -67,7 +67,7 @@ void GameFlow::playOneTurn() {
     deletePossibleMoves(possibleMoves, move);
 }
 
-void GameFlow::deletePossibleMoves(vector<Move*> &possibleMoves, Move* move) {
+void GameFlow::deletePossibleMoves(vector<Move *> &possibleMoves, Move *move) {
     bool notInVector = true;
     // delete extra data
     for (int i = 0; i < possibleMoves.size(); i++) {

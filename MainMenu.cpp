@@ -14,9 +14,11 @@ MainMenu::MainMenu() {
 }
 
 GameFlow *MainMenu::run() {
+    GameFlow *game = NULL;
     int choice;
-    printer->printStream("Choose against who you want to play: \n\t 1. Human \n\t 2. AI\n\t 3. Network\n");
-    while (true) {
+    while (game == NULL) {
+        printer->printStream(
+                "Choose against who you want to play: \n\t 1. Human \n\t 2. AI\n\t 3. Network\n\t 0. Exit\n");
         cin >> choice;
         while (cin.fail() || (choice > 3)) {
             cin.clear();
@@ -26,44 +28,61 @@ GameFlow *MainMenu::run() {
         }
         switch (choice) {
             case 1:
-                return new GameFlow(BOARD_SIZE, printer, HUMAN_VS_HUMAN);
+                game = new GameFlow(BOARD_SIZE, printer, HUMAN_VS_HUMAN);
+                break;
             case 2:
-                return new GameFlow(BOARD_SIZE, printer, HUMAN_VS_AI);
+                game = new GameFlow(BOARD_SIZE, printer, HUMAN_VS_AI);
+                break;
             case 3:
-                return this->createNetworkGameFlow();
+                game = this->createNetworkGameFlow();
+                break;
+            case 0:
+                return NULL;    //and thus exit the game
             default:
                 printer->printStream("Try again...\n");
         }
     }
+    return game;
 }
 
 
 GameFlow *MainMenu::createNetworkGameFlow() {
+    GameFlow *game = NULL;
     int choice;
     Client *client = new Client(printer);
-    while (true) {
+    while (game == NULL) {
         try {
             client->connectToServer();
         } catch (const char *msg) {
             throw "Failed to connect to server";
         }
         printer->printStream("Choose the next option:\n\t1.\tOpen new room\n\t"
-                                     "2.\tJoin a room\n\t3.\tPrint list of open rooms\n\t");
+                                     "2.\tJoin a room\n\t3.\tPrint list of open rooms\n\t0.\tGo Back\n");
         cin >> choice;
+        while (cin.fail() || (choice > 3)) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            printer->printStream("Wrong choice, try again \n");
+            cin >> choice;
+        }
         switch (choice) {
             case 1:
                 return openGame(client);
             case 2:
-                return joinGame(client);
+                game = joinGame(client);
+                break;
             case 3:
                 printListOfGames(client);
                 break;
+            case 0:
+                return NULL;
             default:
                 printer->printStream("Try again...\n");
                 cin >> choice;
                 break;
         }
     }
+    return game;
 }
 
 void MainMenu::printListOfGames(Client *client) {
@@ -80,8 +99,8 @@ GameFlow *MainMenu::openGame(Client *client) {
     fullMessage = buildMessage(message);
     client->send(fullMessage);
     string num = client->receive();
-    message = "I received" + num + "and that's it\n";
     if (strcmp("1", num.c_str()) == 0) {
+        cout << "starting room " << fullMessage << endl;
         return new GameFlow(BOARD_SIZE, printer, HUMAN_VS_NETWORK, client);
     } else {
         cout << "Could not open game." << endl;
@@ -101,7 +120,7 @@ GameFlow *MainMenu::joinGame(Client *client) {
     if (strcmp("2", num.c_str()) == 0) {
         return new GameFlow(BOARD_SIZE, printer, NETWORK_VS_HUMAN, client);
     } else {
-        printer->printStream("Joining the room was failed\n");
+        printer->printStream("There is no room with that name, please try again.\n");
         return NULL;
     }
 }
