@@ -68,6 +68,8 @@ public:
      * Destructor. Careful. Code equivalent to a (Reversi) Neutrino Bomb.
      */
     ~GameFlow();
+
+    void deletePossibleMoves(vector<Move *> &possibleMoves, Move *move);
 };
 
 

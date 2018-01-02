@@ -19,16 +19,13 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
     if (*lastMove) {
         string str = ( *lastMove )->toString();
         if (strcmp(str.c_str(), "0, 0") == 0) {
-            char *noMove = const_cast<char *>("NoMove");
+            string noMove = "play noMove";
             client->send(noMove);
         } else {
             string play = "play ";
             play.append(str);
-            char *copy = new char[MAX_MOVE];
-            memset(copy,0,MAX_MOVE);
-            strcpy(copy, play.c_str());
-            client->send(copy);
-            delete[] copy;
+            client->send(play);
+            printer->printStream("Waiting for the other player's move...\n");
         }
     }
     if (possibleMoves.empty()) {
@@ -38,10 +35,7 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             return NULL;
         }
     }
-    printer->printStream("Waiting for the other player's move...\n");
-    string newMove;
-    while (newMove.empty())
-        newMove = client->receive();
+    string newMove = client->receive();
     Move *move = parseIntoMove(newMove);
     if (move) {
         if(*(move->getCoordinate()) == Coordinate(-1,-1)) {
@@ -54,7 +48,8 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
 }
 
 Move *NetworkPlayer::parseIntoMove(string newMove) {
-    if (strcmp(newMove.c_str(), "NoMove") == 0) {
+    cout << newMove << endl;
+    if (strcmp(newMove.c_str(), "noMove") == 0) {
         return NULL;
     }
     NetworkPlayer *self = this;
