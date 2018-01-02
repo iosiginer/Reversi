@@ -29,7 +29,6 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             strcpy(copy, play.c_str());
             client->send(copy);
             delete[] copy;
-            printer->printStream("Waiting for the other player's move...\n");
         }
     }
     if (possibleMoves.empty()) {
@@ -39,7 +38,10 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
             return NULL;
         }
     }
-    string newMove = client->receive();
+    printer->printStream("Waiting for the other player's move...\n");
+    string newMove;
+    while (newMove.empty())
+        newMove = client->receive();
     Move *move = parseIntoMove(newMove);
     if (move) {
         if(*(move->getCoordinate()) == Coordinate(-1,-1)) {
