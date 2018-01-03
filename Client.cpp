@@ -43,29 +43,37 @@ void Client::connectToServer() {
 void Client::send(string message) {
     char buffer;
     int i = 0, n;
-    while (i < message.length()) {
-        buffer = message.at(i);
+    try {
+        while (i < message.length()) {
+            buffer = message.at(i);
+            n = write(clientSocket, &buffer, sizeof(char));
+            if (ERROR == n) throw "Error sending message";
+            i++;
+        }
+        buffer = '\0';
         n = write(clientSocket, &buffer, sizeof(char));
         if (ERROR == n) throw "Error sending message";
-        i++;
+    } catch (...) {
+        throw "Error sending message";
     }
-    buffer = '\0';
-    n = write(clientSocket, &buffer, sizeof(char));
-    if (ERROR == n) throw "Error sending message";
 }
 
 string Client::receive() {
     string message = "";
-    char buffer;
+    char buffer = '\0';
     int i = 0, n;
-    while (true) {
-        n = read(clientSocket, &buffer, sizeof(char));
-        if (ERROR == n) throw "Error sending message";
-        if (buffer == '\0') break;
-        message += buffer;
-        i++;
+    try {
+        while (true) {
+            n = read(clientSocket, &buffer, sizeof(char));
+            if (ERROR == n) throw "Error sending message";
+            if (buffer == '\0') break;
+            message += buffer;
+            i++;
+        }
+        return message;
+    } catch (...) {
+        throw "Error sending message";
     }
-    return message;
 }
 
 int Client::receiveNumber() {

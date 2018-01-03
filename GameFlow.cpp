@@ -112,7 +112,6 @@ GameFlow::~GameFlow() {
     delete players[1];
     delete logic;
     delete board;
-    delete printer;
     delete turnManager;
 }
 

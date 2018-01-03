@@ -13,6 +13,10 @@ MainMenu::MainMenu() {
     printer = new ConsolePrinter();
 }
 
+MainMenu::~MainMenu() {
+    delete printer;
+}
+
 GameFlow *MainMenu::run() {
     GameFlow *game = NULL;
     int choice;

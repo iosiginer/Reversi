@@ -15,7 +15,7 @@ class MainMenu {
 public:
     MainMenu();
     GameFlow *run();
-    ~MainMenu(){}
+    ~MainMenu();
 private:
     /**
      * The method handle printing list of the open rooms
