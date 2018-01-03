@@ -27,7 +27,7 @@ private:
     /**
      * Let one player play.
      */
-    void playOneTurn();
+    bool playOneTurn();
 
     /**
      * Finish the Game. Presenting the player with a "Game over screen" //

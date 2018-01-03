@@ -1,6 +1,10 @@
+#include <csignal>
 #include "Client.h"
+#include <signal.h>
 
 using namespace std;
+
+
 
 Client::Client(Printer *printer) : clientSocket(0), printer(printer) {
     FileReader f("ServerDetails.txt");
@@ -46,7 +50,12 @@ bool Client::send(string message) {
     try {
         while (i < message.length()) {
             buffer = message.at(i);
-            n = write(clientSocket, &buffer, sizeof(char));
+            try {
+                n = (int) write(clientSocket, &buffer, sizeof(buffer));
+            } catch (...) {
+                return false;
+            }
+
             if (ERROR == n) {
                 printer->printStream("Failed sending message.\n");
                 return false;
@@ -58,11 +67,13 @@ bool Client::send(string message) {
             i++;
         }
         buffer = '\0';
-        n = write(clientSocket, &buffer, sizeof(char));
+        n = (int) write(clientSocket, &buffer, sizeof(buffer));
         if (ERROR == n) throw "Error sending message";
+        return true;
     } catch (...) {
-        throw "Error sending message";
+        return false;
     }
+
 }
 
 string Client::receive() {
@@ -83,24 +94,8 @@ string Client::receive() {
     }
 }
 
-int Client::receiveNumber() {
-    int turn;
-    ssize_t n = read(clientSocket, &turn, sizeof(turn));
-    if (n == ERROR) {
-        throw "Error reading Move from socket";
-    }
-    if (turn == 1) {
-        ConsolePrinter printer;
-        printer.printStream("Waiting for the other player to join...\n");
-        ssize_t n = read(clientSocket, &turn, sizeof(turn));
-        if (n == ERROR) {
-            throw "Error reading Move from socket";
-        }
-    }
-    return turn;
-}
 
 Client::~Client() {
     close(clientSocket);
-    delete[](serverIP);
+    delete[]( serverIP );
 }

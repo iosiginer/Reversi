@@ -59,7 +59,8 @@ GameFlow *MainMenu::createNetworkGameFlow() {
         try {
             client->connectToServer();
         } catch (const runtime_error &error) {
-            printer->printStream("The server seems to be down. Try a different mode instead.\n");
+            printer->printStream("\nThe server seems to be down. Try a different mode instead.\n");
+            delete(client);
             return NULL;
         }
         printer->printStream("Pick your poison:\n\t1.\tOpen a new game\n\t"
@@ -81,6 +82,7 @@ GameFlow *MainMenu::createNetworkGameFlow() {
                 printListOfGames(client);
                 break;
             case 0:
+                delete(client);
                 return NULL;
             default:
                 printer->printStream("Wrong choice, try again\n");

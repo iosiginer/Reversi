@@ -43,12 +43,6 @@ public:
      */
     string receive();
 
-    /**
-     * The method receive the player number
-     * @return the number received
-     */
-    int receiveNumber();
-
 private:
     const char *serverIP;
     int serverPort;

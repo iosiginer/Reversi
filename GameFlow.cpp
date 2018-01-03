@@ -42,7 +42,7 @@ GameFlow::GameFlow(int size, Printer *printer,int typeOfGame) : printer(printer)
     this->turnManager = new TurnManager(players[0], players[1]);
 }
 
-void GameFlow::playOneTurn() {
+bool GameFlow::playOneTurn() {
     board->print();
     Player *player = turnManager->nextPlayer();
     vector<Move *> possibleMoves = logic->getPossibleMoves(player, board);
@@ -51,8 +51,7 @@ void GameFlow::playOneTurn() {
     if (move != NULL) {
         if (*(move->getCoordinate()) == Coordinate(-1, -1)) {
             deletePossibleMoves(possibleMoves, move);
-            this->~GameFlow();
-            exit(0);
+            return false;
         }
         turnManager->yesMove();
         this->lastMove = move->getCoordinate()->clone();
@@ -65,6 +64,7 @@ void GameFlow::playOneTurn() {
         turnManager->nextPlayer()->playLastMove();
     }
     deletePossibleMoves(possibleMoves, move);
+    return true;
 }
 
 void GameFlow::deletePossibleMoves(vector<Move *> &possibleMoves, Move *move) {
@@ -83,11 +83,14 @@ void GameFlow::deletePossibleMoves(vector<Move *> &possibleMoves, Move *move) {
 }
 
 void GameFlow::run() {
-    while (!gameOver()) {
-        playOneTurn();
+    bool playedWell = true;
+    while (!gameOver() && playedWell) {
+        playedWell = playOneTurn();
     }
-    delete lastMove;
-    finishGame();
+    if (playedWell) {
+        delete lastMove;
+        finishGame();
+    }
 }
 
 void GameFlow::finishGame() const {
