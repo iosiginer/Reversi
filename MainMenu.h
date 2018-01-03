@@ -15,6 +15,7 @@ class MainMenu {
 public:
     MainMenu();
     GameFlow *run();
+
     ~MainMenu();
 private:
     /**

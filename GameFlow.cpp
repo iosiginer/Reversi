@@ -4,7 +4,7 @@
 
 GameFlow::GameFlow(int size, Printer *printer, int typeOfGames, Client *client) : printer(printer) {
     CellCounter *counter = new CellCounter();
-    this->board = new Board(BLACK, WHITE, 4, printer, counter);
+    this->board = new Board(BLACK, WHITE, size, printer, counter);
     this->logic = new ClassicLogic();
     this->lastMove = NULL;
     switch (typeOfGames) {
@@ -24,7 +24,7 @@ GameFlow::GameFlow(int size, Printer *printer, int typeOfGames, Client *client) 
 
 GameFlow::GameFlow(int size, Printer *printer,int typeOfGame) : printer(printer) {
     CellCounter *counter = new CellCounter();
-    this->board = new Board(BLACK, WHITE, 4, printer, counter);
+    this->board = new Board(BLACK, WHITE, size, printer, counter);
     this->logic = new ClassicLogic();
     this->lastMove = NULL;
     switch (typeOfGame) {

@@ -13,6 +13,7 @@
 #include "ConsolePrinter.h"
 #define MAX_MOVE 30
 #define ERROR -1
+#define DISCONNECT 0
 
 class Client {
 public:
@@ -34,7 +35,7 @@ public:
     /**
     * The method send the player chose to the other player
     */
-    void send(string message);
+    bool send(string message);
 
     /**
      * The method receive the other player move
