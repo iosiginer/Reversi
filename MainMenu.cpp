@@ -104,7 +104,7 @@ GameFlow *MainMenu::openGame(Client *client) {
     client->send(fullMessage);
     string num = client->receive();
     if (strcmp("1", num.c_str()) == 0) {
-        cout << "starting room " << fullMessage << endl;
+        printer->printStream("starting room" + fullMessage + "\n");
         return new GameFlow(BOARD_SIZE, printer, HUMAN_VS_NETWORK, client);
     } else {
         cout << "Could not open game." << endl;
@@ -116,11 +116,9 @@ GameFlow *MainMenu::joinGame(Client *client) {
     string message = "join ", fullMessage;
     printer->printStream("Please enter the name of the room you want to join\n");
     fullMessage = buildMessage(message);
-    cout << fullMessage << endl;
     client->send(fullMessage);
     string num = client->receive();
-    message = "I received" + num + "and that's it\n";
-    printer->printStream(message);
+    printer->printStream("I received" + num + "and that's it\n");
     if (strcmp("2", num.c_str()) == 0) {
         return new GameFlow(BOARD_SIZE, printer, NETWORK_VS_HUMAN, client);
     } else {
