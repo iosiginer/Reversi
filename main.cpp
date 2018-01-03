@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
         reversi = menu.run();
         if (reversi) {
             reversi->run();
-            delete(reversi);
+            delete (reversi);
         }
     } while (reversi != NULL);
 }

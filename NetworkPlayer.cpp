@@ -17,7 +17,7 @@ NetworkPlayer::NetworkPlayer(Color content, Coordinate **lastMove, Board *board,
 
 Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
     if (*lastMove) {
-        string str = ( *lastMove )->toString();
+        string str = (*lastMove)->toString();
         if (strcmp(str.c_str(), "0, 0") == 0) {
             string noMove = "play noMove";
             client->send(noMove);
@@ -29,7 +29,7 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
         }
     }
     if (possibleMoves.empty()) {
-        string str = ( *lastMove )->toString();
+        string str = (*lastMove)->toString();
         if (strcmp(str.c_str(), "0, 0") == 0) {
             return NULL;
         } else noMove();
@@ -37,7 +37,7 @@ Move *NetworkPlayer::move(vector<Move *> possibleMoves) {
     string newMove = client->receive();
     Move *move = parseIntoMove(newMove);
     if (move) {
-        if(*(move->getCoordinate()) == Coordinate(-1,-1)) {
+        if (*(move->getCoordinate()) == Coordinate(-1, -1)) {
             printer->printStream("The other player has disconnected.\n");
         } else {
             printer->printStream("Your opponent chose: " + move->getCoordinate()->toString() + "\n");
@@ -57,13 +57,13 @@ Move *NetworkPlayer::parseIntoMove(string newMove) {
     // newMove is in the form "X, Y"
     // X is row and Y is col
     if (newMove.find(",") == string::npos) {
-        position = new Coordinate(-1,-1);
+        position = new Coordinate(-1, -1);
     } else {
         string rowAsString = newMove.substr(0, newMove.find(", "));
         string colAsString = newMove.substr(newMove.find(", ") + 1, MAX_MOVE);
         stringstream convertRow(rowAsString);
         stringstream convertCol(colAsString);
-        if (( convertRow >> row ) && ( convertCol >> col )) {
+        if ((convertRow >> row) && (convertCol >> col)) {
             position = new Coordinate(row, col);
         } else {
             throw "Couldn't receive move";
@@ -73,7 +73,7 @@ Move *NetworkPlayer::parseIntoMove(string newMove) {
 }
 
 bool NetworkPlayer::isOpponent(Color color) const {
-    return (( color != this->content ) && ( color != EMPTY ));
+    return ((color != this->content) && (color != EMPTY));
 }
 
 void NetworkPlayer::conquerCell(Cell *cell) {
@@ -91,7 +91,7 @@ void NetworkPlayer::noMove() const {
 }
 
 void NetworkPlayer::playLastMove() const {
-    string str = ( *lastMove )->toString();
+    string str = (*lastMove)->toString();
     if (strcmp(str.c_str(), "0, 0") == 0) {
         char *endMove = const_cast<char *>("close");
         client->send(endMove);

@@ -1,11 +1,11 @@
 #include "Client.h"
+
 using namespace std;
 
 Client::Client(Printer *printer) : clientSocket(0), printer(printer) {
     FileReader f("ServerDetails.txt");
     serverIP = f.readIP();
     serverPort = f.readPort();
-    printer->printStream("Client\n");
 }
 
 void Client::connectToServer() {
@@ -40,14 +40,21 @@ void Client::connectToServer() {
     printer->printStream("Connected to server\n");
 }
 
-void Client::send(string message) {
+bool Client::send(string message) {
     char buffer;
     int i = 0, n;
     try {
         while (i < message.length()) {
             buffer = message.at(i);
             n = write(clientSocket, &buffer, sizeof(char));
-            if (ERROR == n) throw "Error sending message";
+            if (ERROR == n) {
+                printer->printStream("Failed sending message.\n");
+                return false;
+            }
+            if (DISCONNECT == n) {
+                printer->printStream("The server has fallen.\n");
+                return false;
+            }
             i++;
         }
         buffer = '\0';
